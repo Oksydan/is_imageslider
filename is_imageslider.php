@@ -53,7 +53,7 @@ class Is_ImageSlider extends Module implements WidgetInterface
     {
         $this->name = 'is_imageslider';
         $this->tab = 'front_office_features';
-        $this->version = '1.0.2';
+        $this->version = '1.0.3';
         $this->author = 'Prestashop - modified by Igor Stępień';
         $this->need_instance = 0;
         $this->bootstrap = true;

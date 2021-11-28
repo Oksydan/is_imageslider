@@ -26,11 +26,14 @@
 {if $homeslider.slides}
   {$sliderConfig = [
     "loop" => 1,
+    "preloadImages" => false,
+    "lazy" => true,
     "autoplay" => [
       "delay" => $homeslider.speed
     ]
   ]}
-  <div class="homeslider swiper-container" data-swiper='{$sliderConfig|json_encode}'>
+
+  <div class="homeslider swiper-container" {if $homeslider.slides|count > 1} data-swiper='{$sliderConfig|json_encode}'{/if}>
     <ul class="swiper-wrapper homeslider__list">
       {foreach from=$homeslider.slides item=slide}
         <li class="swiper-slide homeslider__slide">
@@ -40,12 +43,13 @@
                 <img
                   class="img-fluid d-block d-lg-none"
                   src="{$slide.image_mobile_url}"
+                  alt="{$slide.title}"
                   {$slide.size_mobile nofilter}>
                 <img
                   class="img-fluid d-none d-lg-block lazyload"
                   src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='{$slide.sizes[0]}' height='{$slide.sizes[1]}' viewBox='0 0 1 1'%3E%3C/svg%3E"
                   data-src="{$slide.image_url}"
-                  lt="{$slide.title}"
+                  alt="{$slide.title}"
                   {$slide.size nofilter}>
               {/if}
             {else}
@@ -55,12 +59,12 @@
                       data-srcset="{$slide.image_url}"
                       media="(min-width: 768px)">
                   <img
-                    class="img-fluid lazyload homeslider__img"
+                    class="img-fluid homeslider__img swiper-lazy"
                     src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' {$slide.size|replace:'"':"'"} viewBox='0 0 1 1'%3E%3C/svg%3E"
                     data-src="{$slide.image_mobile_url}"
                     alt="{$slide.title}"
                     loading="lazy"
-                    {$slide.size  nofilter}
+                    {$slide.size nofilter}
                     >
                 </picture>
               {/if}
@@ -76,11 +80,13 @@
         </li>
       {/foreach}
     </ul>
-    <div class="swiper-button-prev swiper-button-custom homeslider__arrow homeslider__arrow--prev">
-      <i class="material-icons">&#xE314;</i>
-    </div>
-    <div class="swiper-button-next swiper-button-custom homeslider__arrow homeslider__arrow--next">
-      <i class="material-icons">&#xE315;</i>
-    </div>
+    {if $homeslider.slides|count > 1}
+      <div class="swiper-button-prev swiper-button-custom homeslider__arrow homeslider__arrow--prev">
+        <i class="material-icons">&#xE314;</i>
+      </div>
+      <div class="swiper-button-next swiper-button-custom homeslider__arrow homeslider__arrow--next">
+        <i class="material-icons">&#xE315;</i>
+      </div>
+    {/if}
   </div>
 {/if}
