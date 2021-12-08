@@ -53,7 +53,7 @@ class Is_ImageSlider extends Module implements WidgetInterface
     {
         $this->name = 'is_imageslider';
         $this->tab = 'front_office_features';
-        $this->version = '1.0.3';
+        $this->version = '1.0.4';
         $this->author = 'Prestashop - modified by Igor Stępień';
         $this->need_instance = 0;
         $this->bootstrap = true;
@@ -977,10 +977,10 @@ class Is_ImageSlider extends Module implements WidgetInterface
         foreach ($languages as $lang) {
             $fields['image'][$lang['id_lang']] = Tools::getValue('image_'.(int)$lang['id_lang']);
             $fields['image_mobile'][$lang['id_lang']] = Tools::getValue('image_mobile_'.(int)$lang['id_lang']);
-            $fields['title'][$lang['id_lang']] = Tools::getValue('title_'.(int)$lang['id_lang'], $slide->title[$lang['id_lang']]);
-            $fields['url'][$lang['id_lang']] = Tools::getValue('url_'.(int)$lang['id_lang'], $slide->url[$lang['id_lang']]);
-            $fields['legend'][$lang['id_lang']] = Tools::getValue('legend_'.(int)$lang['id_lang'], $slide->legend[$lang['id_lang']]);
-            $fields['description'][$lang['id_lang']] = Tools::getValue('description_'.(int)$lang['id_lang'], $slide->description[$lang['id_lang']]);
+            $fields['title'][$lang['id_lang']] = Tools::getValue('title_'.(int)$lang['id_lang'], (!empty($slide->title[$lang['id_lang']]) ? $slide->title[$lang['id_lang']] : ''));
+            $fields['url'][$lang['id_lang']] = Tools::getValue('url_'.(int)$lang['id_lang'], (!empty($slide->url[$lang['id_lang']]) ? $slide->url[$lang['id_lang']] : ''));
+            $fields['legend'][$lang['id_lang']] = Tools::getValue('legend_'.(int)$lang['id_lang'], (!empty($slide->legend[$lang['id_lang']]) ? $slide->legend[$lang['id_lang']] : ''));
+            $fields['description'][$lang['id_lang']] = Tools::getValue('description_'.(int)$lang['id_lang'], (!empty($slide->description[$lang['id_lang']]) ? $slide->description[$lang['id_lang']] : ''));
         }
 
         return $fields;
