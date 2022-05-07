@@ -33,41 +33,32 @@
     ]
   ]}
 
-  <div class="homeslider swiper-container" {if $homeslider.slides|count > 1} data-swiper='{$sliderConfig|json_encode}'{/if}>
+  <div class="homeslider swiper" {if $homeslider.slides|count > 1} data-swiper='{$sliderConfig|json_encode}'{/if}>
     <ul class="swiper-wrapper homeslider__list">
       {foreach from=$homeslider.slides item=slide}
         <li class="swiper-slide homeslider__slide">
           <a href="{$slide.url}">
             {if $slide@first}
-              {if $slide.image_url && $slide.image_mobile_url}
-                <img
-                  class="img-fluid d-block d-lg-none"
-                  src="{$slide.image_mobile_url}"
-                  alt="{$slide.title}"
-                  {$slide.size_mobile nofilter}>
-                <img
-                  class="img-fluid d-none d-lg-block lazyload"
-                  src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='{$slide.sizes[0]}' height='{$slide.sizes[1]}' viewBox='0 0 1 1'%3E%3C/svg%3E"
-                  data-src="{$slide.image_url}"
-                  alt="{$slide.title}"
-                  {$slide.size nofilter}>
-              {/if}
+              <img
+                class="img-fluid"
+                src="{$slide.image_url}"
+                alt="{$slide.title}"
+                {if !empty($slide.sizes)}
+                  width="{$slide.sizes.0}"
+                  height="{$slide.sizes.1}"
+                {/if}
+                >
             {else}
-              {if $slide.image_url && $slide.image_mobile_url}
-                <picture>
-                    <source
-                      data-srcset="{$slide.image_url}"
-                      media="(min-width: 768px)">
-                  <img
-                    class="img-fluid homeslider__img swiper-lazy"
-                    src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' {$slide.size|replace:'"':"'"} viewBox='0 0 1 1'%3E%3C/svg%3E"
-                    data-src="{$slide.image_mobile_url}"
-                    alt="{$slide.title}"
-                    loading="lazy"
-                    {$slide.size nofilter}
-                    >
-                </picture>
-              {/if}
+              <img
+                class="img-fluid homeslider__img swiper-lazy"
+                data-src="{$slide.image_url}"
+                alt="{$slide.title}"
+                {if !empty($slide.sizes)}
+                  src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='{$slide.sizes.0}' height='{$slide.sizes.1}' viewBox='0 0 1 1'%3E%3C/svg%3E"
+                  width="{$slide.sizes.0}"
+                  height="{$slide.sizes.1}"
+                {/if}
+                >
             {/if}
 
             {if $slide.title || $slide.description }

@@ -53,7 +53,7 @@ class Is_ImageSlider extends Module implements WidgetInterface
     {
         $this->name = 'is_imageslider';
         $this->tab = 'front_office_features';
-        $this->version = '1.0.4';
+        $this->version = '1.1.0';
         $this->author = 'Prestashop - modified by Igor Stępień';
         $this->need_instance = 0;
         $this->bootstrap = true;
@@ -76,6 +76,7 @@ class Is_ImageSlider extends Module implements WidgetInterface
         /* Adds Module */
         if (parent::install() &&
             $this->registerHook('displayHome') &&
+            $this->registerHook('displayHeader') &&
             $this->registerHook('actionShopDataDuplication')
         ) {
             $shops = Shop::getContextListShopID();
@@ -526,6 +527,25 @@ class Is_ImageSlider extends Module implements WidgetInterface
         }
     }
 
+    public function hookDisplayHeader()
+    {
+        if ($this->context->controller->getPageName() == 'index') {
+            $slides = $this->getSlides(true, 1);
+
+            if (!$slides) {
+                return '';
+            }
+
+            $slide = reset($slides);
+            $image = $this->context->isMobile() ? $slide['image_mobile'] : $slide['image'];
+
+            $this->smarty->assign([
+                'image' => $this->context->link->getMediaLink(_MODULE_DIR_ . 'is_imageslider/images/' . $image),
+            ]);
+
+            return $this->fetch('module:is_imageslider/views/templates/hook/head.tpl');
+        }
+    }
 
     public function renderWidget($hookName = null, array $configuration = [])
     {
@@ -539,16 +559,18 @@ class Is_ImageSlider extends Module implements WidgetInterface
     public function getWidgetVariables($hookName = null, array $configuration = [])
     {
         $slides = $this->getSlides(true);
+        $isMobile = $this->context->isMobile();
+
         if (is_array($slides)) {
             foreach ($slides as &$slide) {
-                $slide['sizes'] = @getimagesize((__DIR__ . DIRECTORY_SEPARATOR . 'images' . DIRECTORY_SEPARATOR . $slide['image']));
+                $image = $isMobile ? $slide['image_mobile'] : $slide['image'];
+                $slide['sizes'] = @getimagesize((__DIR__ . DIRECTORY_SEPARATOR . 'images' . DIRECTORY_SEPARATOR . $image));
+
                 if (isset($slide['sizes'][3]) && $slide['sizes'][3]) {
                     $slide['size'] = $slide['sizes'][3];
                 }
-                $slide['sizes_mobile'] = @getimagesize((__DIR__ . DIRECTORY_SEPARATOR . 'images' . DIRECTORY_SEPARATOR . $slide['image_mobile']));
-                if (isset($slide['sizes_mobile'][3]) && $slide['sizes_mobile'][3]) {
-                    $slide['size_mobile'] = $slide['sizes_mobile'][3];
-                }
+
+                $slide['image_url'] = $this->context->link->getMediaLink(_MODULE_DIR_ . 'is_imageslider/images/' . $image);
             }
         }
 
@@ -631,7 +653,7 @@ class Is_ImageSlider extends Module implements WidgetInterface
         return (++$row['next_position']);
     }
 
-    public function getSlides($active = null)
+    public function getSlides($active = null, $limit = false)
     {
         $this->context = Context::getContext();
         $id_shop = $this->context->shop->id;
@@ -647,8 +669,9 @@ class Is_ImageSlider extends Module implements WidgetInterface
             AND (hss.date_start <= "'.date("Y-m-d H:i:s").'" OR hss.date_start = "0000-00-00 00:00:00" )
             AND (hss.date_end >= "'.date("Y-m-d H:i:s").'" OR hss.date_end = "0000-00-00 00:00:00" )
             AND hssl.id_lang = '.(int)$id_lang.
-            ($active ? ' AND hss.`active` = 1' : ' ').'
-            ORDER BY hss.position'
+            ($active ? ' AND hss.`active` = 1 ' : ' ').
+            'ORDER BY hss.position' .
+            ($limit ? ' LIMIT ' . (int) $limit . ' ' : ' ')
         );
 
         foreach ($slides as &$slide) {
