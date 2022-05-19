@@ -837,8 +837,8 @@ class Is_ImageSlider extends Module implements WidgetInterface
         if (Tools::isSubmit('id_slide') && $this->slideExists((int)Tools::getValue('id_slide'))) {
             $slide = new HomeImageSlider((int)Tools::getValue('id_slide'));
             $fields_form['form']['input'][] = array('type' => 'hidden', 'name' => 'id_slide');
-            $fields_form['form']['images'] = $slide->image;
-            $fields_form['form']['images_mobile'] = $slide->image_mobile;
+            $fields_form['form']['image'] = $slide->image;
+            $fields_form['form']['image_mobile'] = $slide->image_mobile;
 
             $has_picture = true;
 
