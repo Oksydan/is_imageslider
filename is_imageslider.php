@@ -549,11 +549,13 @@ class Is_ImageSlider extends Module implements WidgetInterface
 
     public function renderWidget($hookName = null, array $configuration = [])
     {
-        if (!$this->isCached($this->templateFile, $this->getCacheId())) {
+        $cacheKey = $this->getCacheId() . '_' . ($this->context->isMobile() ? 'mobile' : 'desktop');
+
+        if (!$this->isCached($this->templateFile, $cacheKey)) {
             $this->smarty->assign($this->getWidgetVariables($hookName, $configuration));
         }
 
-        return $this->fetch($this->templateFile, $this->getCacheId());
+        return $this->fetch($this->templateFile, $cacheKey);
     }
 
     public function getWidgetVariables($hookName = null, array $configuration = [])
