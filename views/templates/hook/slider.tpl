@@ -33,43 +33,45 @@
     ]
   ]}
 
-  <div class="homeslider swiper" {if $homeslider.slides|count > 1} data-swiper='{$sliderConfig|json_encode}'{/if}>
+  <div class="homeslider swiper bg-light" {if $homeslider.slides|count > 1} data-swiper='{$sliderConfig|json_encode}'{/if}>
     <ul class="swiper-wrapper homeslider__list">
-      {foreach from=$homeslider.slides item=slide}
-        <li class="swiper-slide homeslider__slide">
-          <a href="{$slide.url}">
-            {if $slide@first}
-              <img
-                class="img-fluid"
-                src="{$slide.image_url}"
-                alt="{$slide.title}"
-                {if !empty($slide.sizes)}
-                  width="{$slide.sizes.0}"
-                  height="{$slide.sizes.1}"
-                {/if}
-                >
-            {else}
-              <img
-                class="img-fluid homeslider__img swiper-lazy"
-                data-src="{$slide.image_url}"
-                alt="{$slide.title}"
-                {if !empty($slide.sizes)}
-                  src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='{$slide.sizes.0}' height='{$slide.sizes.1}' viewBox='0 0 1 1'%3E%3C/svg%3E"
-                  width="{$slide.sizes.0}"
-                  height="{$slide.sizes.1}"
-                {/if}
-                >
-            {/if}
+      {images_block}
+        {foreach from=$homeslider.slides item=slide}
+          <li class="swiper-slide homeslider__slide">
+            <a href="{$slide.url}">
+              {if $slide@first}
+                <img
+                  class="img-fluid"
+                  src="{$slide.image_url}"
+                  alt="{$slide.title}"
+                  {if !empty($slide.sizes)}
+                    width="{$slide.sizes.0}"
+                    height="{$slide.sizes.1}"
+                  {/if}
+                  >
+              {else}
+                <img
+                  class="img-fluid homeslider__img swiper-lazy"
+                  data-src="{$slide.image_url}"
+                  alt="{$slide.title}"
+                  {if !empty($slide.sizes)}
+                    src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='{$slide.sizes.0}' height='{$slide.sizes.1}' viewBox='0 0 1 1'%3E%3C/svg%3E"
+                    width="{$slide.sizes.0}"
+                    height="{$slide.sizes.1}"
+                  {/if}
+                  >
+              {/if}
 
-            {if $slide.title || $slide.description }
-              <span class="homeslider__caption">
-                <h2 class="homeslider__title">{$slide.title}</h2>
-                <div class="homeslider__desc">{$slide.description nofilter}</div>
-              </span>
-            {/if}
-          </a>
-        </li>
-      {/foreach}
+              {if $slide.title || $slide.description }
+                <span class="homeslider__caption">
+                  <h2 class="homeslider__title">{$slide.title}</h2>
+                  <div class="homeslider__desc">{$slide.description nofilter}</div>
+                </span>
+              {/if}
+            </a>
+          </li>
+        {/foreach}
+      {/images_block}
     </ul>
     {if $homeslider.slides|count > 1}
       <div class="swiper-button-prev swiper-button-custom homeslider__arrow homeslider__arrow--prev">
