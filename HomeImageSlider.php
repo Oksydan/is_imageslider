@@ -33,6 +33,8 @@ class HomeImageSlider extends ObjectModel
 	public $image;
 	public $image_mobile;
 	public $active;
+	public $date_start;
+	public $date_end;
 	public $position;
 	public $id_shop;
 
@@ -44,18 +46,18 @@ class HomeImageSlider extends ObjectModel
 		'primary' => 'id_ishomeslider_slides',
 		'multilang' => true,
 		'fields' => array(
-			'active' =>					array('type' => self::TYPE_BOOL, 'validate' => 'isBool', 'required' => true),
-			'position' =>				array('type' => self::TYPE_INT, 'validate' => 'isunsignedInt', 'required' => true),
+			'active' => array('type' => self::TYPE_BOOL, 'validate' => 'isBool', 'required' => true),
+			'position' => array('type' => self::TYPE_INT, 'validate' => 'isunsignedInt', 'required' => true),
+			'date_start' => array('type' => self::TYPE_DATE),
+			'date_end' => array('type' => self::TYPE_DATE),
 
 			// Lang fields
-			'description' =>		array('type' => self::TYPE_HTML, 'lang' => true, 'validate' => 'isCleanHtml', 'size' => 4000),
-			'title' =>					array('type' => self::TYPE_STRING, 'lang' => true, 'validate' => 'isCleanHtml', 'size' => 255),
-			'legend' =>					array('type' => self::TYPE_STRING, 'lang' => true, 'validate' => 'isCleanHtml', 'size' => 255),
-			'url' =>						array('type' => self::TYPE_STRING, 'lang' => true, 'validate' => 'isUrl', 'required' => true, 'size' => 255),
-			'image' =>					array('type' => self::TYPE_STRING, 'lang' => true, 'validate' => 'isCleanHtml', 'size' => 255),
-			'image_mobile' =>		array('type' => self::TYPE_STRING, 'lang' => true, 'validate' => 'isCleanHtml', 'size' => 255),
-			'date_start' => 		array('type' => self::TYPE_DATE),
-			'date_end' => 			array('type' => self::TYPE_DATE),
+			'description' => array('type' => self::TYPE_HTML, 'lang' => true, 'validate' => 'isCleanHtml', 'size' => 4000),
+			'title' => array('type' => self::TYPE_STRING, 'lang' => true, 'validate' => 'isCleanHtml', 'size' => 255),
+			'legend' => array('type' => self::TYPE_STRING, 'lang' => true, 'validate' => 'isCleanHtml', 'size' => 255),
+			'url' => array('type' => self::TYPE_STRING, 'lang' => true, 'validate' => 'isUrl', 'required' => true, 'size' => 255),
+			'image' => array('type' => self::TYPE_STRING, 'lang' => true, 'validate' => 'isCleanHtml', 'size' => 255),
+			'image_mobile' => array('type' => self::TYPE_STRING, 'lang' => true, 'validate' => 'isCleanHtml', 'size' => 255),
 		)
 	);
 
