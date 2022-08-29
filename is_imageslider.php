@@ -53,7 +53,7 @@ class Is_ImageSlider extends Module implements WidgetInterface
     {
         $this->name = 'is_imageslider';
         $this->tab = 'front_office_features';
-        $this->version = '1.2.0';
+        $this->version = '1.2.1';
         $this->author = 'Prestashop - modified by Igor Stępień';
         $this->need_instance = 0;
         $this->bootstrap = true;
@@ -662,14 +662,12 @@ class Is_ImageSlider extends Module implements WidgetInterface
         $id_lang = $this->context->language->id;
 
         $slides = Db::getInstance(_PS_USE_SQL_SLAVE_)->executeS('
-            SELECT hs.`id_ishomeslider_slides` as id_slide, hss.`position`, hss.`active`, hssl.`title`,
+            SELECT hs.`id_ishomeslider_slides` as id_slide, hss.`position`, hss.`active`, hss.`date_start`, hss.`date_end`, hssl.`title`,
             hssl.`url`, hssl.`legend`, hssl.`description`, hssl.`image`, hssl.`image_mobile`
             FROM '._DB_PREFIX_.'ishomeslider hs
             LEFT JOIN '._DB_PREFIX_.'ishomeslider_slides hss ON (hs.id_ishomeslider_slides = hss.id_ishomeslider_slides)
             LEFT JOIN '._DB_PREFIX_.'ishomeslider_slides_lang hssl ON (hss.id_ishomeslider_slides = hssl.id_ishomeslider_slides)
             WHERE id_shop = '.(int)$id_shop.'
-            AND (hss.date_start <= "'.date("Y-m-d H:i:s").'" OR hss.date_start = "0000-00-00 00:00:00" )
-            AND (hss.date_end >= "'.date("Y-m-d H:i:s").'" OR hss.date_end = "0000-00-00 00:00:00" )
             AND hssl.id_lang = '.(int)$id_lang.
             ($active ? ' AND hss.`active` = 1 ' : ' ').
             'ORDER BY hss.position' .
@@ -809,6 +807,16 @@ class Is_ImageSlider extends Module implements WidgetInterface
                         'autoload_rte' => true,
                         'lang' => true,
                     ),
+                    array(
+						'type' => 'datetime',
+						'label' => $this->getTranslator()->trans('Date start', array(), 'Modules.Imageslider.Admin'),
+						'name' => 'date_start'
+					),
+					array(
+						'type' => 'datetime',
+						'label' => $this->getTranslator()->trans('Date end', array(), 'Modules.Imageslider.Admin'), 
+						'name' => 'date_end'
+					),
                     array(
                         'type' => 'switch',
                         'label' => $this->getTranslator()->trans('Enabled', array(), 'Admin.Global'),
