@@ -43,7 +43,10 @@
 							<img src="{$image_baseurl}{$slide.image}" alt="{$slide.title}" class="img-thumbnail" />
 						</div>
 						<div class="col-md-8">
-							<h4 class="pull-left">
+							{if $slide.date_end >= $smarty.now|date_format:'%Y-%m-%d H:i:s' }<span style="color:green">{l s='Active' d='Modules.Imageslider.Admin'}</span>{else}<span style="color:red">{l s='Expired' d='Modules.Imageslider.Admin'}</span>{/if}
+						
+							<p><strong>{l s='Active from:' d='Modules.Imageslider.Admin'}</strong> {$slide.date_start} <strong>{l s='to' d='Modules.Imageslider.Admin'}</strong> {$slide.date_end}</p>
+							<h4>
 								#{$slide.id_slide} - {$slide.title}
 								{if $slide.is_shared}
 									<div>
@@ -53,6 +56,8 @@
 									</div>
 								{/if}
 							</h4>
+							
+							
 							<div class="btn-group-action pull-right">
 								{$slide.status}
 
