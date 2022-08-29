@@ -37,39 +37,41 @@
     <ul class="swiper-wrapper homeslider__list">
       {images_block}
         {foreach from=$homeslider.slides item=slide}
-          <li class="swiper-slide homeslider__slide">
-            <a href="{$slide.url}">
-              {if $slide@first}
-                <img
-                  class="img-fluid"
-                  src="{$slide.image_url}"
-                  alt="{$slide.title}"
-                  {if !empty($slide.sizes)}
-                    width="{$slide.sizes.0}"
-                    height="{$slide.sizes.1}"
-                  {/if}
-                  >
-              {else}
-                <img
-                  class="img-fluid homeslider__img swiper-lazy"
-                  data-src="{$slide.image_url}"
-                  alt="{$slide.title}"
-                  {if !empty($slide.sizes)}
-                    src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='{$slide.sizes.0}' height='{$slide.sizes.1}' viewBox='0 0 1 1'%3E%3C/svg%3E"
-                    width="{$slide.sizes.0}"
-                    height="{$slide.sizes.1}"
-                  {/if}
-                  >
-              {/if}
+          {if $slide.active AND $slide.date_end >= $smarty.now|date_format:'%Y-%m-%d H:i:s'}
+            <li class="swiper-slide homeslider__slide">
+              <a href="{$slide.url}">
+                {if $slide@first}
+                  <img
+                    class="img-fluid"
+                    src="{$slide.image_url}"
+                    alt="{$slide.title}"
+                    {if !empty($slide.sizes)}
+                      width="{$slide.sizes.0}"
+                      height="{$slide.sizes.1}"
+                    {/if}
+                    >
+                {else}
+                  <img
+                    class="img-fluid homeslider__img swiper-lazy"
+                    data-src="{$slide.image_url}"
+                    alt="{$slide.title}"
+                    {if !empty($slide.sizes)}
+                      src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='{$slide.sizes.0}' height='{$slide.sizes.1}' viewBox='0 0 1 1'%3E%3C/svg%3E"
+                      width="{$slide.sizes.0}"
+                      height="{$slide.sizes.1}"
+                    {/if}
+                    >
+                {/if}
 
-              {if $slide.title || $slide.description }
-                <span class="homeslider__caption">
-                  <h2 class="homeslider__title">{$slide.title}</h2>
-                  <div class="homeslider__desc">{$slide.description nofilter}</div>
-                </span>
-              {/if}
-            </a>
-          </li>
+                {if $slide.title || $slide.description }
+                  <span class="homeslider__caption">
+                    <h2 class="homeslider__title">{$slide.title}</h2>
+                    <div class="homeslider__desc">{$slide.description nofilter}</div>
+                  </span>
+                {/if}
+              </a>
+            </li>
+          {/if}
         {/foreach}
       {/images_block}
     </ul>
