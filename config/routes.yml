@@ -1,0 +1,42 @@
+is_imageslider_controller:
+    path: /is_imageslider/configuration
+    methods: [GET]
+    defaults:
+        _controller: 'Oksydan\IsImageslider\Controller\IsImagesliderController::index'
+
+is_imageslider_controller_configuration_save:
+    path: /is_imageslider/configuration
+    methods: [POST, PATCH]
+    defaults:
+        _controller: 'Oksydan\IsImageslider\Controller\IsImagesliderController::saveConfiguration'
+
+is_imageslider_controller_create:
+    path: /is_imageslider/imageslide/create
+    methods: [GET, POST]
+    defaults:
+        _controller: 'Oksydan\IsImageslider\Controller\IsImagesliderController::create'
+
+is_imageslider_controller_edit:
+    path: /is_imageslider/imageslide/{slideId}/edit
+    methods: [GET, POST]
+    defaults:
+        _controller: 'Oksydan\IsImageslider\Controller\IsImagesliderController::edit'
+
+is_imageslider_controller_delete:
+    path: /is_imageslider/imageslide/{slideId}/delete
+    methods: [GET, POST]
+    defaults:
+        _controller: 'Oksydan\IsImageslider\Controller\IsImagesliderController::delete'
+
+is_imageslider_controller_toggle_status:
+    path: /is_imageslider/imageslide/{slideId}/toggle
+    methods: [POST]
+    defaults:
+        _controller: 'Oksydan\IsImageslider\Controller\IsImagesliderController::toggleStatus'
+
+is_imageslider_controller_update_positions:
+    path: /is_imageslider/imageslide/update_positions
+    methods: [POST]
+    defaults:
+        _controller: 'Oksydan\IsImageslider\Controller\IsImagesliderController::updatePositionAction'
+

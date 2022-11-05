@@ -23,7 +23,7 @@
  * International Registered Trademark & Property of PrestaShop SA
  *}
 
-{if $homeslider.slides}
+{if !empty($homeslider.slides)}
   {$sliderConfig = [
     "loop" => 1,
     "preloadImages" => false,

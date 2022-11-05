@@ -1,0 +1,20 @@
+
+#image_slider .input-group {
+  flex-wrap: nowrap;
+}
+
+#image_slider .dropdown {
+  flex: 0 0 auto;
+  align-self: end;
+}
+
+#image_slider .custom-file-label,
+#image_slider .custom-file-input,
+#image_slider .custom-file {
+  min-height: 39px;
+  margin: 0;
+}
+
+#image_slider .custom-file .custom-file-label::after {
+  line-height: 1.8;
+}

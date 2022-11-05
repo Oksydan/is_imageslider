@@ -1,0 +1,77 @@
+{% extends '@PrestaShop/Admin/TwigTemplateForm/prestashop_ui_kit.html.twig' %}
+
+{% block image_preview_widget -%}
+{# This is the hidden input #}
+{% if value %}
+{{- block('form_widget_simple') -}}
+<img
+    data-related-field="{{ form.vars.id|replace({'_preview': ''}) }}"
+    src="{{ value }}"
+    alt="{{ ('Image preview for ' ~ form.vars.name)|trim }}"
+    style="max-width: 50%;"
+    class="{{ form.vars.image_class }}" />
+{% endif %}
+{%- endblock image_preview_widget %}
+
+{% block translatable_file_widget -%}
+
+  {{ form_errors(form) }}
+  <style>
+    .custom-file-label:after {
+      content: "{{ "Browse"|trans({}, 'Admin.Actions')  }}";
+    }
+  </style>
+  <div class="input-group locale-input-group js-locale-input-group align-items-end">
+    {% for translateField in form %}
+
+      {% set attr = attr|merge({
+        class: (attr.class|default('') ~ ' custom-file-input')|trim,
+        'data-locale': get_context_iso_code()
+      }) -%}
+
+      {% set classes = translateField.vars.attr.class|default('') ~ ' js-locale-input'%}
+      {% set classes = classes ~ ' js-locale-' ~ translateField.vars.label %}
+
+      {% if default_locale.id_lang != translateField.vars.name %}
+          {% set classes = classes ~ ' d-none' %}
+      {% endif %}
+
+      <div data-lang-id="{{ translateField.vars.name }}" class="{{ classes }}" style="flex-grow: 1;">
+
+        {%- set type = type|default('file') -%}
+
+        <div class="custom-file">
+          {{ form_widget(translateField, {'attr': attr, 'type': type}) }}
+
+          <label class="custom-file-label" for="{{ form.vars.id }}">
+            {% set attributes = form.vars.attr %}
+            {{ attributes.placeholder is defined ?  attributes.placeholder : 'Choose file(s)'|trans({}, 'Admin.Actions') }}
+          </label>
+        </div>
+
+      </div>
+
+      {{- block('form_help') -}}
+    {% endfor %}
+
+    {% if not hide_locales %}
+      <div class="dropdown">
+        <button class="btn btn-outline-secondary dropdown-toggle js-locale-btn"
+                type="button"
+                data-toggle="dropdown"
+                aria-haspopup="true"
+                aria-expanded="false"
+                id="{{ form.vars.id }}"
+        >
+          {{ form.vars.default_locale.iso_code }}
+        </button>
+
+        <div class="dropdown-menu locale-dropdown-menu" aria-labelledby="{{ form.vars.id }}">
+          {% for locale in locales %}
+            <span class="dropdown-item js-locale-item" data-locale="{{ locale.iso_code }}">{{ locale.name }}</span>
+          {% endfor %}
+        </div>
+      </div>
+    {% endif %}
+  </div>
+{%- endblock translatable_file_widget %}
