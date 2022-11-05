@@ -40,4 +40,9 @@ class DisplayHeader extends AbstractCacheableDisplayHook
     {
         return parent::getCacheKey() . '_' . ($this->context->isMobile() ? 'mobile' : 'desktop');
     }
+
+    protected function shouldBlockBeDisplayed(array $params)
+    {
+        return $this->context->controller->getPageName() === 'index';
+    }
 }

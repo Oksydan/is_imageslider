@@ -37,6 +37,10 @@ abstract class AbstractCacheableDisplayHook extends AbstractDisplayHook
 
     public function execute(array $params): string
     {
+        if (!$this->shouldBlockBeDisplayed($params)) {
+            return '';
+        }
+
         if (!$this->isTemplateCached()) {
             $this->assignTemplateVariables($params);
         }

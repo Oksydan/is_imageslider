@@ -24,6 +24,10 @@ abstract class AbstractDisplayHook extends AbstractHook
 
     public function execute(array $params): string
     {
+        if (!$this->shouldBlockBeDisplayed($params)) {
+            return '';
+        }
+
         $this->assignTemplateVariables($params);
 
         return $this->module->fetch("module:{$this->module->name}views/templates/hook/{$this->getTemplate()}");
@@ -31,6 +35,11 @@ abstract class AbstractDisplayHook extends AbstractHook
 
     protected function assignTemplateVariables(array $params)
     {
+    }
+
+    protected function shouldBlockBeDisplayed(array $params)
+    {
+        return true;
     }
 
     abstract protected function getTemplate(): string;
