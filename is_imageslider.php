@@ -14,7 +14,6 @@ use Oksydan\IsImageslider\Hook\HookInterface;
 use Oksydan\IsImageslider\Installer\ImageSliderInstaller;
 use PrestaShop\PrestaShop\Adapter\SymfonyContainer;
 use Symfony\Component\DependencyInjection\Exception\ServiceNotFoundException;
-use Tools;
 
 class Is_imageslider extends Module
 {
@@ -63,7 +62,7 @@ class Is_imageslider extends Module
 
     public function getContent(): void
     {
-        Tools::redirectAdmin(SymfonyContainer::getInstance()->get('router')->generate('is_imageslider_controller'));
+        \Tools::redirectAdmin(SymfonyContainer::getInstance()->get('router')->generate('is_imageslider_controller'));
     }
 
     /**
@@ -111,7 +110,7 @@ class Is_imageslider extends Module
     {
         $serviceName = sprintf(
             'oksydan.is_imageslider.hook.%s',
-            Tools::toUnderscoreCase(str_replace('hook', '', $methodName))
+            \Tools::toUnderscoreCase(str_replace('hook', '', $methodName))
         );
 
         $hook = $this->getService($serviceName);
