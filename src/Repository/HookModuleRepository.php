@@ -37,17 +37,15 @@ class HookModuleRepository
         $this->table = $this->databasePrefix . 'hook_module';
     }
 
-
     public function getAllHookRegisteredToModule($moduleId)
     {
         $qb = $this->connection->createQueryBuilder()
             ->select('h.name')
-            ->from($this->table , 'mh')
+            ->from($this->table, 'mh')
             ->where('mh.id_module = :id_module')
             ->leftJoin('mh', $this->databasePrefix . 'hook', 'h', 'h.id_hook = mh.id_hook')
             ->setParameter('id_module', $moduleId);
 
         return $qb->execute()->fetchAll();
     }
-
 }

@@ -23,7 +23,7 @@ class Is_imageslider extends Module
     {
         $this->name = 'is_imageslider';
 
-        /**
+        /*
          * SPECIAL THANKS TO WAYNET TEAM
          * YOU ARE HUGE INSPIRATION TO ME
          * https://www.waynet.pl/

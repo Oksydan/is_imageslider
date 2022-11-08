@@ -6,9 +6,9 @@ namespace Oksydan\IsImageslider\Cache;
 
 use Context;
 use Module;
-use Tools;
-use Oksydan\IsImageslider\Repository\HookModuleRepository;
 use Oksydan\IsImageslider\Hook\AbstractCacheableDisplayHook;
+use Oksydan\IsImageslider\Repository\HookModuleRepository;
+use Tools;
 
 class TemplateCache
 {
@@ -24,8 +24,7 @@ class TemplateCache
       Module $module,
       Context $context,
       HookModuleRepository $hookModuleRepository
-    )
-    {
+    ) {
         $this->module = $module;
         $this->context = $context;
         $this->hookModuleRepository = $hookModuleRepository;
@@ -36,14 +35,14 @@ class TemplateCache
         $hookedHooks = $this->hookModuleRepository->getAllHookRegisteredToModule($this->module->id);
         $uniqueHooks = [];
 
-        foreach($hookedHooks as $hook) {
-          if (!in_array($hook['name'], $uniqueHooks)) {
-            $uniqueHooks[] = $hook['name'];
-          }
+        foreach ($hookedHooks as $hook) {
+            if (!in_array($hook['name'], $uniqueHooks)) {
+                $uniqueHooks[] = $hook['name'];
+            }
         }
 
-        foreach($uniqueHooks as $hook) {
-          $this->clearCacheForHook($hook);
+        foreach ($uniqueHooks as $hook) {
+            $this->clearCacheForHook($hook);
         }
     }
 
@@ -52,19 +51,19 @@ class TemplateCache
         $displayHook = $this->getServiceFromHookName($hookName);
 
         if ($displayHook) {
-          $this->module->_clearCache($displayHook->getTemplateFullPath());
+            $this->module->_clearCache($displayHook->getTemplateFullPath());
         }
     }
 
     private function getServiceFromHookName($hookName)
     {
-      $serviceName = sprintf(
+        $serviceName = sprintf(
         'oksydan.is_imageslider.hook.%s',
         Tools::toUnderscoreCase(str_replace('hook', '', $hookName))
       );
 
-      $hook = $this->module->getService($serviceName);
+        $hook = $this->module->getService($serviceName);
 
-      return $hook instanceof AbstractCacheableDisplayHook ? $hook : null;
+        return $hook instanceof AbstractCacheableDisplayHook ? $hook : null;
     }
 }

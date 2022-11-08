@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Oksydan\IsImageslider\Controller;
 
+use Oksydan\IsImageslider\Cache\TemplateCache;
 use Oksydan\IsImageslider\Entity\ImageSlider;
 use Oksydan\IsImageslider\Filter\ImageSliderFileters;
 use Oksydan\IsImageslider\Handler\FileEraser;
@@ -14,7 +15,6 @@ use PrestaShopBundle\Controller\Admin\FrameworkBundleAdminController;
 use PrestaShopBundle\Entity\Shop;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use  Oksydan\IsImageslider\Cache\TemplateCache;
 
 class IsImagesliderController extends FrameworkBundleAdminController
 {
