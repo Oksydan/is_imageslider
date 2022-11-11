@@ -57,9 +57,4 @@ abstract class AbstractCacheableDisplayHook extends AbstractDisplayHook
     {
         return $this->module->isCached($this->getTemplateFullPath(), $this->getCacheKey());
     }
-
-    public function getTemplateFullPath(): string
-    {
-        return "module:{$this->module->name}/views/templates/hook/{$this->getTemplate()}";
-    }
 }

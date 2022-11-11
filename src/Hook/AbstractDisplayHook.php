@@ -30,7 +30,7 @@ abstract class AbstractDisplayHook extends AbstractHook
 
         $this->assignTemplateVariables($params);
 
-        return $this->module->fetch("module:{$this->module->name}views/templates/hook/{$this->getTemplate()}");
+        return $this->module->fetch($this->getTemplateFullPath());
     }
 
     protected function assignTemplateVariables(array $params)
@@ -42,5 +42,11 @@ abstract class AbstractDisplayHook extends AbstractHook
         return true;
     }
 
+    public function getTemplateFullPath(): string
+    {
+        return "module:{$this->module->name}/views/templates/hook/{$this->getTemplate()}";
+    }
+
     abstract protected function getTemplate(): string;
+
 }
