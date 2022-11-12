@@ -48,5 +48,4 @@ abstract class AbstractDisplayHook extends AbstractHook
     }
 
     abstract protected function getTemplate(): string;
-
 }
