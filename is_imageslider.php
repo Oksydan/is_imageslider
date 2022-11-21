@@ -46,9 +46,9 @@ class Is_imageslider extends Module
     public function install(): bool
     {
         return
-            $this->registerHook('displayHeader')
+            parent::install()
+            && $this->registerHook('displayHeader')
             && $this->registerHook('displayHome')
-            && parent::install()
             && $this->getInstaller()->createTables();
     }
 
@@ -86,7 +86,23 @@ class Is_imageslider extends Module
      */
     private function getInstaller(): ImageSliderInstaller
     {
-        return $this->get('oksydan.is_imageslider.image_slider_installer');
+        try {
+            $installer = $this->getService('oksydan.is_imageslider.image_slider_installer');
+        } catch (Error $error){
+            $installer = null;
+        }
+
+        if (null === $installer) {
+            $installer = new Oksydan\IsImageslider\Installer\ImageSliderInstaller(
+                $this->getService('doctrine.dbal.default_connection'),
+                (new Oksydan\IsImageslider\Installer\DatabaseYamlParser(
+                    (new Oksydan\IsImageslider\Installer\Provider\DatabaseYamlProvider($this)
+                ))),
+                $this->context
+            );
+        }
+
+        return $installer;
     }
 
     /** @param string $methodName */

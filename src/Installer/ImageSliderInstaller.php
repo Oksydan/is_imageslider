@@ -7,6 +7,7 @@ namespace Oksydan\IsImageslider\Installer;
 use Context;
 use Doctrine\DBAL\Connection;
 use PrestaShop\PrestaShop\Adapter\ContainerFinder;
+use Oksydan\IsImageslider\Installer\ActionDatabaseCrateTable;
 
 class ImageSliderInstaller
 {
@@ -52,7 +53,13 @@ class ImageSliderInstaller
     {
         $databaseData = $this->databaseYaml->getParsedFileData();
         $container = $this->getContainer();
-        $createTableAction = $container->get('oksydan.is_imageslider.installer.action_databse_create_table');
+
+        // THIS WAY INSTEAD OF SERVICE CALL COZ OF NOT AVAILABLE SERVICE DURING INSTALLATION
+        $createTableAction = new ActionDatabaseCrateTable(
+            $container->get('doctrine.dbal.default_connection'),
+            $container->getParameter('database_prefix')
+        );
+
         $createTableAction
             ->setData($databaseData)
             ->buildQuery();
