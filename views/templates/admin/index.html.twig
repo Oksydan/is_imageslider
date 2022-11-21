@@ -1,0 +1,44 @@
+{% set layoutHeaderToolbarBtn = {
+  'add' : {
+    'href': path('is_imageslider_controller_create'),
+    'desc': 'Add new slider'|trans({}, translationDomain),
+    'icon': 'add_circle_outline'
+  },
+} %}
+
+
+{% extends '@PrestaShop/Admin/layout.html.twig' %}
+{% form_theme configurationForm '@PrestaShop/Admin/TwigTemplateForm/prestashop_ui_kit.html.twig' %}
+
+{% block content %}
+  {{ form_start(configurationForm) }}
+
+  <div class="row justify-content-center">
+    <div class="col-xl-12">
+      <div class="card">
+        <h3 class="card-header">
+          <i class="material-icons">settings</i> {{ 'Image slider configuration'|trans({}, translationDomain) }}
+        </h3>
+        <div class="card-block">
+            <div class="card-body">
+              <div class="form-wrapper">
+              {{ form_widget(configurationForm) }}
+              {{ form_rest(configurationForm) }}
+            </div>
+          </div>
+        </div>
+        <div class="card-footer">
+          <div class="d-flex justify-content-end">
+            <button class="btn btn-primary" id="form-maintenance-save-button">{{ 'Save'|trans({}, 'Admin.Actions') }}</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  {% include '@PrestaShop/Admin/Common/Grid/grid_panel.html.twig' with {'grid': imageSliderkGrid} %}
+{% endblock %}
+
+{% block javascripts %}
+  {{ parent() }}
+  <script src="{{ asset('../Modules/is_imageslider/views/js/form.js') }}"></script>
+{% endblock %}
