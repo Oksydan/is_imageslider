@@ -47,7 +47,7 @@ class ImageSliderRepository extends EntityRepository
         int $idLang,
         int $idStore,
         bool $activeOnly = true,
-        int|bool $limit = false,
+        int $limit = 0
     ): array {
         $slides = [];
 
