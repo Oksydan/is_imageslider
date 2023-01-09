@@ -31,3 +31,9 @@ database:
       - id_slide
       - id_shop
     engine: InnoDb
+
+database_add:
+  image_slider:
+    columns:
+      display_from: datetime DEFAULT '0000-00-00 00:00:00'
+      display_to: datetime DEFAULT '0000-00-00 00:00:00'

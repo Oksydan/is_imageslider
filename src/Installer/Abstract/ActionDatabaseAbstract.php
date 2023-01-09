@@ -64,12 +64,12 @@ abstract class ActionDatabaseAbstract
 
     public function getQueries(): array
     {
-        return $this->query;
+        return $this->queries;
     }
 
-    public function setQueries($query)
+    public function setQueries($queries)
     {
-        $this->query = $query;
+        $this->queries = $queries;
 
         return $this;
     }
