@@ -74,6 +74,8 @@ class ImageSliderFormDataProvider implements FormDataProviderInterface
 
         $slideData['shop_association'] = $shopIds;
         $slideData['active'] = $imageSlide->getActive();
+        $slideData['display_from'] = $imageSlide->getDisplayFrom();
+        $slideData['display_to'] = $imageSlide->getDisplayTo();
 
         foreach ($imageSlide->getSliderLangs() as $imageSlideLang) {
             $slideData['title'][$imageSlideLang->getLang()->getId()] = $imageSlideLang->getTitle();
@@ -118,6 +120,8 @@ class ImageSliderFormDataProvider implements FormDataProviderInterface
             'url' => [],
             'description' => [],
             'active' => false,
+            'display_from' => new \DateTime(),
+            'display_to' => new \DateTime(),
             'shop_association' => $this->shopContext->getContextListShopID(),
         ];
     }

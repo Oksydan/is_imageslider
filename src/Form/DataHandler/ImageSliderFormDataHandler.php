@@ -14,6 +14,7 @@ use PrestaShop\PrestaShop\Core\Form\IdentifiableObject\DataHandler\FormDataHandl
 use PrestaShopBundle\Entity\Repository\LangRepository;
 use PrestaShopBundle\Entity\Shop;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Oksydan\IsImageslider\Exceptions\DateRangeNotValidException;
 
 class ImageSliderFormDataHandler implements FormDataHandlerInterface
 {
@@ -68,9 +69,13 @@ class ImageSliderFormDataHandler implements FormDataHandlerInterface
      */
     public function create(array $data): int
     {
+        $this->assertSliderDataRangeActivity($data);
+
         $imageSlide = new ImageSlider();
 
         $imageSlide->setActive($data['active']);
+        $imageSlide->setDisplayFrom($data['display_from'] ?? New \DateTime());
+        $imageSlide->setDisplayTo($data['display_to'] ?? New \DateTime());
         $imageSlide->setPosition($this->imageSliderRepository->getHighestPosition() + 1);
         $this->addAssociatedShops($imageSlide, $data['shop_association'] ?? null);
 
@@ -97,8 +102,6 @@ class ImageSliderFormDataHandler implements FormDataHandlerInterface
             $imageSlide->addImageSliderLang($imageSliderLang);
         }
 
-        $imageSlide->setActive($data['active']);
-
         $this->entityManager->persist($imageSlide);
         $this->entityManager->flush();
 
@@ -110,9 +113,13 @@ class ImageSliderFormDataHandler implements FormDataHandlerInterface
      */
     public function update($id, array $data): int
     {
+        $this->assertSliderDataRangeActivity($data);
+
         $imageSlide = $this->entityManager->getRepository(ImageSlider::class)->find($id);
 
         $imageSlide->setActive($data['active']);
+        $imageSlide->setDisplayFrom($data['display_from'] ?? New \DateTime());
+        $imageSlide->setDisplayTo($data['display_to'] ?? New \DateTime());
         $this->addAssociatedShops($imageSlide, $data['shop_association'] ?? null);
 
         foreach ($this->languages as $language) {
@@ -143,6 +150,21 @@ class ImageSliderFormDataHandler implements FormDataHandlerInterface
         $this->entityManager->flush();
 
         return $imageSlide->getId();
+    }
+
+    /**
+     * @params array $data
+     * @return void
+     *
+     * @throws DateRangeNotValidException
+     */
+    private function assertSliderDataRangeActivity($data): void
+    {
+        if (!empty($data['display_from']) && !empty($data['display_to'])) {
+            if ($data['display_from'] > $data['display_to']) {
+                throw new DateRangeNotValidException();
+            }
+        }
     }
 
     /**

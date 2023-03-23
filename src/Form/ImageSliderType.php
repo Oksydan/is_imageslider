@@ -18,6 +18,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Translation\TranslatorInterface;
 use Symfony\Component\Validator\Constraints\File;
 use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 
 class ImageSliderType extends TranslatorAwareType
 {
@@ -126,6 +127,20 @@ class ImageSliderType extends TranslatorAwareType
             ->add('active', SwitchType::class, [
                 'label' => $this->trans('Active', TranslationDomains::TRANSLATION_DOMAIN_ADMIN),
                 'required' => true,
+            ])
+            ->add('display_from', DateTimeType::class, [
+                'label' => $this->trans('Display from', TranslationDomains::TRANSLATION_DOMAIN_ADMIN),
+                'required' => true,
+                'widget' => 'single_text',
+                'html5' => true,
+                'input' => 'datetime',
+            ])
+            ->add('display_to', DateTimeType::class, [
+                'label' => $this->trans('Display to', TranslationDomains::TRANSLATION_DOMAIN_ADMIN),
+                'required' => true,
+                'widget' => 'single_text',
+                'html5' => true,
+                'input' => 'datetime',
             ]);
 
         if ($this->isMultistoreUsed) {
