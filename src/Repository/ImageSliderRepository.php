@@ -43,17 +43,57 @@ class ImageSliderRepository extends EntityRepository
         return $position;
     }
 
+    private function addDateRangeFilter(QueryBuilder $qb, \DateTime $date): QueryBuilder
+    {
+        $qb
+            ->andWhere('s.display_from <= :from')
+            ->andWhere('s.display_to >= :to')
+            ->setParameter('from', $date->format('Y-m-d H:i:s'))
+            ->setParameter('to', $date->format('Y-m-d H:i:s'))
+        ;
+
+        return $qb;
+    }
+
+    public function getSimpleActiveSliderByStoreId(
+        int $idStore,
+        bool $activeOnly = true,
+        int $limit = 0,
+        \DateTime $date = null
+    ) :array {
+        $qb = $this
+            ->createQueryBuilder('s')
+            ->select('s.id, s.position, s.active, s.display_from, s.display_to')
+            ->join('s.shops', 'ss')
+            ->andWhere('ss.id = :storeId')
+            ->orderBy('s.position')
+            ->setParameter('storeId', (int) $idStore);
+
+        if ($activeOnly) {
+            $qb->andWhere('s.active = 1');
+        }
+
+        if ($limit) {
+            $qb->setMaxResults($limit);
+        }
+
+        if ($date) {
+            $qb = $this->addDateRangeFilter($qb, $date);
+        }
+
+        return $qb->getQuery()->getScalarResult();
+    }
+
     public function getActiveSliderByLandAndStoreId(
         int $idLang,
         int $idStore,
         bool $activeOnly = true,
-        int $limit = 0
+        int $limit = 0,
+        \DateTime $date = null
     ): array {
-        $slides = [];
-
         $qb = $this
             ->createQueryBuilder('s')
-            ->select('sl.title, sl.legend, sl.url, sl.description, sl.image, sl.imageMobile')
+            ->select('sl.title, sl.legend, sl.url, sl.description, sl.image, sl.imageMobile, s.display_from, s.display_to')
             ->join('s.sliderLangs', 'sl')
             ->join('s.shops', 'ss')
             ->andWhere('sl.lang = :langId')
@@ -70,8 +110,10 @@ class ImageSliderRepository extends EntityRepository
             $qb->setMaxResults($limit);
         }
 
-        $slides = $qb->getQuery()->getScalarResult();
+        if ($date) {
+            $qb = $this->addDateRangeFilter($qb, $date);
+        }
 
-        return $slides;
+        return $qb->getQuery()->getScalarResult();
     }
 }

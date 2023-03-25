@@ -4,6 +4,8 @@ database:
       id_slide: INT AUTO_INCREMENT NOT NULL
       active: TINYINT(1) NOT NULL
       position: INT NOT NULL
+      display_from: datetime DEFAULT '0000-00-00 00:00:00'
+      display_to: datetime DEFAULT '0000-00-00 00:00:00'
     primary:
       - id_slide
     engine: InnoDb
@@ -31,3 +33,9 @@ database:
       - id_slide
       - id_shop
     engine: InnoDb
+
+database_add:
+  image_slider:
+    columns:
+      display_from: datetime DEFAULT '0000-00-00 00:00:00'
+      display_to: datetime DEFAULT '0000-00-00 00:00:00'

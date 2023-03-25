@@ -30,7 +30,14 @@ class DisplayHome extends AbstractCacheableDisplayHook
      */
     private function getSlides(): array
     {
-        $slides = $this->slideRepository->getActiveSliderByLandAndStoreId($this->context->language->id, $this->context->shop->id);
+        $now = new \DateTime();
+        $slides = $this->slideRepository->getActiveSliderByLandAndStoreId(
+            $this->context->language->id,
+            $this->context->shop->id,
+            true,
+            0, // 0 means no limit
+            $now
+        );
 
         foreach ($slides as &$slide) {
             $slide = $this->slidePresenter->present($slide);

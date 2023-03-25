@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Oksydan\IsImageslider\Controller;
 
+use Exception;
 use Oksydan\IsImageslider\Cache\TemplateCache;
 use Oksydan\IsImageslider\Entity\ImageSlider;
 use Oksydan\IsImageslider\Filter\ImageSliderFileters;
@@ -15,6 +16,7 @@ use PrestaShopBundle\Controller\Admin\FrameworkBundleAdminController;
 use PrestaShopBundle\Entity\Shop;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Oksydan\IsImageslider\Exceptions\DateRangeNotValidException;
 
 class IsImagesliderController extends FrameworkBundleAdminController
 {
@@ -62,17 +64,22 @@ class IsImagesliderController extends FrameworkBundleAdminController
         $form->handleRequest($request);
 
         $formHandler = $this->get('oksydan.is_imageslider.form.identifiable_object.handler.image_slider_form_handler');
-        $result = $formHandler->handle($form);
 
-        if (null !== $result->getIdentifiableObjectId()) {
-            $this->addFlash(
-                'success',
-                $this->trans('Successful creation.', 'Admin.Notifications.Success')
-            );
+        try {
+            $result = $formHandler->handle($form);
 
-            $this->clearTemplateCache();
+            if (null !== $result->getIdentifiableObjectId()) {
+                $this->addFlash(
+                    'success',
+                    $this->trans('Successful creation.', 'Admin.Notifications.Success')
+                );
 
-            return $this->redirectToRoute('is_imageslider_controller');
+                $this->clearTemplateCache();
+
+                return $this->redirectToRoute('is_imageslider_controller');
+            }
+        } catch (Exception $e) {
+            $this->addFlash('error', $this->getErrorMessageForException($e, $this->getErrorMessages()));
         }
 
         return $this->render('@Modules/is_imageslider/views/templates/admin/form.html.twig', [
@@ -89,17 +96,22 @@ class IsImagesliderController extends FrameworkBundleAdminController
         $form->handleRequest($request);
 
         $formHandler = $this->get('oksydan.is_imageslider.form.identifiable_object.handler.image_slider_form_handler');
-        $result = $formHandler->handleFor($slideId, $form);
 
-        if (null !== $result->getIdentifiableObjectId()) {
-            $this->addFlash(
-                'success',
-                $this->trans('Successful edition.', 'Admin.Notifications.Success')
-            );
+        try {
+            $result = $formHandler->handleFor($slideId, $form);
 
-            $this->clearTemplateCache();
+            if (null !== $result->getIdentifiableObjectId()) {
+                $this->addFlash(
+                    'success',
+                    $this->trans('Successful edition.', 'Admin.Notifications.Success')
+                );
 
-            return $this->redirectToRoute('is_imageslider_controller');
+                $this->clearTemplateCache();
+
+                return $this->redirectToRoute('is_imageslider_controller');
+            }
+        } catch (Exception $e) {
+            $this->addFlash('error', $this->getErrorMessageForException($e, $this->getErrorMessages()));
         }
 
         return $this->render('@Modules/is_imageslider/views/templates/admin/form.html.twig', [
@@ -285,5 +297,22 @@ class IsImagesliderController extends FrameworkBundleAdminController
     private function clearTemplateCache()
     {
         $this->templateCache->clearTemplateCache();
+    }
+
+    /**
+     * Provides translated error messages for exceptions
+     *
+     * @return array
+     */
+    private function getErrorMessages(): array
+    {
+        return [
+            DateRangeNotValidException::class => [
+                $this->trans(
+                    'The selected date range is not valid. Date to must be greater than date from.',
+                    TranslationDomains::TRANSLATION_DOMAIN_EXCEPTION
+                ),
+            ],
+        ];
     }
 }

@@ -39,6 +39,20 @@ class ImageSlider
     private $position;
 
     /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="display_from", type="datetime")
+     */
+    private $display_from;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="display_to", type="datetime")
+     */
+    private $display_to;
+
+    /**
      * @ORM\OneToMany(targetEntity="Oksydan\IsImageslider\Entity\ImageSliderLang", cascade={"persist", "remove"}, mappedBy="imageSlide")
      */
     private $sliderLangs;
@@ -102,6 +116,46 @@ class ImageSlider
     public function setPosition(int $position): ImageSlider
     {
         $this->position = $position;
+
+        return $this;
+    }
+
+    /**
+     * @return \DateTime
+     */
+    public function getDisplayFrom(): \DateTime
+    {
+        return $this->display_from;
+    }
+
+    /**
+     * @param \DateTime $display_from
+     *
+     * @return ImageSlider $this
+     */
+    public function setDisplayFrom(\DateTime $display_from): ImageSlider
+    {
+        $this->display_from = $display_from;
+
+        return $this;
+    }
+
+    /**
+     * @return \DateTime
+     */
+    public function getDisplayTo(): \DateTime
+    {
+        return $this->display_to;
+    }
+
+    /**
+     * @param \DateTime $display_to
+     *
+     * @return ImageSlider $this
+     */
+    public function setDisplayTo(\DateTime $display_to): ImageSlider
+    {
+        $this->display_to = $display_to;
 
         return $this;
     }

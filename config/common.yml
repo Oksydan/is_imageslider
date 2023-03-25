@@ -55,12 +55,13 @@ services:
       - '@oksydan.is_imageslider.configuration.slider_configuration'
 
   oksydan.is_imageslider.hook.abstract_cacheable_display_hook:
-    class: Oksydan\IsImageslider\Hook\AbstractDisplayHook
+    class: Oksydan\IsImageslider\Hook\AbstractCacheableDisplayHook
     parent: 'oksydan.is_imageslider.hook.abstract_display_hook'
     public: true
     arguments:
       - '@oksydan.is_imageslider.repository.image_slider'
       - '@oksydan.is_imageslider.presenter.image_slide_presenter'
+      - '@oksydan.is_imageslider.cache.template_cache'
 
   oksydan.is_imageslider.hook.display_home:
     class: Oksydan\IsImageslider\Hook\DisplayHome
@@ -79,3 +80,5 @@ services:
       - '@oksydan.is_imageslider.module'
       - "@=service('prestashop.adapter.legacy.context').getContext()"
       - '@oksydan.is_imageslider.repository.hook_module_repository'
+      - '@prestashop.adapter.legacy.configuration'
+      - '@oksydan.is_imageslider.repository.image_slider'
