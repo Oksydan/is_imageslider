@@ -9,6 +9,7 @@ use Module;
 use Oksydan\IsImageslider\Configuration\SliderConfiguration;
 use Oksydan\IsImageslider\Presenter\ImageSlidePresenter;
 use Oksydan\IsImageslider\Repository\ImageSliderRepository;
+use Oksydan\IsImageslider\Cache\TemplateCache;
 
 abstract class AbstractCacheableDisplayHook extends AbstractDisplayHook
 {
@@ -22,17 +23,24 @@ abstract class AbstractCacheableDisplayHook extends AbstractDisplayHook
      */
     protected $slidePresenter;
 
+    /**
+     * @var TemplateCache
+     */
+    protected $templateCache;
+
     public function __construct(
         Module $module,
         Context $context,
         SliderConfiguration $sliderConfiguration,
         ImageSliderRepository $slideRepository,
-        ImageSlidePresenter $slidePresenter
+        ImageSlidePresenter $slidePresenter,
+        TemplateCache $templateCache
     ) {
         parent::__construct($module, $context, $sliderConfiguration);
 
         $this->slideRepository = $slideRepository;
         $this->slidePresenter = $slidePresenter;
+        $this->templateCache = $templateCache;
     }
 
     public function execute(array $params): string
@@ -40,6 +48,8 @@ abstract class AbstractCacheableDisplayHook extends AbstractDisplayHook
         if (!$this->shouldBlockBeDisplayed($params)) {
             return '';
         }
+
+        $this->templateCache->clearTemplateCacheIfNeeded($this->context->shop->id);
 
         if (!$this->isTemplateCached()) {
             $this->assignTemplateVariables($params);

@@ -27,7 +27,14 @@ class DisplayHeader extends AbstractCacheableDisplayHook
      */
     private function getSlide(): array
     {
-        $slides = $this->slideRepository->getActiveSliderByLandAndStoreId($this->context->language->id, $this->context->shop->id, true, 1);
+        $now = new \DateTime();
+        $slides = $this->slideRepository->getActiveSliderByLandAndStoreId(
+            $this->context->language->id,
+            $this->context->shop->id,
+            true,
+            1,
+            $now
+        );
 
         foreach ($slides as &$slide) {
             $slide = $this->slidePresenter->present($slide);
