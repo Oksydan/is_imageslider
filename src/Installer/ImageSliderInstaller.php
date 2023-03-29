@@ -9,6 +9,7 @@ use Doctrine\DBAL\Connection;
 use PrestaShop\PrestaShop\Adapter\ContainerFinder;
 use Oksydan\IsImageslider\Installer\ActionDatabaseCrateTable;
 use Oksydan\IsImageslider\Installer\ActionDatabaseAddColumn;
+use Oksydan\IsImageslider\Installer\ActionDatabaseModifyColumn;
 
 class ImageSliderInstaller
 {
@@ -67,6 +68,12 @@ class ImageSliderInstaller
             $container->getParameter('database_prefix')
         );
 
+        // THIS WAY INSTEAD OF SERVICE CALL COZ OF NOT AVAILABLE SERVICE DURING INSTALLATION
+        $modifyColumnsAction = new ActionDatabaseModifyColumn(
+            $container->get('doctrine.dbal.default_connection'),
+            $container->getParameter('database_prefix')
+        );
+
         $createTableAction
             ->setData($databaseData)
             ->buildQuery();
@@ -75,7 +82,13 @@ class ImageSliderInstaller
             ->setData($databaseData)
             ->buildQuery();
 
-        return $createTableAction->execute() && $addColumnsAction->execute();
+        $modifyColumnsAction
+            ->setData($databaseData)
+            ->buildQuery();
+
+        return  $createTableAction->execute() &&
+                $addColumnsAction->execute() &&
+                $modifyColumnsAction->execute();
     }
 
     /**
