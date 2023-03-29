@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Oksydan\IsImageslider\Installer;
 
-use Oksydan\IsImageslider\Installer\Abstract\ActionDatabaseAbstract;
-use Oksydan\IsImageslider\Installer\Interface\ActionDatabaseInterface;
+use Oksydan\IsImageslider\Installer\ActionDatabaseAbstract;
+use Oksydan\IsImageslider\Installer\ActionDatabaseInterface;
 
 class ActionDatabaseAddColumn extends ActionDatabaseAbstract implements ActionDatabaseInterface
 {

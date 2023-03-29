@@ -44,7 +44,7 @@ services:
     public: true
 
   oksydan.is_imageslider.installer.abstract_action_databse:
-    class: 'Oksydan\IsImageslider\Installer\Abstract\ActionDatabaseAbstract'
+    class: 'Oksydan\IsImageslider\Installer\ActionDatabaseAbstract'
     abstract: true
     arguments:
       - '@doctrine.dbal.default_connection'
