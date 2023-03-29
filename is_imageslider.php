@@ -29,7 +29,7 @@ class Is_imageslider extends Module
          * https://www.waynet.pl/
          */
         $this->author = 'Igor Stępień';
-        $this->version = '2.1.0';
+        $this->version = '2.1.1';
         $this->need_instance = 0;
 
         $this->bootstrap = true;

@@ -1,6 +1,6 @@
 <?php
 
-namespace Oksydan\IsImageslider\Installer\Abstract;
+namespace Oksydan\IsImageslider\Installer;
 
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Driver\Statement;
