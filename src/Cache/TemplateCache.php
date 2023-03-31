@@ -122,7 +122,13 @@ class TemplateCache
         $stores = \Shop::getShops();
 
         foreach ($stores as $store) {
-            $shopConstraint = ShopConstraint::shop($store['id_shop']);
+
+            $shopId = (int) $store['id_shop'];
+            if (!$shopId) {
+                throw new \Exception(sprintf('Id shop "%s" need to be an integer on function setCacheValidityDateForSlider (TemplateCache)', $shopId));
+            } 
+            
+            $shopConstraint = ShopConstraint::shop($shopId);
 
             $slides = $this->slideRepository->getSimpleActiveSliderByStoreId(
                 $shopConstraint->getShopId()->getValue()
