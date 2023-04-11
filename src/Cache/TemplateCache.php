@@ -122,7 +122,7 @@ class TemplateCache
         $stores = \Shop::getShops();
 
         foreach ($stores as $store) {
-            $shopConstraint = ShopConstraint::shop($store['id_shop']);
+            $shopConstraint = ShopConstraint::shop((int) $store['id_shop']);
 
             $slides = $this->slideRepository->getSimpleActiveSliderByStoreId(
                 $shopConstraint->getShopId()->getValue()
