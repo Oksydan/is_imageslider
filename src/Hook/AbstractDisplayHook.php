@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace Oksydan\IsImageslider\Hook;
 
-use Context;
-use Module;
 use Oksydan\IsImageslider\Configuration\SliderConfiguration;
 
 abstract class AbstractDisplayHook extends AbstractHook
@@ -13,8 +11,8 @@ abstract class AbstractDisplayHook extends AbstractHook
     protected $sliderConfiguration;
 
     public function __construct(
-        Module $module,
-        Context $context,
+        \Module $module,
+        \Context $context,
         SliderConfiguration $sliderConfiguration
     ) {
         parent::__construct($module, $context);

@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace Oksydan\IsImageslider\Configuration;
 
-use Configuration;
-
 class SliderConfiguration
 {
     public const HOMESLIDER_SPEED = 'HOMESLIDER_SPEED';
@@ -14,16 +12,16 @@ class SliderConfiguration
 
     public function getSliderSpeed()
     {
-        return Configuration::get(SliderConfiguration::HOMESLIDER_SPEED);
+        return \Configuration::get(SliderConfiguration::HOMESLIDER_SPEED);
     }
 
     public function getSliderPauseOnHover()
     {
-        return Configuration::get(SliderConfiguration::HOMESLIDER_PAUSE_ON_HOVER);
+        return \Configuration::get(SliderConfiguration::HOMESLIDER_PAUSE_ON_HOVER);
     }
 
     public function getSliderWrap()
     {
-        return Configuration::get(SliderConfiguration::HOMESLIDER_WRAP);
+        return \Configuration::get(SliderConfiguration::HOMESLIDER_WRAP);
     }
 }
