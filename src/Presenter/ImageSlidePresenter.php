@@ -22,9 +22,9 @@ class ImageSlidePresenter
     private $context;
 
     public function __construct(
-      string $imagesUri,
-      string $imagesDir,
-      \Context $context
+        string $imagesUri,
+        string $imagesDir,
+        \Context $context
     ) {
         $this->imagesUri = $imagesUri;
         $this->imagesDir = $imagesDir;

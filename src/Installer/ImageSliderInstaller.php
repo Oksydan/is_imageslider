@@ -4,12 +4,8 @@ declare(strict_types=1);
 
 namespace Oksydan\IsImageslider\Installer;
 
-use Context;
 use Doctrine\DBAL\Connection;
 use PrestaShop\PrestaShop\Adapter\ContainerFinder;
-use Oksydan\IsImageslider\Installer\ActionDatabaseCrateTable;
-use Oksydan\IsImageslider\Installer\ActionDatabaseAddColumn;
-use Oksydan\IsImageslider\Installer\ActionDatabaseModifyColumn;
 
 class ImageSliderInstaller
 {
@@ -24,14 +20,14 @@ class ImageSliderInstaller
     private $connection;
 
     /**
-     * @var Context
+     * @var \Context
      */
     private $context;
 
     /**
      * @param Connection $connection
      * @param DatabaseYamlParser $databaseYaml
-     * @param Context $context
+     * @param \Context $context
      */
     public function __construct(Connection $connection, DatabaseYamlParser $databaseYaml, $context)
     {
@@ -86,7 +82,7 @@ class ImageSliderInstaller
             ->setData($databaseData)
             ->buildQuery();
 
-        return  $createTableAction->execute() &&
+        return $createTableAction->execute() &&
                 $addColumnsAction->execute() &&
                 $modifyColumnsAction->execute();
     }

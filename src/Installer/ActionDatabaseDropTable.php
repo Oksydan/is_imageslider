@@ -4,9 +4,6 @@ declare(strict_types=1);
 
 namespace Oksydan\IsImageslider\Installer;
 
-use Oksydan\IsImageslider\Installer\ActionDatabaseAbstract;
-use Oksydan\IsImageslider\Installer\ActionDatabaseInterface;
-
 class ActionDatabaseDropTable extends ActionDatabaseAbstract implements ActionDatabaseInterface
 {
     public function buildQuery(): void

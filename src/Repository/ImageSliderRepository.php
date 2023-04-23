@@ -60,7 +60,7 @@ class ImageSliderRepository extends EntityRepository
         bool $activeOnly = true,
         int $limit = 0,
         \DateTime $date = null
-    ) :array {
+    ): array {
         $qb = $this
             ->createQueryBuilder('s')
             ->select('s.id, s.position, s.active, s.display_from, s.display_to')

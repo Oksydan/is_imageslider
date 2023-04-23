@@ -4,9 +4,6 @@ declare(strict_types=1);
 
 namespace Oksydan\IsImageslider\Installer;
 
-use Oksydan\IsImageslider\Installer\ActionDatabaseAbstract;
-use Oksydan\IsImageslider\Installer\ActionDatabaseInterface;
-
 class ActionDatabaseAddColumn extends ActionDatabaseAbstract implements ActionDatabaseInterface
 {
     public function buildQuery(): void
@@ -18,9 +15,9 @@ class ActionDatabaseAddColumn extends ActionDatabaseAbstract implements ActionDa
         foreach ($tablesArray as $tableName => $table) {
             if (!empty($table['columns'])) {
                 foreach ($table['columns'] as $columnName => $columnDefinition) {
-                  if (!$this->checkColumnExistenceInTable($tableName, $columnName)) {
-                    $queriesArray[] = $this->buildSingleAddQuery($tableName, $columnName, $columnDefinition);
-                  }
+                    if (!$this->checkColumnExistenceInTable($tableName, $columnName)) {
+                        $queriesArray[] = $this->buildSingleAddQuery($tableName, $columnName, $columnDefinition);
+                    }
                 }
             }
         }
@@ -30,8 +27,8 @@ class ActionDatabaseAddColumn extends ActionDatabaseAbstract implements ActionDa
 
     private function buildSingleAddQuery($tableName, $columnName, $columnDefinition): string
     {
-        $dbQuery = "ALTER TABLE " . $this->dbPrefix . $tableName ."
-                    ADD " . $columnName . " " . $columnDefinition;
+        $dbQuery = 'ALTER TABLE ' . $this->dbPrefix . $tableName . '
+                    ADD ' . $columnName . ' ' . $columnDefinition;
 
         return $dbQuery;
     }

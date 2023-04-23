@@ -4,9 +4,6 @@ declare(strict_types=1);
 
 namespace Oksydan\IsImageslider\Installer;
 
-use Oksydan\IsImageslider\Installer\ActionDatabaseAbstract;
-use Oksydan\IsImageslider\Installer\ActionDatabaseInterface;
-
 class ActionDatabaseModifyColumn extends ActionDatabaseAbstract implements ActionDatabaseInterface
 {
     public function buildQuery(): void
@@ -30,8 +27,8 @@ class ActionDatabaseModifyColumn extends ActionDatabaseAbstract implements Actio
 
     private function buildSingleModifyQuery($tableName, $columnName, $columnDefinition): string
     {
-        $dbQuery = "ALTER TABLE " . $this->dbPrefix . $tableName ."
-                    MODIFY COLUMN " . $columnName . " " . $columnDefinition;
+        $dbQuery = 'ALTER TABLE ' . $this->dbPrefix . $tableName . '
+                    MODIFY COLUMN ' . $columnName . ' ' . $columnDefinition;
 
         return $dbQuery;
     }

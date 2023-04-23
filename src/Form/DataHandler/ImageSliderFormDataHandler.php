@@ -8,13 +8,13 @@ use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
 use Oksydan\IsImageslider\Entity\ImageSlider;
 use Oksydan\IsImageslider\Entity\ImageSliderLang;
+use Oksydan\IsImageslider\Exceptions\DateRangeNotValidException;
 use Oksydan\IsImageslider\Handler\FileEraser;
 use Oksydan\IsImageslider\Handler\FileUploader;
 use PrestaShop\PrestaShop\Core\Form\IdentifiableObject\DataHandler\FormDataHandlerInterface;
 use PrestaShopBundle\Entity\Repository\LangRepository;
 use PrestaShopBundle\Entity\Shop;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
-use Oksydan\IsImageslider\Exceptions\DateRangeNotValidException;
 
 class ImageSliderFormDataHandler implements FormDataHandlerInterface
 {
@@ -74,8 +74,8 @@ class ImageSliderFormDataHandler implements FormDataHandlerInterface
         $imageSlide = new ImageSlider();
 
         $imageSlide->setActive($data['active']);
-        $imageSlide->setDisplayFrom($data['display_from'] ?? New \DateTime());
-        $imageSlide->setDisplayTo($data['display_to'] ?? New \DateTime());
+        $imageSlide->setDisplayFrom($data['display_from'] ?? new \DateTime());
+        $imageSlide->setDisplayTo($data['display_to'] ?? new \DateTime());
         $imageSlide->setPosition($this->imageSliderRepository->getHighestPosition() + 1);
         $this->addAssociatedShops($imageSlide, $data['shop_association'] ?? null);
 
@@ -118,8 +118,8 @@ class ImageSliderFormDataHandler implements FormDataHandlerInterface
         $imageSlide = $this->entityManager->getRepository(ImageSlider::class)->find($id);
 
         $imageSlide->setActive($data['active']);
-        $imageSlide->setDisplayFrom($data['display_from'] ?? New \DateTime());
-        $imageSlide->setDisplayTo($data['display_to'] ?? New \DateTime());
+        $imageSlide->setDisplayFrom($data['display_from'] ?? new \DateTime());
+        $imageSlide->setDisplayTo($data['display_to'] ?? new \DateTime());
         $this->addAssociatedShops($imageSlide, $data['shop_association'] ?? null);
 
         foreach ($this->languages as $language) {
@@ -154,6 +154,7 @@ class ImageSliderFormDataHandler implements FormDataHandlerInterface
 
     /**
      * @params array $data
+     *
      * @return void
      *
      * @throws DateRangeNotValidException

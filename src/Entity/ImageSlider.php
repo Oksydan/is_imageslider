@@ -11,6 +11,7 @@ use PrestaShopBundle\Entity\Shop;
 
 /**
  * @ORM\Entity(repositoryClass="Oksydan\IsImageslider\Repository\ImageSliderRepository")
+ *
  * @ORM\Table()
  */
 class ImageSlider
@@ -19,7 +20,9 @@ class ImageSlider
      * @var int
      *
      * @ORM\Id
+     *
      * @ORM\Column(name="id_slide", type="integer")
+     *
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
@@ -59,6 +62,7 @@ class ImageSlider
 
     /**
      * @ORM\ManyToMany(targetEntity="PrestaShopBundle\Entity\Shop", cascade={"persist"})
+     *
      * @ORM\JoinTable(
      *      joinColumns={@ORM\JoinColumn(name="id_slide", referencedColumnName="id_slide")},
      *      inverseJoinColumns={@ORM\JoinColumn(name="id_shop", referencedColumnName="id_shop", onDelete="CASCADE")}

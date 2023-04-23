@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Oksydan\IsImageslider\Controller;
 
-use Exception;
 use Oksydan\IsImageslider\Cache\TemplateCache;
 use Oksydan\IsImageslider\Entity\ImageSlider;
+use Oksydan\IsImageslider\Exceptions\DateRangeNotValidException;
 use Oksydan\IsImageslider\Filter\ImageSliderFileters;
 use Oksydan\IsImageslider\Handler\FileEraser;
 use Oksydan\IsImageslider\Translations\TranslationDomains;
@@ -16,7 +16,6 @@ use PrestaShopBundle\Controller\Admin\FrameworkBundleAdminController;
 use PrestaShopBundle\Entity\Shop;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Oksydan\IsImageslider\Exceptions\DateRangeNotValidException;
 
 class IsImagesliderController extends FrameworkBundleAdminController
 {
@@ -78,7 +77,7 @@ class IsImagesliderController extends FrameworkBundleAdminController
 
                 return $this->redirectToRoute('is_imageslider_controller');
             }
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->addFlash('error', $this->getErrorMessageForException($e, $this->getErrorMessages()));
         }
 
@@ -110,7 +109,7 @@ class IsImagesliderController extends FrameworkBundleAdminController
 
                 return $this->redirectToRoute('is_imageslider_controller');
             }
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->addFlash('error', $this->getErrorMessageForException($e, $this->getErrorMessages()));
         }
 
