@@ -26,8 +26,6 @@
 {if !empty($homeslider.slides)}
   {$sliderConfig = [
     "loop" => 1,
-    "preloadImages" => false,
-    "lazy" => true,
     "autoplay" => [
       "delay" => $homeslider.speed
     ]
@@ -51,14 +49,14 @@
                   >
               {else}
                 <img
-                  class="img-fluid homeslider__img swiper-lazy"
-                  data-src="{$slide.image_url}"
+                  class="img-fluid homeslider__img"
+                  src="{$slide.image_url}"
                   alt="{$slide.title}"
                   {if !empty($slide.sizes)}
-                    src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='{$slide.sizes.0}' height='{$slide.sizes.1}' viewBox='0 0 1 1'%3E%3C/svg%3E"
                     width="{$slide.sizes.0}"
                     height="{$slide.sizes.1}"
                   {/if}
+                  loading="lazy"
                   >
               {/if}
 
