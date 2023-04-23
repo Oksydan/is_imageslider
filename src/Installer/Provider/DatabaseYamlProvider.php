@@ -4,17 +4,16 @@ declare(strict_types=1);
 
 namespace Oksydan\IsImageslider\Installer\Provider;
 
-use Is_imageslider;
 use Oksydan\IsImageslider\Exceptions\DatabaseYamlFileNotExistsException;
 
 class DatabaseYamlProvider
 {
     /**
-     * @var Is_imageslider
+     * @var \Is_imageslider
      */
     protected $module;
 
-    public function __construct(Is_imageslider $module)
+    public function __construct(\Is_imageslider $module)
     {
         $this->module = $module;
     }
@@ -28,7 +27,7 @@ class DatabaseYamlProvider
         if (file_exists($fullFilePath)) {
             return $fullFilePath;
         } else {
-            throw new DatabaseYamlFileNotExistsException(($databaseFileName . ' file not eixtst in ' . $filePossiblePath));
+            throw new DatabaseYamlFileNotExistsException($databaseFileName . ' file not eixtst in ' . $filePossiblePath);
         }
     }
 }

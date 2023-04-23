@@ -4,14 +4,11 @@ declare(strict_types=1);
 
 namespace Oksydan\IsImageslider\Cache;
 
-use Context;
-use Module;
 use Oksydan\IsImageslider\Hook\AbstractCacheableDisplayHook;
 use Oksydan\IsImageslider\Repository\HookModuleRepository;
 use Oksydan\IsImageslider\Repository\ImageSliderRepository;
 use PrestaShop\PrestaShop\Adapter\Configuration;
 use PrestaShop\PrestaShop\Core\Domain\Shop\ValueObject\ShopConstraint;
-use Tools;
 
 class TemplateCache
 {
@@ -38,11 +35,11 @@ class TemplateCache
     private const DATE_TIME_FORMAT = 'Y-m-d H:i:s';
 
     public function __construct(
-      Module $module,
-      Context $context,
-      HookModuleRepository $hookModuleRepository,
-      Configuration $configuration,
-      ImageSliderRepository $slideRepository
+        \Module $module,
+        \Context $context,
+        HookModuleRepository $hookModuleRepository,
+        Configuration $configuration,
+        ImageSliderRepository $slideRepository
     ) {
         $this->module = $module;
         $this->context = $context;
@@ -81,9 +78,9 @@ class TemplateCache
     private function getServiceFromHookName($hookName)
     {
         $serviceName = sprintf(
-        'oksydan.is_imageslider.hook.%s',
-        Tools::toUnderscoreCase(str_replace('hook', '', $hookName))
-      );
+            'oksydan.is_imageslider.hook.%s',
+            \Tools::toUnderscoreCase(str_replace('hook', '', $hookName))
+        );
 
         $hook = $this->module->getService($serviceName);
 
@@ -112,7 +109,7 @@ class TemplateCache
         $date = $this->getCacheValidityDate($shopConstraint);
         $dateCacheKey = $date ? \DateTime::createFromFormat(self::DATE_TIME_FORMAT, $date) : null;
 
-        if($dateCacheKey && $now > $dateCacheKey) {
+        if ($dateCacheKey && $now > $dateCacheKey) {
             $this->clearTemplateCache();
         }
     }

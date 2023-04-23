@@ -4,12 +4,10 @@ declare(strict_types=1);
 
 namespace Oksydan\IsImageslider\Hook;
 
-use Context;
-use Module;
+use Oksydan\IsImageslider\Cache\TemplateCache;
 use Oksydan\IsImageslider\Configuration\SliderConfiguration;
 use Oksydan\IsImageslider\Presenter\ImageSlidePresenter;
 use Oksydan\IsImageslider\Repository\ImageSliderRepository;
-use Oksydan\IsImageslider\Cache\TemplateCache;
 
 abstract class AbstractCacheableDisplayHook extends AbstractDisplayHook
 {
@@ -29,8 +27,8 @@ abstract class AbstractCacheableDisplayHook extends AbstractDisplayHook
     protected $templateCache;
 
     public function __construct(
-        Module $module,
-        Context $context,
+        \Module $module,
+        \Context $context,
         SliderConfiguration $sliderConfiguration,
         ImageSliderRepository $slideRepository,
         ImageSlidePresenter $slidePresenter,

@@ -9,22 +9,29 @@ use PrestaShopBundle\Entity\Lang;
 
 /**
  * @ORM\Table()
+ *
  * @ORM\Entity
  */
 class ImageSliderLang
 {
     /**
      * @var ImageSlider
+     *
      * @ORM\Id
+     *
      * @ORM\ManyToOne(targetEntity="Oksydan\IsImageslider\Entity\ImageSlider", inversedBy="imageSlideLang")
+     *
      * @ORM\JoinColumn(name="id_slide", referencedColumnName="id_slide", nullable=false)
      */
     private $imageSlide;
 
     /**
      * @var Lang
+     *
      * @ORM\Id
+     *
      * @ORM\ManyToOne(targetEntity="PrestaShopBundle\Entity\Lang")
+     *
      * @ORM\JoinColumn(name="id_lang", referencedColumnName="id_lang", nullable=false, onDelete="CASCADE")
      */
     private $lang;
