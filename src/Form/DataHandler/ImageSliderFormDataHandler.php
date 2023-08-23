@@ -154,7 +154,7 @@ class ImageSliderFormDataHandler implements FormDataHandlerInterface
                 $imageSliderLang->setImageMobile($this->uploadFile($data['image_mobile'][$langId]));
             }
 
-            if($newImageSliderLang) {
+            if ($newImageSliderLang) {
                 $imageSlide->addImageSliderLang($imageSliderLang);
             }
         }
