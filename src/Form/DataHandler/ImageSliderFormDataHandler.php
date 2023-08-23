@@ -126,8 +126,12 @@ class ImageSliderFormDataHandler implements FormDataHandlerInterface
             $langId = (int) $language['id_lang'];
             $imageSliderLang = $imageSlide->getImageSliderLangByLangId($langId);
 
+            $newImageSliderLang = false;
             if (null === $imageSliderLang) {
-                continue;
+                $imageSliderLang = new ImageSliderLang();
+                $lang = $this->langRepository->findOneById($langId);
+                $imageSliderLang->setLang($lang);
+                $newImageSliderLang = true;
             }
 
             $imageSliderLang
@@ -137,13 +141,21 @@ class ImageSliderFormDataHandler implements FormDataHandlerInterface
                 ->setDescription($data['description'][$langId] ?? '');
 
             if (!empty($data['image'][$langId])) {
-                $this->eraseFile($imageSliderLang->getImage());
+                if (!$newImageSliderLang) {
+                    $this->eraseFile($imageSliderLang->getImage());
+                }
                 $imageSliderLang->setImage($this->uploadFile($data['image'][$langId]));
             }
 
             if (!empty($data['image_mobile'][$langId])) {
-                $this->eraseFile($imageSliderLang->getImageMobile());
+                if (!$newImageSliderLang) {
+                    $this->eraseFile($imageSliderLang->getImageMobile());
+                }
                 $imageSliderLang->setImageMobile($this->uploadFile($data['image_mobile'][$langId]));
+            }
+
+            if($newImageSliderLang) {
+                $imageSlide->addImageSliderLang($imageSliderLang);
             }
         }
 
