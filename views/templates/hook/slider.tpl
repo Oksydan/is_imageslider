@@ -41,7 +41,7 @@
                 <img
                   class="img-fluid"
                   src="{$slide.image_url}"
-                  alt="{$slide.legend}"
+                  alt="{$slide.title}"
                   {if !empty($slide.sizes)}
                     width="{$slide.sizes.0}"
                     height="{$slide.sizes.1}"
