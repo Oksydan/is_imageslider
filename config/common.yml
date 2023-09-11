@@ -74,6 +74,12 @@ services:
     parent: 'oksydan.is_imageslider.hook.abstract_cacheable_display_hook'
     public: true
 
+  # Modification of the module into a widget
+  oksydan.is_imageslider.hook.widget_capability:
+    class: Oksydan\IsImageslider\Hook\WidgetCapability
+    parent: 'oksydan.is_imageslider.hook.abstract_cacheable_display_hook'
+    public: true
+
   oksydan.is_imageslider.cache.template_cache:
     class: Oksydan\IsImageslider\Cache\TemplateCache
     public: true
