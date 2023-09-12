@@ -13,9 +13,8 @@ if (file_exists(__DIR__ . '/vendor/autoload.php')) {
 use Oksydan\IsImageslider\Hook\HookInterface;
 use Oksydan\IsImageslider\Installer\ImageSliderInstaller;
 use PrestaShop\PrestaShop\Adapter\SymfonyContainer;
-use Symfony\Component\DependencyInjection\Exception\ServiceNotFoundException;
 use PrestaShop\PrestaShop\Core\Module\WidgetInterface;
-
+use Symfony\Component\DependencyInjection\Exception\ServiceNotFoundException;
 
 class Is_imageslider extends Module implements WidgetInterface
 {
@@ -146,12 +145,14 @@ class Is_imageslider extends Module implements WidgetInterface
     public function renderWidget($hookName, array $configuration)
     {
         $widgetCapability = $this->get('oksydan.is_imageslider.hook.widget_capability');
+
         return $widgetCapability->renderWidget($configuration);
     }
 
     public function getWidgetVariables($hookName, array $configuration)
     {
         $widgetCapability = $this->get('oksydan.is_imageslider.hook.widget_capability');
+
         return $widgetCapability->getWidgetVariables($configuration);
     }
 }
