@@ -156,7 +156,7 @@ class ImageSliderFormDataHandler implements FormDataHandlerInterface
 
             if ($newImageSliderLang) {
                 $imageSlide->addImageSliderLang($imageSliderLang);
-            }            
+            }
         }
 
         $this->entityManager->flush();
