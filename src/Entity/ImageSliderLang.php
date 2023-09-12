@@ -179,9 +179,9 @@ class ImageSliderLang
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getImage(): string
+    public function getImage(): ?string
     {
         return $this->image;
     }
@@ -199,9 +199,9 @@ class ImageSliderLang
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getImageMobile(): string
+    public function getImageMobile(): ?string
     {
         return $this->imageMobile;
     }

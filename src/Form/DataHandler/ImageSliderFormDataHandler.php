@@ -141,14 +141,14 @@ class ImageSliderFormDataHandler implements FormDataHandlerInterface
                 ->setDescription($data['description'][$langId] ?? '');
 
             if (!empty($data['image'][$langId])) {
-                if (!$newImageSliderLang) {
+                if ($imageSliderLang->getImage() !== null) {
                     $this->eraseFile($imageSliderLang->getImage());
                 }
                 $imageSliderLang->setImage($this->uploadFile($data['image'][$langId]));
             }
 
             if (!empty($data['image_mobile'][$langId])) {
-                if (!$newImageSliderLang) {
+                if ($imageSliderLang->getImage() !== null) {
                     $this->eraseFile($imageSliderLang->getImageMobile());
                 }
                 $imageSliderLang->setImageMobile($this->uploadFile($data['image_mobile'][$langId]));
