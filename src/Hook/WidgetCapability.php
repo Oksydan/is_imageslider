@@ -16,7 +16,6 @@ class WidgetCapability extends AbstractCacheableDisplayHook
         return parent::getCacheKey() . '_' . ($this->context->isMobile() ? 'mobile' : 'desktop');
     }
 
-
     /**
      * @return array
      */
@@ -37,6 +36,7 @@ class WidgetCapability extends AbstractCacheableDisplayHook
 
         return $slides;
     }
+
     public function getWidgetVariables($params): array
     {
         return [
@@ -49,7 +49,8 @@ class WidgetCapability extends AbstractCacheableDisplayHook
         ];
     }
 
-    public function renderWidget($params) {
+    public function renderWidget($params)
+    {
         return $this->execute($params);
     }
 }
