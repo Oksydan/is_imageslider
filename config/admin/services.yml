@@ -53,12 +53,12 @@ services:
   oksydan.is_imageslider.handler.file_uploader:
     class: 'Oksydan\IsImageslider\Handler\FileUploader'
     arguments:
-      $targetDirectory: '%images_directory%'
+      $targetDirectory: '%is_imageslider_images_directory%'
 
   oksydan.is_imageslider.handler.file_eraser:
     class: 'Oksydan\IsImageslider\Handler\FileEraser'
     arguments:
-      $targetDirectory: '%images_directory%'
+      $targetDirectory: '%is_imageslider_images_directory%'
 
 
   #creation/edition form
@@ -68,7 +68,7 @@ services:
       - '@oksydan.is_imageslider.repository.image_slider'
       - '@oksydan.is_imageslider.provider.image_provider'
       - '@prestashop.core.admin.lang.repository'
-      - '%placeholder_img%'
+      - '%is_imageslider_placeholder_img%'
       - '@prestashop.adapter.shop.context'
 
   oksydan.is_imageslider.form.identifiable_object.builder.image_slider_form_builder:
@@ -188,4 +188,4 @@ services:
     class: 'Oksydan\IsImageslider\Provider\ImageProvider'
     public: true
     arguments:
-      - '%images_uri%'
+      - '%is_imageslider_images_uri%'
