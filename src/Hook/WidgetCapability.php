@@ -49,7 +49,12 @@ class WidgetCapability extends AbstractCacheableDisplayHook
         ];
     }
 
-    public function renderWidget($params)
+    protected function assignTemplateVariables(array $params)
+    {
+        $this->context->smarty->assign($this->getWidgetVariables($params));
+    }
+
+    public function renderWidget($params): string
     {
         return $this->execute($params);
     }
