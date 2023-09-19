@@ -1,6 +1,7 @@
 parameters:
   images_directory: '%kernel.project_dir%/modules/is_imageslider/img/'
-  images_uri: '/modules/is_imageslider/img/'
+  module_uri: !php/const _MODULE_DIR_
+  images_uri: '%module_uri%is_imageslider/img/'
   placeholder_img: '/modules/is_imageslider/views/img/placeholder.jpeg'
 
 services:
@@ -70,6 +71,12 @@ services:
 
   oksydan.is_imageslider.hook.display_header:
     class: Oksydan\IsImageslider\Hook\DisplayHeader
+    parent: 'oksydan.is_imageslider.hook.abstract_cacheable_display_hook'
+    public: true
+
+  # Modification of the module into a widget
+  oksydan.is_imageslider.hook.widget_capability:
+    class: Oksydan\IsImageslider\Hook\WidgetCapability
     parent: 'oksydan.is_imageslider.hook.abstract_cacheable_display_hook'
     public: true
 

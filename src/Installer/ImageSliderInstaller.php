@@ -82,9 +82,9 @@ class ImageSliderInstaller
             ->setData($databaseData)
             ->buildQuery();
 
-        return $createTableAction->execute() &&
-                $addColumnsAction->execute() &&
-                $modifyColumnsAction->execute();
+        return $createTableAction->execute()
+                && $addColumnsAction->execute()
+                && $modifyColumnsAction->execute();
     }
 
     /**

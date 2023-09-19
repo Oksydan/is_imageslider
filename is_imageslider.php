@@ -13,9 +13,10 @@ if (file_exists(__DIR__ . '/vendor/autoload.php')) {
 use Oksydan\IsImageslider\Hook\HookInterface;
 use Oksydan\IsImageslider\Installer\ImageSliderInstaller;
 use PrestaShop\PrestaShop\Adapter\SymfonyContainer;
+use PrestaShop\PrestaShop\Core\Module\WidgetInterface;
 use Symfony\Component\DependencyInjection\Exception\ServiceNotFoundException;
 
-class Is_imageslider extends Module
+class Is_imageslider extends Module implements WidgetInterface
 {
     public $multistoreCompatibility = self::MULTISTORE_COMPATIBILITY_YES;
 
@@ -29,7 +30,7 @@ class Is_imageslider extends Module
          * https://www.waynet.pl/
          */
         $this->author = 'Igor Stępień';
-        $this->version = '2.2.0';
+        $this->version = '2.3.0';
         $this->need_instance = 0;
 
         $this->bootstrap = true;
@@ -38,6 +39,11 @@ class Is_imageslider extends Module
         $this->displayName = 'Home slider module';
         $this->description = 'Home slider module';
         $this->ps_versions_compliancy = ['min' => '8.0.0', 'max' => _PS_VERSION_];
+    }
+
+    public function isUsingNewTranslationSystem(): bool
+    {
+        return true;
     }
 
     /**
@@ -134,5 +140,19 @@ class Is_imageslider extends Module
         $hook = $this->getService($serviceName);
 
         return $hook instanceof HookInterface ? $hook : null;
+    }
+
+    public function renderWidget($hookName, array $configuration)
+    {
+        $widgetCapability = $this->get('oksydan.is_imageslider.hook.widget_capability');
+
+        return $widgetCapability->renderWidget($configuration);
+    }
+
+    public function getWidgetVariables($hookName, array $configuration)
+    {
+        $widgetCapability = $this->get('oksydan.is_imageslider.hook.widget_capability');
+
+        return $widgetCapability->getWidgetVariables($configuration);
     }
 }

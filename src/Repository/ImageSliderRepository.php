@@ -30,7 +30,7 @@ class ImageSliderRepository extends EntityRepository
         $qb = $this
             ->createQueryBuilder('s')
             ->select('s.position')
-            ->orderBy('s.position', 'ASC')
+            ->orderBy('s.position', 'DESC')
             ->setMaxResults(1)
             ->getQuery();
 
