@@ -44,14 +44,14 @@ class ImageSlider
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="display_from", type="datetime")
+     * @ORM\Column(name="display_from", type="datetime", nullable=true)
      */
     private $display_from;
 
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="display_to", type="datetime")
+     * @ORM\Column(name="display_to", type="datetime", nullable=true)
      */
     private $display_to;
 
