@@ -134,6 +134,7 @@ class ImageSliderType extends TranslatorAwareType
                 'widget' => 'single_text',
                 'html5' => true,
                 'input' => 'datetime',
+                'with_seconds' => true,
             ])
             ->add('display_to', DateTimeType::class, [
                 'label' => $this->trans('Display to', TranslationDomains::TRANSLATION_DOMAIN_ADMIN),
@@ -141,6 +142,7 @@ class ImageSliderType extends TranslatorAwareType
                 'widget' => 'single_text',
                 'html5' => true,
                 'input' => 'datetime',
+                'with_seconds' => true,
             ]);
 
         if ($this->isMultistoreUsed) {

@@ -1,8 +1,8 @@
 parameters:
-  images_directory: '%kernel.project_dir%/modules/is_imageslider/img/'
-  module_uri: !php/const _MODULE_DIR_
-  images_uri: '%module_uri%is_imageslider/img/'
-  placeholder_img: '/modules/is_imageslider/views/img/placeholder.jpeg'
+  is_imageslider_images_directory: '%kernel.project_dir%/modules/is_imageslider/img/'
+  is_imageslider_module_uri: !php/const _MODULE_DIR_
+  is_imageslider_images_uri: '%is_imageslider_module_uri%is_imageslider/img/'
+  is_imageslider_placeholder_img: '/modules/is_imageslider/views/img/placeholder.jpeg'
 
 services:
   _defaults:
@@ -33,8 +33,8 @@ services:
     class: Oksydan\IsImageslider\Presenter\ImageSlidePresenter
     public: true
     arguments:
-      - '%images_uri%'
-      - '%images_directory%'
+      - '%is_imageslider_images_uri%'
+      - '%is_imageslider_images_directory%'
       - "@=service('prestashop.adapter.legacy.context').getContext()"
 
   oksydan.is_imageslider.configuration.slider_configuration:

@@ -30,7 +30,7 @@ class Is_imageslider extends Module implements WidgetInterface
          * https://www.waynet.pl/
          */
         $this->author = 'Igor Stępień';
-        $this->version = '2.3.0';
+        $this->version = '2.3.2';
         $this->need_instance = 0;
 
         $this->bootstrap = true;
