@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Oksydan\IsImageslider\Repository;
 
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\ORM\QueryBuilder;
+use Doctrine\Persistence\ManagerRegistry;
 use Oksydan\IsImageslider\Entity\ImageSlider;
 
 class ImageSliderRepository extends ServiceEntityRepository
@@ -15,7 +15,6 @@ class ImageSliderRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, ImageSlider::class);
     }
-
 
     public function getAllIds(): array
     {

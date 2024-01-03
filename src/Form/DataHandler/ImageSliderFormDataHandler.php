@@ -12,9 +12,9 @@ use Oksydan\IsImageslider\Handler\FileEraser;
 use Oksydan\IsImageslider\Handler\FileUploader;
 use Oksydan\IsImageslider\Repository\ImageSliderRepository;
 use PrestaShop\PrestaShop\Core\Form\IdentifiableObject\DataHandler\FormDataHandlerInterface;
+use PrestaShopBundle\Entity\Repository\LangRepository;
 use PrestaShopBundle\Entity\Shop;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
-use PrestaShopBundle\Entity\Repository\LangRepository;
 
 class ImageSliderFormDataHandler implements FormDataHandlerInterface
 {
