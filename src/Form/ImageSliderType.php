@@ -6,6 +6,7 @@ namespace Oksydan\IsImageslider\Form;
 
 use Oksydan\IsImageslider\Translations\TranslationDomains;
 use Oksydan\IsImageslider\Type\TranslatableFile;
+use PrestaShop\PrestaShop\Adapter\Feature\MultistoreFeature;
 use PrestaShopBundle\Form\Admin\Type\FormattedTextareaType;
 use PrestaShopBundle\Form\Admin\Type\ImagePreviewType;
 use PrestaShopBundle\Form\Admin\Type\ShopChoiceTreeType;
@@ -23,9 +24,9 @@ use Symfony\Component\Validator\Constraints\NotBlank;
 class ImageSliderType extends TranslatorAwareType
 {
     /**
-     * @var bool
+     * @var MultistoreFeature
      */
-    private $isMultistoreUsed;
+    private MultistoreFeature $multistoreFeature;
 
     /**
      * @param TranslatorInterface $translator
@@ -35,11 +36,11 @@ class ImageSliderType extends TranslatorAwareType
     public function __construct(
         TranslatorInterface $translator,
         array $locales,
-        bool $isMultistoreUsed
+        MultistoreFeature $multistoreFeature
     ) {
         parent::__construct($translator, $locales);
 
-        $this->isMultistoreUsed = $isMultistoreUsed;
+        $this->multistoreFeature = $multistoreFeature;
     }
 
     /**
@@ -145,7 +146,7 @@ class ImageSliderType extends TranslatorAwareType
                 'with_seconds' => true,
             ]);
 
-        if ($this->isMultistoreUsed) {
+        if ($this->multistoreFeature->isUsed()) {
             $builder->add(
                 'shop_association',
                 ShopChoiceTreeType::class,

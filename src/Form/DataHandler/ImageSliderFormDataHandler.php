@@ -5,63 +5,63 @@ declare(strict_types=1);
 namespace Oksydan\IsImageslider\Form\DataHandler;
 
 use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\ORM\EntityRepository;
 use Oksydan\IsImageslider\Entity\ImageSlider;
 use Oksydan\IsImageslider\Entity\ImageSliderLang;
 use Oksydan\IsImageslider\Exceptions\DateRangeNotValidException;
 use Oksydan\IsImageslider\Handler\FileEraser;
 use Oksydan\IsImageslider\Handler\FileUploader;
+use Oksydan\IsImageslider\Repository\ImageSliderRepository;
 use PrestaShop\PrestaShop\Core\Form\IdentifiableObject\DataHandler\FormDataHandlerInterface;
-use PrestaShopBundle\Entity\Repository\LangRepository;
 use PrestaShopBundle\Entity\Shop;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
+use PrestaShopBundle\Entity\Repository\LangRepository;
 
 class ImageSliderFormDataHandler implements FormDataHandlerInterface
 {
     /**
-     * @var EntityRepository
+     * @var ImageSliderRepository
      */
-    private $imageSliderRepository;
+    private ImageSliderRepository $imageSliderRepository;
 
     /**
      * @var LangRepository
      */
-    private $langRepository;
+    private LangRepository $langRepository;
 
     /**
      * @var EntityManagerInterface
      */
-    private $entityManager;
+    private EntityManagerInterface $entityManager;
 
     /**
      * @var FileUploader
      */
-    private $fileUploader;
+    private FileUploader $fileUploader;
 
     /**
      * @var FileEraser
      */
-    private $fileEraser;
+    private FileEraser $fileEraser;
 
     /**
      * @var array
      */
-    private $languages;
+    private array $locales;
 
     public function __construct(
-        EntityRepository $imageSliderRepository,
+        ImageSliderRepository $imageSliderRepository,
         LangRepository $langRepository,
         EntityManagerInterface $entityManager,
         FileUploader $fileUploader,
         FileEraser $fileEraser,
-        array $languages
+        array $locales
     ) {
         $this->imageSliderRepository = $imageSliderRepository;
         $this->langRepository = $langRepository;
         $this->entityManager = $entityManager;
         $this->fileUploader = $fileUploader;
         $this->fileEraser = $fileEraser;
-        $this->languages = $languages;
+        $this->locales = $locales;
     }
 
     /**
@@ -79,7 +79,7 @@ class ImageSliderFormDataHandler implements FormDataHandlerInterface
         $imageSlide->setPosition($this->imageSliderRepository->getHighestPosition() + 1);
         $this->addAssociatedShops($imageSlide, $data['shop_association'] ?? null);
 
-        foreach ($this->languages as $language) {
+        foreach ($this->locales as $language) {
             $langId = (int) $language['id_lang'];
             $lang = $this->langRepository->findOneById($langId);
             $imageSliderLang = new ImageSliderLang();
@@ -122,7 +122,7 @@ class ImageSliderFormDataHandler implements FormDataHandlerInterface
         $imageSlide->setDisplayTo($data['display_to'] ?? new \DateTime());
         $this->addAssociatedShops($imageSlide, $data['shop_association'] ?? null);
 
-        foreach ($this->languages as $language) {
+        foreach ($this->locales as $language) {
             $langId = (int) $language['id_lang'];
             $imageSliderLang = $imageSlide->getImageSliderLangByLangId($langId);
 

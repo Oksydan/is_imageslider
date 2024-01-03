@@ -6,6 +6,7 @@ namespace Oksydan\IsImageslider\Form\Provider;
 
 use Doctrine\ORM\EntityRepository;
 use Oksydan\IsImageslider\Provider\ImageProviderInterface;
+use Oksydan\IsImageslider\Repository\ImageSliderRepository;
 use PrestaShop\PrestaShop\Adapter\Shop\Context;
 use PrestaShop\PrestaShop\Core\Form\IdentifiableObject\DataProvider\FormDataProviderInterface;
 use PrestaShopBundle\Entity\Repository\LangRepository;
@@ -13,9 +14,9 @@ use PrestaShopBundle\Entity\Repository\LangRepository;
 class ImageSliderFormDataProvider implements FormDataProviderInterface
 {
     /**
-     * @var EntityRepository
+     * @var ImageSliderRepository
      */
-    private $repository;
+    private ImageSliderRepository $repository;
 
     /**
      * @var ImageProviderInterface
@@ -25,17 +26,17 @@ class ImageSliderFormDataProvider implements FormDataProviderInterface
     /**
      * @var LangRepository
      */
-    private $langRepository;
+    private LangRepository $langRepository;
 
     /**
      * @var string
      */
-    private $placeholderImage;
+    private string $placeholderImage;
 
     /**
      * @var Context
      */
-    private $shopContext;
+    private Context $shopContext;
 
     /**
      * ImageSliderFormDataProvider constructor.
@@ -43,7 +44,7 @@ class ImageSliderFormDataProvider implements FormDataProviderInterface
      * @param EntityRepository $repository
      */
     public function __construct(
-        EntityRepository $repository,
+        ImageSliderRepository $repository,
         ImageProviderInterface $imagesliderImageThumbProvider,
         LangRepository $langRepository,
         string $placeholderImage,

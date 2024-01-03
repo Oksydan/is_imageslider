@@ -9,17 +9,17 @@ class ImageSlidePresenter
     /**
      * @var string
      */
-    private $imagesUri;
+    private string $imagesUri;
 
     /**
      * @var string
      */
-    private $imagesDir;
+    private string $imagesDir;
 
     /**
      * @var \Context
      */
-    private $context;
+    private \Context $context;
 
     public function __construct(
         string $imagesUri,

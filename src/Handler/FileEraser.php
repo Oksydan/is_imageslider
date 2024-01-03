@@ -6,17 +6,17 @@ namespace Oksydan\IsImageslider\Handler;
 
 class FileEraser
 {
-    private $targetDirectory;
+    private string $imagesDir;
 
-    public function __construct($targetDirectory)
+    public function __construct(string $imagesDir)
     {
-        $this->targetDirectory = $targetDirectory;
+        $this->imagesDir = $imagesDir;
     }
 
     public function remove(string $fileName): bool
     {
         $result = true;
-        $fullFilePath = $this->targetDirectory . $fileName;
+        $fullFilePath = $this->imagesDir . $fileName;
 
         if (file_exists($fullFilePath)) {
             $result = unlink($fullFilePath);
@@ -27,6 +27,6 @@ class FileEraser
 
     public function getTargetDirectory()
     {
-        return $this->targetDirectory;
+        return $this->imagesDir;
     }
 }

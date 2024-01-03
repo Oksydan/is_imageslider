@@ -1,2 +1,17 @@
 imports:
   - { resource: ../common.yml }
+
+services:
+  _defaults:
+    public: false
+    autowire: true
+    autoconfigure: true
+    bind:
+      $module: '@oksydan.is_imageslider.module'
+      $context: '@oksydan.is_imageslider.context'
+
+  Oksydan\IsImageslider\:
+    resource: '../../src/*'
+    exclude:
+      - '../../src/index.php'
+      - '../../src/*/index.php'

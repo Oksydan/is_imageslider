@@ -17,7 +17,7 @@ use PrestaShopBundle\Entity\Shop;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class IsImagesliderController extends FrameworkBundleAdminController
+class ImagesliderController extends FrameworkBundleAdminController
 {
     /**
      * @var FileEraser

@@ -15,22 +15,22 @@ final class ImageSliderGridDataFactory implements GridDataFactoryInterface
     /**
      * @var GridDataFactoryInterface
      */
-    private $doctrineImageSliderDataFactory;
+    private GridDataFactoryInterface $imageSliderDataFactory;
 
     /**
      * @var ImageProviderInterface
      */
-    private $imagesliderImageThumbProvider;
+    private ImageProviderInterface $imagesliderImageThumbProvider;
 
     /**
-     * @param GridDataFactoryInterface $doctrineImageSliderDataFactory
+     * @param GridDataFactoryInterface $imageSliderDataFactory
      * @param ImageProviderInterface $imagesliderImageThumbProvider
      */
     public function __construct(
-        GridDataFactoryInterface $doctrineImageSliderDataFactory,
+        GridDataFactoryInterface $imageSliderDataFactory,
         ImageProviderInterface $imagesliderImageThumbProvider
     ) {
-        $this->doctrineImageSliderDataFactory = $doctrineImageSliderDataFactory;
+        $this->imageSliderDataFactory = $imageSliderDataFactory;
         $this->imagesliderImageThumbProvider = $imagesliderImageThumbProvider;
     }
 
@@ -39,7 +39,7 @@ final class ImageSliderGridDataFactory implements GridDataFactoryInterface
      */
     public function getData(SearchCriteriaInterface $searchCriteria)
     {
-        $languageData = $this->doctrineImageSliderDataFactory->getData($searchCriteria);
+        $languageData = $this->imageSliderDataFactory->getData($searchCriteria);
 
         $modifiedRecords = $this->applyModification(
             $languageData->getRecords()->all()

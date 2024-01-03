@@ -5,8 +5,6 @@ parameters:
   is_imageslider_placeholder_img: '/modules/is_imageslider/views/img/placeholder.jpeg'
 
 services:
-  _defaults:
-    public: true
 
   oksydan.is_imageslider.module:
     class: Is_imageslider
@@ -14,78 +12,7 @@ services:
     public: false
     arguments:
       - 'is_imageslider'
-
-  oksydan.is_imageslider.repository.image_slider:
-    class: Oksydan\IsImageslider\Repository\ImageSliderRepository
-    public: true
-    factory: ['@doctrine.orm.default_entity_manager', getRepository]
-    arguments:
-      - Oksydan\IsImageslider\Entity\ImageSlider
-
-  oksydan.is_imageslider.repository.hook_module_repository:
-    class: Oksydan\IsImageslider\Repository\HookModuleRepository
-    public: true
-    arguments:
-      - '@doctrine.dbal.default_connection'
-      - '%database_prefix%'
-
-  oksydan.is_imageslider.presenter.image_slide_presenter:
-    class: Oksydan\IsImageslider\Presenter\ImageSlidePresenter
-    public: true
-    arguments:
-      - '%is_imageslider_images_uri%'
-      - '%is_imageslider_images_directory%'
-      - "@=service('prestashop.adapter.legacy.context').getContext()"
-
-  oksydan.is_imageslider.configuration.slider_configuration:
-    class: Oksydan\IsImageslider\Configuration\SliderConfiguration
-    public: true
-
-  oksydan.is_imageslider.hook.abstract_hook:
-    class: Oksydan\IsImageslider\Hook\AbstractHook
-    public: true
-    arguments:
-      - '@oksydan.is_imageslider.module'
-      - "@=service('prestashop.adapter.legacy.context').getContext()"
-
-  oksydan.is_imageslider.hook.abstract_display_hook:
-    class: Oksydan\IsImageslider\Hook\AbstractDisplayHook
-    parent: 'oksydan.is_imageslider.hook.abstract_hook'
-    public: true
-    arguments:
-      - '@oksydan.is_imageslider.configuration.slider_configuration'
-
-  oksydan.is_imageslider.hook.abstract_cacheable_display_hook:
-    class: Oksydan\IsImageslider\Hook\AbstractCacheableDisplayHook
-    parent: 'oksydan.is_imageslider.hook.abstract_display_hook'
-    public: true
-    arguments:
-      - '@oksydan.is_imageslider.repository.image_slider'
-      - '@oksydan.is_imageslider.presenter.image_slide_presenter'
-      - '@oksydan.is_imageslider.cache.template_cache'
-
-  oksydan.is_imageslider.hook.display_home:
-    class: Oksydan\IsImageslider\Hook\DisplayHome
-    parent: 'oksydan.is_imageslider.hook.abstract_cacheable_display_hook'
-    public: true
-
-  oksydan.is_imageslider.hook.display_header:
-    class: Oksydan\IsImageslider\Hook\DisplayHeader
-    parent: 'oksydan.is_imageslider.hook.abstract_cacheable_display_hook'
-    public: true
-
-  # Modification of the module into a widget
-  oksydan.is_imageslider.hook.widget_capability:
-    class: Oksydan\IsImageslider\Hook\WidgetCapability
-    parent: 'oksydan.is_imageslider.hook.abstract_cacheable_display_hook'
-    public: true
-
-  oksydan.is_imageslider.cache.template_cache:
-    class: Oksydan\IsImageslider\Cache\TemplateCache
-    public: true
-    arguments:
-      - '@oksydan.is_imageslider.module'
-      - "@=service('prestashop.adapter.legacy.context').getContext()"
-      - '@oksydan.is_imageslider.repository.hook_module_repository'
-      - '@prestashop.adapter.legacy.configuration'
-      - '@oksydan.is_imageslider.repository.image_slider'
+      -
+  oksydan.is_imageslider.context:
+    class: Context
+    factory: [ '\Context', getContext ]
