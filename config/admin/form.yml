@@ -6,35 +6,15 @@ services:
       - '@prestashop.adapter.shop.context'
       - '@prestashop.adapter.multistore_feature'
 
-  oksydan.is_imageslider.image_slider_configuration.form_provider:
-    class: 'Oksydan\IsImageslider\Form\Provider\ImageSliderConfigurationFormDataProvider'
-    arguments:
-      - '@oksydan.is_imageslider.image_slider.configuration'
-
   oksydan.is_imageslider.image_slider_configuration.form_handler:
     class: 'PrestaShop\PrestaShop\Core\Form\Handler'
     arguments:
       - '@form.factory'
       - '@prestashop.core.hook.dispatcher'
-      - '@oksydan.is_imageslider.image_slider_configuration.form_provider'
+      - '@Oksydan\IsImageslider\Form\Provider\ImageSliderConfigurationFormDataProvider'
       - 'Oksydan\IsImageslider\Form\ImageSliderConfigurationType'
       - 'ConfigurationForm'
 
-  oksydan.is_imageslider.form.image_slider_type:
-    class: 'Oksydan\IsImageslider\Form\ImageSliderType'
-    parent: 'form.type.translatable.aware'
-    arguments:
-      - '@=service("prestashop.adapter.multistore_feature").isUsed()'
-    public: true
-    tags:
-      - { name: form.type }
-
-  oksydan.is_imageslider.form.image_slider_configuration_type:
-    class: 'Oksydan\IsImageslider\Form\ImageSliderConfigurationType'
-    parent: 'form.type.translatable.aware'
-    public: true
-    tags:
-      - { name: form.type }
 
   Oksydan\IsImageslider\Type\TranslatableFile:
     class: 'Oksydan\IsImageslider\Type\TranslatableFile'
@@ -43,41 +23,21 @@ services:
     tags:
       - { name: form.type }
 
-
   oksydan.is_imageslider.provider.image_provider:
     class: 'Oksydan\IsImageslider\Provider\ImageProvider'
     public: true
     arguments:
       - '%is_imageslider_images_uri%'
 
-  oksydan.is_imageslider.form.identifiable_object.data_provider.image_slider_form_data_provider:
-    class: 'Oksydan\IsImageslider\Form\Provider\ImageSliderFormDataProvider'
-    arguments:
-      - '@oksydan.is_imageslider.repository.image_slider'
-      - '@oksydan.is_imageslider.provider.image_provider'
-      - '@prestashop.core.admin.lang.repository'
-      - '%is_imageslider_placeholder_img%'
-      - '@prestashop.adapter.shop.context'
-
   oksydan.is_imageslider.form.identifiable_object.builder.image_slider_form_builder:
     class: 'PrestaShop\PrestaShop\Core\Form\IdentifiableObject\Builder\FormBuilder'
     factory: 'prestashop.core.form.builder.form_builder_factory:create'
     arguments:
       - 'Oksydan\IsImageslider\Form\ImageSliderType'
-      - '@oksydan.is_imageslider.form.identifiable_object.data_provider.image_slider_form_data_provider'
-
-  oksydan.is_imageslider.form.identifiable_object.data_handler.image_slider_form_data_handler:
-    class: 'Oksydan\IsImageslider\Form\DataHandler\ImageSliderFormDataHandler'
-    arguments:
-      - '@oksydan.is_imageslider.repository.image_slider'
-      - '@prestashop.core.admin.lang.repository'
-      - '@doctrine.orm.default_entity_manager'
-      - '@oksydan.is_imageslider.handler.file_uploader'
-      - '@oksydan.is_imageslider.handler.file_eraser'
-      - "@=service('prestashop.adapter.legacy.context').getLanguages()"
+      - '@Oksydan\IsImageslider\Form\Provider\ImageSliderFormDataProvider'
 
   oksydan.is_imageslider.form.identifiable_object.handler.image_slider_form_handler:
     class: 'PrestaShop\PrestaShop\Core\Form\IdentifiableObject\Handler\FormHandler'
     factory: 'prestashop.core.form.identifiable_object.handler.form_handler_factory:create'
     arguments:
-      - '@oksydan.is_imageslider.form.identifiable_object.data_handler.image_slider_form_data_handler'
+      - '@Oksydan\IsImageslider\Form\DataHandler\ImageSliderFormDataHandler'

@@ -34,3 +34,12 @@ services:
       - '../../src/*/index.php'
       - '../../src/**/index.php'
 
+  Oksydan\IsImageslider\Controller\ImagesliderController:
+    class: Oksydan\IsImageslider\Controller\ImagesliderController
+    arguments:
+      $imagsliderGridFactory: '@oksydan.is_imageslider.grid.image_slider_grid_factory'
+      $imagesliderConfigurationFormHandler: '@oksydan.is_imageslider.image_slider_configuration.form_handler'
+      $imagesliderFormBuilder: '@oksydan.is_imageslider.form.identifiable_object.builder.image_slider_form_builder'
+      $imagesliderFormHandler: '@oksydan.is_imageslider.form.identifiable_object.handler.image_slider_form_handler'
+      $gridPresenter: '@prestashop.core.grid.presenter.grid_presenter'
+

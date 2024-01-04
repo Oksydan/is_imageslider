@@ -30,8 +30,8 @@ final class ImageSliderQueryBuilder extends AbstractDoctrineQueryBuilder
         Connection $connection,
         $dbPrefix,
         Context $shopContext,
-        \Context $context)
-    {
+        \Context $context
+    ) {
         parent::__construct($connection, $dbPrefix);
 
         $this->shopContext = $shopContext;
