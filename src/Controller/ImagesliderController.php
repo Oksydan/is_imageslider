@@ -5,10 +5,11 @@ declare(strict_types=1);
 namespace Oksydan\IsImageslider\Controller;
 
 use Oksydan\IsImageslider\Cache\TemplateCache;
-use Oksydan\IsImageslider\Entity\ImageSlider;
 use Oksydan\IsImageslider\Exceptions\DateRangeNotValidException;
 use Oksydan\IsImageslider\Filter\ImageSliderFileters;
 use Oksydan\IsImageslider\Handler\Slide\DeleteSlideHandler;
+use Oksydan\IsImageslider\Handler\Slide\ToggleSlideActivityHandler;
+use Oksydan\IsImageslider\Repository\ImageSliderRepository;
 use Oksydan\IsImageslider\Translations\TranslationDomains;
 use PrestaShop\PrestaShop\Core\Form\FormHandlerInterface;
 use PrestaShop\PrestaShop\Core\Form\IdentifiableObject\Builder\FormBuilderInterface;
@@ -41,6 +42,10 @@ class ImagesliderController extends FrameworkBundleAdminController
 
     private TranslatorInterface $translator;
 
+    private ImageSliderRepository $imageSliderRepository;
+
+    private ToggleSlideActivityHandler $toggleSlideActivityHandler;
+
     public function __construct(
         TemplateCache $templateCache,
         DeleteSlideHandler $deleteSlideHandler,
@@ -49,7 +54,9 @@ class ImagesliderController extends FrameworkBundleAdminController
         GridPresenter $gridPresenter,
         FormBuilderInterface $imagesliderFormBuilder,
         IdentifiableObjectFormHandlerInterface $imagesliderFormHandler,
-        TranslatorInterface $translator
+        TranslatorInterface $translator,
+        ImageSliderRepository $imageSliderRepository,
+        ToggleSlideActivityHandler $toggleSlideActivityHandler
     ) {
         parent::__construct();
         $this->templateCache = $templateCache;
@@ -60,6 +67,8 @@ class ImagesliderController extends FrameworkBundleAdminController
         $this->imagesliderFormBuilder = $imagesliderFormBuilder;
         $this->imagesliderFormHandler = $imagesliderFormHandler;
         $this->translator = $translator;
+        $this->imageSliderRepository = $imageSliderRepository;
+        $this->toggleSlideActivityHandler = $toggleSlideActivityHandler;
     }
 
     public function index(ImageSliderFileters $filters): Response
@@ -136,9 +145,7 @@ class ImagesliderController extends FrameworkBundleAdminController
 
     public function delete(Request $request, int $slideId): Response
     {
-        $imageSlide = $this->getDoctrine()
-            ->getRepository(ImageSlider::class)
-            ->find($slideId);
+        $imageSlide = $this->imageSliderRepository->find($slideId);
 
         if (!empty($imageSlide)) {
             $this->deleteSlideHandler->handle($imageSlide);
@@ -206,10 +213,7 @@ class ImagesliderController extends FrameworkBundleAdminController
      */
     public function toggleStatus(Request $request, int $slideId): Response
     {
-        $entityManager = $this->get('doctrine.orm.entity_manager');
-        $imageSlide = $this->getDoctrine()
-            ->getRepository(ImageSlider::class)
-            ->findOneBy(['id' => $slideId]);
+        $imageSlide = $this->imageSliderRepository->find($slideId);
 
         if (empty($imageSlide)) {
             return $this->json([
@@ -219,9 +223,7 @@ class ImagesliderController extends FrameworkBundleAdminController
         }
 
         try {
-            $imageSlide->setActive(!$imageSlide->getActive());
-            $entityManager->flush();
-            $this->clearTemplateCache();
+            $this->toggleSlideActivityHandler->handle($imageSlide);
 
             $response = [
                 'status' => true,
