@@ -9,6 +9,7 @@ use Oksydan\IsImageslider\Exceptions\DateRangeNotValidException;
 use Oksydan\IsImageslider\Filter\ImageSliderFileters;
 use Oksydan\IsImageslider\Handler\Slide\DeleteSlideHandler;
 use Oksydan\IsImageslider\Handler\Slide\ToggleSlideActivityHandler;
+use Oksydan\IsImageslider\Handler\Slide\UpdateSliderPositionHandler;
 use Oksydan\IsImageslider\Repository\ImageSliderRepository;
 use Oksydan\IsImageslider\Translations\TranslationDomains;
 use PrestaShop\PrestaShop\Core\Form\FormHandlerInterface;
@@ -46,6 +47,8 @@ class ImagesliderController extends FrameworkBundleAdminController
 
     private ToggleSlideActivityHandler $toggleSlideActivityHandler;
 
+    private UpdateSliderPositionHandler $updateSliderPositionHandler;
+
     public function __construct(
         TemplateCache $templateCache,
         DeleteSlideHandler $deleteSlideHandler,
@@ -56,7 +59,8 @@ class ImagesliderController extends FrameworkBundleAdminController
         IdentifiableObjectFormHandlerInterface $imagesliderFormHandler,
         TranslatorInterface $translator,
         ImageSliderRepository $imageSliderRepository,
-        ToggleSlideActivityHandler $toggleSlideActivityHandler
+        ToggleSlideActivityHandler $toggleSlideActivityHandler,
+        UpdateSliderPositionHandler $updateSliderPositionHandler
     ) {
         parent::__construct();
         $this->templateCache = $templateCache;
@@ -69,6 +73,7 @@ class ImagesliderController extends FrameworkBundleAdminController
         $this->translator = $translator;
         $this->imageSliderRepository = $imageSliderRepository;
         $this->toggleSlideActivityHandler = $toggleSlideActivityHandler;
+        $this->updateSliderPositionHandler = $updateSliderPositionHandler;
     }
 
     public function index(ImageSliderFileters $filters): Response
@@ -246,19 +251,7 @@ class ImagesliderController extends FrameworkBundleAdminController
     public function updatePositionAction(Request $request): Response
     {
         try {
-            $positionsData = [
-                'positions' => $request->request->get('positions'),
-            ];
-
-            $positionDefinition = $this->get('oksydan.is_imageslider.grid.position_definition');
-
-            $positionUpdateFactory = $this->get('prestashop.core.grid.position.position_update_factory');
-            $positionUpdate = $positionUpdateFactory->buildPositionUpdate($positionsData, $positionDefinition);
-
-            $updater = $this->get('prestashop.core.grid.position.doctrine_grid_position_updater');
-
-            $updater->update($positionUpdate);
-            $this->clearTemplateCache();
+            $this->updateSliderPositionHandler->handle($request->request->get('positions'));
 
             $this->addFlash('success', $this->trans('Successful update.', 'Admin.Notifications.Success'));
         } catch (PositionDataException|PositionUpdateException $e) {

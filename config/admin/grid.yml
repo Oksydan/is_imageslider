@@ -28,10 +28,3 @@ services:
     arguments:
       - '@oksydan.is_imageslider.grid.data.factory.image_slider_data_factory'
       - '@oksydan.is_imageslider.provider.image_provider'
-
-  oksydan.is_imageslider.grid.position_definition:
-    class: PrestaShop\PrestaShop\Core\Grid\Position\PositionDefinition
-    arguments:
-      - 'image_slider'
-      - 'id_slide'
-      - 'position'
