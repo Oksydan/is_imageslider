@@ -8,6 +8,9 @@ class FileEraser
 {
     private string $imagesDir;
 
+    /**
+     * @param string $imagesDir
+     */
     public function __construct(string $imagesDir)
     {
         $this->imagesDir = $imagesDir;

@@ -17,9 +17,9 @@ use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\Translation\TranslatorInterface;
 use Symfony\Component\Validator\Constraints\File;
 use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 class ImageSliderType extends TranslatorAwareType
 {
@@ -31,7 +31,7 @@ class ImageSliderType extends TranslatorAwareType
     /**
      * @param TranslatorInterface $translator
      * @param array $locales
-     * @param bool $isMultistoreUsed
+     * @param MultistoreFeature $isMultistoreUsed
      */
     public function __construct(
         TranslatorInterface $translator,

@@ -21,6 +21,12 @@ class DeleteSlideHandler implements SlideHandlerInterface
 
     protected TemplateCache $templateCache;
 
+    /**
+     * @param Context $shopContext
+     * @param EntityManagerInterface $entityManager
+     * @param FileEraser $fileEraser
+     * @param TemplateCache $templateCache
+     */
     public function __construct(
         Context $shopContext,
         EntityManagerInterface $entityManager,

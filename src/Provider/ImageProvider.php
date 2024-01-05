@@ -9,9 +9,12 @@ class ImageProvider implements ImageProviderInterface
     /**
      * @var string
      */
-    private $imagesUri;
+    private string $imagesUri;
 
-    public function __construct($imagesUri)
+    /**
+     * @param string $imagesUri
+     */
+    public function __construct(string $imagesUri)
     {
         $this->imagesUri = $imagesUri;
     }

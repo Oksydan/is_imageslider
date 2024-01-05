@@ -25,6 +25,7 @@ final class ImageSliderQueryBuilder extends AbstractDoctrineQueryBuilder
      * @param Connection $connection
      * @param $dbPrefix
      * @param Context $shopContext
+     * @param \Context $context
      */
     public function __construct(
         Connection $connection,

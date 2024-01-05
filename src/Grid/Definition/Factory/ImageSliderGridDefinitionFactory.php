@@ -26,6 +26,10 @@ class ImageSliderGridDefinitionFactory extends AbstractGridDefinitionFactory
 
     public const GRID_ID = 'is_imageslider';
 
+    /**
+     * @param HookDispatcherInterface|null $hookDispatcher
+     * @param TranslatorInterface $trans
+     */
     public function __construct(
         HookDispatcherInterface $hookDispatcher = null,
         TranslatorInterface $trans

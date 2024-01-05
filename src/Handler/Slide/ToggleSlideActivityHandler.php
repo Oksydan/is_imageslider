@@ -14,6 +14,10 @@ class ToggleSlideActivityHandler implements SlideHandlerInterface
 
     protected TemplateCache $templateCache;
 
+    /**
+     * @param EntityManagerInterface $entityManager
+     * @param TemplateCache $templateCache
+     */
     public function __construct(
         EntityManagerInterface $entityManager,
         TemplateCache $templateCache

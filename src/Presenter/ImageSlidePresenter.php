@@ -21,6 +21,11 @@ class ImageSlidePresenter
      */
     private \Context $context;
 
+    /**
+     * @param string $imagesUri
+     * @param string $imagesDir
+     * @param \Context $context
+     */
     public function __construct(
         string $imagesUri,
         string $imagesDir,

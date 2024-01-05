@@ -21,7 +21,7 @@ class ImageSliderFormDataProvider implements FormDataProviderInterface
     /**
      * @var ImageProviderInterface
      */
-    private $imagesliderImageThumbProvider;
+    private ImageProviderInterface $imagesliderImageThumbProvider;
 
     /**
      * @var LangRepository
@@ -39,9 +39,11 @@ class ImageSliderFormDataProvider implements FormDataProviderInterface
     private Context $shopContext;
 
     /**
-     * ImageSliderFormDataProvider constructor.
-     *
-     * @param EntityRepository $repository
+     * @param ImageSliderRepository $repository
+     * @param ImageProviderInterface $imagesliderImageThumbProvider
+     * @param LangRepository $langRepository
+     * @param string $placeholderImage
+     * @param Context $shopContext
      */
     public function __construct(
         ImageSliderRepository $repository,

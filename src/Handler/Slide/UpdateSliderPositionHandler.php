@@ -17,6 +17,10 @@ class UpdateSliderPositionHandler
 
     protected GridPositionUpdater $gridPositionUpdater;
 
+    /**
+     * @param TemplateCache $templateCache
+     * @param GridPositionUpdater $gridPositionUpdater
+     */
     public function __construct(
         TemplateCache $templateCache,
         GridPositionUpdater $gridPositionUpdater

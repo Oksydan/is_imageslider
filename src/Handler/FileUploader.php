@@ -9,9 +9,12 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class FileUploader
 {
-    private $imagesDir;
+    private string $imagesDir;
 
-    public function __construct($imagesDir)
+    /**
+     * @param string $imagesDir
+     */
+    public function __construct(string $imagesDir)
     {
         $this->imagesDir = $imagesDir;
     }

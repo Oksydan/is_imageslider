@@ -48,6 +48,14 @@ class ImageSliderFormDataHandler implements FormDataHandlerInterface
      */
     private array $locales;
 
+    /**
+     * @param ImageSliderRepository $imageSliderRepository
+     * @param LangRepository $langRepository
+     * @param EntityManagerInterface $entityManager
+     * @param FileUploader $fileUploader
+     * @param FileEraser $fileEraser
+     * @param array $locales
+     */
     public function __construct(
         ImageSliderRepository $imageSliderRepository,
         LangRepository $langRepository,
