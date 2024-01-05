@@ -14,27 +14,27 @@ class HookModuleRepository
     /**
      * @var Connection
      */
-    private $connection;
+    private Connection $connection;
 
     /**
      * @var string
      */
-    private $databasePrefix;
+    private string $dbPrefix;
 
     /**
      * @var string
      */
-    private $table;
+    private string $table;
 
     /**
      * @param Connection $connection
-     * @param string $databasePrefix
+     * @param string $dbPrefix
      */
-    public function __construct(Connection $connection, $databasePrefix)
+    public function __construct(Connection $connection, $dbPrefix)
     {
         $this->connection = $connection;
-        $this->databasePrefix = $databasePrefix;
-        $this->table = $this->databasePrefix . 'hook_module';
+        $this->dbPrefix = $dbPrefix;
+        $this->table = $this->dbPrefix . 'hook_module';
     }
 
     public function getAllHookRegisteredToModule($moduleId)
@@ -43,7 +43,7 @@ class HookModuleRepository
             ->select('h.name')
             ->from($this->table, 'mh')
             ->where('mh.id_module = :id_module')
-            ->leftJoin('mh', $this->databasePrefix . 'hook', 'h', 'h.id_hook = mh.id_hook')
+            ->leftJoin('mh', $this->dbPrefix . 'hook', 'h', 'h.id_hook = mh.id_hook')
             ->setParameter('id_module', $moduleId);
 
         return $qb->execute()->fetchAll();

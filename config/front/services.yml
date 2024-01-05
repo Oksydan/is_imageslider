@@ -1,2 +1,29 @@
 imports:
   - { resource: ../common.yml }
+
+services:
+  _defaults:
+    public: false
+    autowire: true
+    autoconfigure: true
+    bind:
+      $module: '@oksydan.is_imageslider.module'
+      $context: '@oksydan.is_imageslider.context'
+      $dbPrefix: '%database_prefix%'
+      $imagesUri: '%is_imageslider_images_uri%'
+      $imagesDir: '%is_imageslider_images_directory%'
+
+  Oksydan\IsImageslider\:
+    resource: '../../src/*'
+    exclude:
+      - '../../src/index.php'
+      - '../../src/*/index.php'
+      - '../../src/**/index.php'
+
+  Oksydan\IsImageslider\Hook\:
+    resource: '../../src/Hook/*'
+    public: true
+    exclude:
+      - '../../src/Hook/index.php'
+      - '../../src/Hook/*/index.php'
+      - '../../src/Hook/**/index.php'

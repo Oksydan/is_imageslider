@@ -4,20 +4,20 @@ declare(strict_types=1);
 
 namespace Oksydan\IsImageslider\Form\Provider;
 
-use PrestaShop\PrestaShop\Core\Configuration\DataConfigurationInterface;
+use Oksydan\IsImageslider\Form\DataConfiguration\ImageSliderDataConfiguration;
 use PrestaShop\PrestaShop\Core\Form\FormDataProviderInterface;
 
 class ImageSliderConfigurationFormDataProvider implements FormDataProviderInterface
 {
     /**
-     * @var DataConfigurationInterface
+     * @var ImageSliderDataConfiguration
      */
-    private $imageSlideConfigurationDataConfiguration;
+    private ImageSliderDataConfiguration $imageSlideConfigurationDataConfiguration;
 
     /**
-     * @param DataConfigurationInterface $imageSlideConfigurationDataConfiguration
+     * @param ImageSliderDataConfiguration $imageSlideConfigurationDataConfiguration
      */
-    public function __construct(DataConfigurationInterface $imageSlideConfigurationDataConfiguration)
+    public function __construct(ImageSliderDataConfiguration $imageSlideConfigurationDataConfiguration)
     {
         $this->imageSlideConfigurationDataConfiguration = $imageSlideConfigurationDataConfiguration;
     }

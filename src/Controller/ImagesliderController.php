@@ -5,48 +5,82 @@ declare(strict_types=1);
 namespace Oksydan\IsImageslider\Controller;
 
 use Oksydan\IsImageslider\Cache\TemplateCache;
-use Oksydan\IsImageslider\Entity\ImageSlider;
 use Oksydan\IsImageslider\Exceptions\DateRangeNotValidException;
 use Oksydan\IsImageslider\Filter\ImageSliderFileters;
-use Oksydan\IsImageslider\Handler\FileEraser;
+use Oksydan\IsImageslider\Handler\Slide\DeleteSlideHandler;
+use Oksydan\IsImageslider\Handler\Slide\ToggleSlideActivityHandler;
+use Oksydan\IsImageslider\Handler\Slide\UpdateSliderPositionHandler;
+use Oksydan\IsImageslider\Repository\ImageSliderRepository;
 use Oksydan\IsImageslider\Translations\TranslationDomains;
+use PrestaShop\PrestaShop\Core\Form\FormHandlerInterface;
+use PrestaShop\PrestaShop\Core\Form\IdentifiableObject\Builder\FormBuilderInterface;
+use PrestaShop\PrestaShop\Core\Form\IdentifiableObject\Handler\FormHandlerInterface as IdentifiableObjectFormHandlerInterface;
+use PrestaShop\PrestaShop\Core\Grid\GridFactoryInterface;
+use PrestaShop\PrestaShop\Core\Grid\GridInterface;
 use PrestaShop\PrestaShop\Core\Grid\Position\Exception\PositionDataException;
 use PrestaShop\PrestaShop\Core\Grid\Position\Exception\PositionUpdateException;
+use PrestaShop\PrestaShop\Core\Grid\Presenter\GridPresenter;
 use PrestaShopBundle\Controller\Admin\FrameworkBundleAdminController;
-use PrestaShopBundle\Entity\Shop;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
-class IsImagesliderController extends FrameworkBundleAdminController
+class ImagesliderController extends FrameworkBundleAdminController
 {
-    /**
-     * @var FileEraser
-     */
-    private $fileEraser;
+    private TemplateCache $templateCache;
 
-    /**
-     * @var array
-     */
-    private $languages;
+    private DeleteSlideHandler $deleteSlideHandler;
 
-    /**
-     * @var TemplateCache
-     */
-    private $templateCache;
+    private GridFactoryInterface $imagsliderGridFactory;
 
-    public function __construct(FileEraser $fileEraser, $languages, TemplateCache $templateCache)
-    {
-        $this->fileEraser = $fileEraser;
-        $this->languages = $languages;
+    private FormHandlerInterface $imagesliderConfigurationFormHandler;
+
+    private GridPresenter $gridPresenter;
+
+    private FormBuilderInterface $imagesliderFormBuilder;
+
+    private IdentifiableObjectFormHandlerInterface $imagesliderFormHandler;
+
+    private TranslatorInterface $translator;
+
+    private ImageSliderRepository $imageSliderRepository;
+
+    private ToggleSlideActivityHandler $toggleSlideActivityHandler;
+
+    private UpdateSliderPositionHandler $updateSliderPositionHandler;
+
+    public function __construct(
+        TemplateCache $templateCache,
+        DeleteSlideHandler $deleteSlideHandler,
+        GridFactoryInterface $imagsliderGridFactory,
+        FormHandlerInterface $imagesliderConfigurationFormHandler,
+        GridPresenter $gridPresenter,
+        FormBuilderInterface $imagesliderFormBuilder,
+        IdentifiableObjectFormHandlerInterface $imagesliderFormHandler,
+        TranslatorInterface $translator,
+        ImageSliderRepository $imageSliderRepository,
+        ToggleSlideActivityHandler $toggleSlideActivityHandler,
+        UpdateSliderPositionHandler $updateSliderPositionHandler
+    ) {
+        parent::__construct();
         $this->templateCache = $templateCache;
+        $this->deleteSlideHandler = $deleteSlideHandler;
+        $this->imagsliderGridFactory = $imagsliderGridFactory;
+        $this->imagesliderConfigurationFormHandler = $imagesliderConfigurationFormHandler;
+        $this->gridPresenter = $gridPresenter;
+        $this->imagesliderFormBuilder = $imagesliderFormBuilder;
+        $this->imagesliderFormHandler = $imagesliderFormHandler;
+        $this->translator = $translator;
+        $this->imageSliderRepository = $imageSliderRepository;
+        $this->toggleSlideActivityHandler = $toggleSlideActivityHandler;
+        $this->updateSliderPositionHandler = $updateSliderPositionHandler;
     }
 
     public function index(ImageSliderFileters $filters): Response
     {
-        $imageSliderGridFactory = $this->get('oksydan.is_imageslider.grid.image_slider_grid_factory');
-        $imageSliderGrid = $imageSliderGridFactory->getGrid($filters);
+        $imageSliderGrid = $this->imagsliderGridFactory->getGrid($filters);
 
-        $configurationForm = $this->get('oksydan.is_imageslider.image_slider_configuration.form_handler')->getForm();
+        $configurationForm = $this->imagesliderConfigurationFormHandler->getForm();
 
         return $this->render('@Modules/is_imageslider/views/templates/admin/index.html.twig', [
             'translationDomain' => TranslationDomains::TRANSLATION_DOMAIN_ADMIN,
@@ -58,14 +92,11 @@ class IsImagesliderController extends FrameworkBundleAdminController
 
     public function create(Request $request): Response
     {
-        $formDataHandler = $this->get('oksydan.is_imageslider.form.identifiable_object.builder.image_slider_form_builder');
-        $form = $formDataHandler->getForm();
+        $form = $this->imagesliderFormBuilder->getForm();
         $form->handleRequest($request);
 
-        $formHandler = $this->get('oksydan.is_imageslider.form.identifiable_object.handler.image_slider_form_handler');
-
         try {
-            $result = $formHandler->handle($form);
+            $result = $this->imagesliderFormHandler->handle($form);
 
             if (null !== $result->getIdentifiableObjectId()) {
                 $this->addFlash(
@@ -90,14 +121,11 @@ class IsImagesliderController extends FrameworkBundleAdminController
 
     public function edit(Request $request, int $slideId): Response
     {
-        $formBuilder = $this->get('oksydan.is_imageslider.form.identifiable_object.builder.image_slider_form_builder');
-        $form = $formBuilder->getFormFor((int) $slideId);
+        $form = $this->imagesliderFormBuilder->getFormFor($slideId);
         $form->handleRequest($request);
 
-        $formHandler = $this->get('oksydan.is_imageslider.form.identifiable_object.handler.image_slider_form_handler');
-
         try {
-            $result = $formHandler->handleFor($slideId, $form);
+            $result = $this->imagesliderFormHandler->handleFor($slideId, $form);
 
             if (null !== $result->getIdentifiableObjectId()) {
                 $this->addFlash(
@@ -122,48 +150,11 @@ class IsImagesliderController extends FrameworkBundleAdminController
 
     public function delete(Request $request, int $slideId): Response
     {
-        $imageSlide = $this->getDoctrine()
-            ->getRepository(ImageSlider::class)
-            ->find($slideId);
+        $imageSlide = $this->imageSliderRepository->find($slideId);
 
         if (!empty($imageSlide)) {
-            $multistoreContext = $this->get('prestashop.adapter.shop.context');
-            $entityManager = $this->get('doctrine.orm.entity_manager');
+            $this->deleteSlideHandler->handle($imageSlide);
 
-            if ($multistoreContext->isAllShopContext()) {
-                $imageSlide->clearShops();
-
-                foreach ($this->languages as $language) {
-                    $langId = (int) $language['id_lang'];
-                    $imageSliderLang = $imageSlide->getImageSliderLangByLangId($langId);
-
-                    if ($imageSliderLang->getImage()) {
-                        $this->eraseFile($imageSliderLang->getImage());
-                    }
-
-                    if ($imageSliderLang->getImageMobile()) {
-                        $this->eraseFile($imageSliderLang->getImageMobile());
-                    }
-                }
-
-                $entityManager->remove($imageSlide);
-            } else {
-                $shopList = $this->getDoctrine()
-                    ->getRepository(Shop::class)
-                    ->findBy(['id' => $multistoreContext->getContextListShopID()]);
-
-                foreach ($shopList as $shop) {
-                    $imageSlide->removeShop($shop);
-                    $entityManager->flush();
-                }
-
-                if (count($imageSlide->getShops()) === 0) {
-                    $entityManager->remove($imageSlide);
-                }
-            }
-
-            $this->clearTemplateCache();
-            $entityManager->flush();
             $this->addFlash(
                 'success',
                 $this->trans('Successful deletion.', 'Admin.Notifications.Success')
@@ -189,7 +180,7 @@ class IsImagesliderController extends FrameworkBundleAdminController
     {
         $redirectResponse = $this->redirectToRoute('is_imageslider_controller');
 
-        $form = $this->get('oksydan.is_imageslider.image_slider_configuration.form_handler')->getForm();
+        $form = $this->imagesliderConfigurationFormHandler->getForm();
         $form->handleRequest($request);
 
         if (!$form->isSubmitted()) {
@@ -198,7 +189,7 @@ class IsImagesliderController extends FrameworkBundleAdminController
 
         if ($form->isValid()) {
             $data = $form->getData();
-            $saveErrors = $this->get('oksydan.is_imageslider.image_slider_configuration.form_handler')->save($data);
+            $saveErrors = $this->imagesliderConfigurationFormHandler->save($data);
 
             if (0 === count($saveErrors)) {
                 $this->addFlash('success', $this->trans('Successful update.', 'Admin.Notifications.Success'));
@@ -227,10 +218,7 @@ class IsImagesliderController extends FrameworkBundleAdminController
      */
     public function toggleStatus(Request $request, int $slideId): Response
     {
-        $entityManager = $this->get('doctrine.orm.entity_manager');
-        $imageSlide = $entityManager
-            ->getRepository(ImageSlider::class)
-            ->findOneBy(['id' => $slideId]);
+        $imageSlide = $this->imageSliderRepository->find($slideId);
 
         if (empty($imageSlide)) {
             return $this->json([
@@ -240,9 +228,7 @@ class IsImagesliderController extends FrameworkBundleAdminController
         }
 
         try {
-            $imageSlide->setActive(!$imageSlide->getActive());
-            $entityManager->flush();
-            $this->clearTemplateCache();
+            $this->toggleSlideActivityHandler->handle($imageSlide);
 
             $response = [
                 'status' => true,
@@ -265,19 +251,7 @@ class IsImagesliderController extends FrameworkBundleAdminController
     public function updatePositionAction(Request $request): Response
     {
         try {
-            $positionsData = [
-                'positions' => $request->request->get('positions'),
-            ];
-
-            $positionDefinition = $this->get('oksydan.is_imageslider.grid.position_definition');
-
-            $positionUpdateFactory = $this->get('prestashop.core.grid.position.position_update_factory');
-            $positionUpdate = $positionUpdateFactory->buildPositionUpdate($positionsData, $positionDefinition);
-
-            $updater = $this->get('prestashop.core.grid.position.doctrine_grid_position_updater');
-
-            $updater->update($positionUpdate);
-            $this->clearTemplateCache();
+            $this->updateSliderPositionHandler->handle($request->request->get('positions'));
 
             $this->addFlash('success', $this->trans('Successful update.', 'Admin.Notifications.Success'));
         } catch (PositionDataException|PositionUpdateException $e) {
@@ -288,14 +262,25 @@ class IsImagesliderController extends FrameworkBundleAdminController
         return $this->redirectToRoute('is_imageslider_controller');
     }
 
-    private function eraseFile(string $fileName): bool
-    {
-        return $this->fileEraser->remove($fileName);
-    }
-
     private function clearTemplateCache()
     {
         $this->templateCache->clearTemplateCache();
+    }
+
+    /**
+     * @inerhitDoc
+     */
+    protected function presentGrid(GridInterface $grid)
+    {
+        return $this->gridPresenter->present($grid);
+    }
+
+    /**
+     * @inerhitDoc
+     */
+    protected function trans($key, $domain, array $parameters = [])
+    {
+        return $this->translator->trans($key, $parameters, $domain);
     }
 
     /**

@@ -25,40 +25,40 @@ class ImageSlider
      *
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    private $id;
+    private int $id;
 
     /**
      * @var bool
      *
      * @ORM\Column(name="active", type="boolean")
      */
-    private $active;
+    private bool $active;
 
     /**
      * @var int
      *
      * @ORM\Column(name="position", type="integer")
      */
-    private $position;
+    private int $position;
 
     /**
      * @var \DateTime
      *
      * @ORM\Column(name="display_from", type="datetime", nullable=true)
      */
-    private $display_from;
+    private \DateTime $display_from;
 
     /**
      * @var \DateTime
      *
      * @ORM\Column(name="display_to", type="datetime", nullable=true)
      */
-    private $display_to;
+    private \DateTime $display_to;
 
     /**
      * @ORM\OneToMany(targetEntity="Oksydan\IsImageslider\Entity\ImageSliderLang", cascade={"persist", "remove"}, mappedBy="imageSlide")
      */
-    private $sliderLangs;
+    private Collection $sliderLangs;
 
     /**
      * @ORM\ManyToMany(targetEntity="PrestaShopBundle\Entity\Shop", cascade={"persist"})
@@ -68,7 +68,7 @@ class ImageSlider
      *      inverseJoinColumns={@ORM\JoinColumn(name="id_shop", referencedColumnName="id_shop", onDelete="CASCADE")}
      * )
      */
-    private $shops;
+    private Collection $shops;
 
     public function __construct()
     {

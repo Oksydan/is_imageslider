@@ -23,7 +23,7 @@ class ImageSliderLang
      *
      * @ORM\JoinColumn(name="id_slide", referencedColumnName="id_slide", nullable=false)
      */
-    private $imageSlide;
+    private ImageSlider $imageSlide;
 
     /**
      * @var Lang
@@ -34,49 +34,49 @@ class ImageSliderLang
      *
      * @ORM\JoinColumn(name="id_lang", referencedColumnName="id_lang", nullable=false, onDelete="CASCADE")
      */
-    private $lang;
+    private Lang $lang;
 
     /**
      * @var string
      *
      * @ORM\Column(name="title", type="text")
      */
-    private $title;
+    private string $title;
 
     /**
      * @var string
      *
      * @ORM\Column(name="legend", type="text")
      */
-    private $legend;
+    private string $legend;
 
     /**
      * @var string
      *
      * @ORM\Column(name="url", type="text")
      */
-    private $url;
+    private string $url;
 
     /**
      * @var string
      *
      * @ORM\Column(name="description", type="text")
      */
-    private $description;
+    private string $description;
 
     /**
      * @var string
      *
      * @ORM\Column(name="image", type="text")
      */
-    private $image;
+    private string $image;
 
     /**
      * @var string
      *
      * @ORM\Column(name="image_mobile", type="text")
      */
-    private $imageMobile;
+    private string $imageMobile;
 
     /**
      * @return ImageSlider

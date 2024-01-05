@@ -17,7 +17,7 @@ final class ImageSliderQueryBuilder extends AbstractDoctrineQueryBuilder
      */
     private $shopContext;
 
-    private $contextLangId;
+    private $context;
 
     /**
      * ImageSliderQueryBuilder constructor.
@@ -25,13 +25,18 @@ final class ImageSliderQueryBuilder extends AbstractDoctrineQueryBuilder
      * @param Connection $connection
      * @param $dbPrefix
      * @param Context $shopContext
+     * @param \Context $context
      */
-    public function __construct(Connection $connection, $dbPrefix, Context $shopContext, $contextLangId)
-    {
+    public function __construct(
+        Connection $connection,
+        $dbPrefix,
+        Context $shopContext,
+        \Context $context
+    ) {
         parent::__construct($connection, $dbPrefix);
 
         $this->shopContext = $shopContext;
-        $this->contextLangId = $contextLangId;
+        $this->context = $context;
     }
 
     /**
@@ -45,7 +50,7 @@ final class ImageSliderQueryBuilder extends AbstractDoctrineQueryBuilder
         $qb->select('islide.id_slide, islidel.title, islidel.description, islidel.image, islide.active, islide.position')
             ->join('islide', $this->dbPrefix . 'image_slider_lang', 'islidel', 'islidel.id_slide = islide.id_slide')
             ->where('islidel.id_lang = :langId')
-            ->setParameter('langId', (int) $this->contextLangId);
+            ->setParameter('langId', (int) $this->context->language->id);
 
         if (!$this->shopContext->isAllShopContext()) {
             $qb->join('islide', $this->dbPrefix . 'image_slider_shop', 'islides', 'islides.id_slide = islide.id_slide')

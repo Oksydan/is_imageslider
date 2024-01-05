@@ -17,10 +17,26 @@ use PrestaShop\PrestaShop\Core\Grid\Column\Type\Common\ToggleColumn;
 use PrestaShop\PrestaShop\Core\Grid\Column\Type\DataColumn;
 use PrestaShop\PrestaShop\Core\Grid\Definition\Factory\AbstractGridDefinitionFactory;
 use PrestaShop\PrestaShop\Core\Grid\Filter\FilterCollection;
+use PrestaShop\PrestaShop\Core\Hook\HookDispatcherInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 class ImageSliderGridDefinitionFactory extends AbstractGridDefinitionFactory
 {
+    private TranslatorInterface $trans;
+
     public const GRID_ID = 'is_imageslider';
+
+    /**
+     * @param HookDispatcherInterface|null $hookDispatcher
+     * @param TranslatorInterface $trans
+     */
+    public function __construct(
+        HookDispatcherInterface $hookDispatcher = null,
+        TranslatorInterface $trans
+    ) {
+        parent::__construct($hookDispatcher);
+        $this->trans = $trans;
+    }
 
     /**
      * {@inheritdoc}
@@ -35,7 +51,7 @@ class ImageSliderGridDefinitionFactory extends AbstractGridDefinitionFactory
      */
     protected function getName()
     {
-        return $this->trans('Image slider', [], TranslationDomains::TRANSLATION_DOMAIN_ADMIN);
+        return $this->trans->trans('Image slider', [], TranslationDomains::TRANSLATION_DOMAIN_ADMIN);
     }
 
     /**
@@ -46,7 +62,7 @@ class ImageSliderGridDefinitionFactory extends AbstractGridDefinitionFactory
         return (new ColumnCollection())
             ->add(
                 (new PositionColumn('position'))
-                    ->setName($this->trans('Position', [], 'Admin.Global'))
+                    ->setName($this->trans->trans('Position', [], 'Admin.Global'))
                     ->setOptions([
                         'id_field' => 'id_slide',
                         'position_field' => 'position',
@@ -56,35 +72,35 @@ class ImageSliderGridDefinitionFactory extends AbstractGridDefinitionFactory
             )
             ->add(
                 (new ImageColumn('image'))
-                    ->setName($this->trans('Image', [], 'Admin.Global'))
+                    ->setName($this->trans->trans('Image', [], 'Admin.Global'))
                     ->setOptions([
                         'src_field' => 'image',
                     ])
             )
             ->add(
                 (new DataColumn('title'))
-                    ->setName($this->trans('Title', [], 'Admin.Global'))
+                    ->setName($this->trans->trans('Title', [], 'Admin.Global'))
                     ->setOptions([
                         'field' => 'title',
                     ])
             )
             ->add(
                 (new DataColumn('id_slide'))
-                    ->setName($this->trans('ID', [], 'Admin.Global'))
+                    ->setName($this->trans->trans('ID', [], 'Admin.Global'))
                     ->setOptions([
                         'field' => 'id_slide',
                     ])
             )
             ->add(
                 (new DataColumn('title'))
-                    ->setName($this->trans('Title', [], 'Admin.Global'))
+                    ->setName($this->trans->trans('Title', [], 'Admin.Global'))
                     ->setOptions([
                         'field' => 'title',
                     ])
             )
             ->add(
                 (new ToggleColumn('active'))
-                    ->setName($this->trans('Displayed', [], 'Admin.Global'))
+                    ->setName($this->trans->trans('Displayed', [], 'Admin.Global'))
                     ->setOptions([
                         'field' => 'active',
                         'primary_field' => 'id_slide',
@@ -107,13 +123,13 @@ class ImageSliderGridDefinitionFactory extends AbstractGridDefinitionFactory
                             )
                             ->add(
                                 (new LinkRowAction('delete'))
-                                    ->setName($this->trans('Delete', [], 'Admin.Actions'))
+                                    ->setName($this->trans->trans('Delete', [], 'Admin.Actions'))
                                     ->setIcon('delete')
                                     ->setOptions([
                                         'route' => 'is_imageslider_controller_delete',
                                         'route_param_name' => 'slideId',
                                         'route_param_field' => 'id_slide',
-                                        'confirm_message' => $this->trans(
+                                        'confirm_message' => $this->trans->trans(
                                             'Delete selected item?',
                                             [],
                                             'Admin.Notifications.Warning'

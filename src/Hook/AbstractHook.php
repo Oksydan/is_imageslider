@@ -6,10 +6,10 @@ namespace Oksydan\IsImageslider\Hook;
 
 abstract class AbstractHook implements HookInterface
 {
-    protected $module;
-    protected $context;
+    protected \Is_imageslider $module;
+    protected \Context $context;
 
-    public function __construct(\Module $module, \Context $context)
+    public function __construct(\Is_imageslider $module, \Context $context)
     {
         $this->module = $module;
         $this->context = $context;

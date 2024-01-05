@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Oksydan\IsImageslider\Installer;
 
+use Oksydan\IsImageslider\Installer\Provider\DatabaseYamlProvider;
 use Symfony\Component\Yaml\Yaml;
 
 class DatabaseYamlParser
@@ -11,14 +12,14 @@ class DatabaseYamlParser
     /**
      * @var DatabaseYamlProvider
      */
-    protected $yamlProvider;
+    protected DatabaseYamlProvider $yamlProvider;
 
     /**
      * @var array
      */
     private $parsedFileData = [];
 
-    public function __construct($yamlProvider)
+    public function __construct(DatabaseYamlProvider $yamlProvider)
     {
         $this->yamlProvider = $yamlProvider;
     }
