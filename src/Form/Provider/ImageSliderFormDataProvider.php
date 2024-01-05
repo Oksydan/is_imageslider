@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Oksydan\IsImageslider\Form\Provider;
 
-use Doctrine\ORM\EntityRepository;
 use Oksydan\IsImageslider\Provider\ImageProviderInterface;
 use Oksydan\IsImageslider\Repository\ImageSliderRepository;
 use PrestaShop\PrestaShop\Adapter\Shop\Context;
