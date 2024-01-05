@@ -12,30 +12,30 @@ use PrestaShop\PrestaShop\Core\Domain\Shop\ValueObject\ShopConstraint;
 
 class TemplateCache
 {
-    protected $module;
-    protected $context;
+    protected \Is_imageslider $module;
+    protected \Context $context;
 
     /**
      * @var HookModuleRepository
      */
-    protected $hookModuleRepository;
+    protected HookModuleRepository $hookModuleRepository;
 
     /**
      * @var Configuration
      */
-    protected $configuration;
+    protected Configuration $configuration;
 
     /**
      * @var ImageSliderRepository
      */
-    protected $slideRepository;
+    protected ImageSliderRepository $slideRepository;
 
     public const IS_SLIDER_DATE_CACHE_KEY = 'IS_SLIDER_DATE_CACHE_KEY';
 
     private const DATE_TIME_FORMAT = 'Y-m-d H:i:s';
 
     public function __construct(
-        \Module $module,
+        \Is_imageslider $module,
         \Context $context,
         HookModuleRepository $hookModuleRepository,
         Configuration $configuration,

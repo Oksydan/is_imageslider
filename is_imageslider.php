@@ -8,6 +8,8 @@ if (!defined('_PS_VERSION_')) {
 
 if (file_exists(__DIR__ . '/vendor/autoload.php')) {
     require_once __DIR__ . '/vendor/autoload.php';
+} else {
+    throw new \Exception('You must run "composer install --no-dev" command in module directory');
 }
 
 use Oksydan\IsImageslider\Hook\HookInterface;
@@ -118,11 +120,19 @@ class Is_imageslider extends Module implements WidgetInterface
             if ($hook = $this->getHookObject($methodName)) {
                 return $hook->execute(...$arguments);
             }
-        } elseif (method_exists($this, $methodName)) {
-            return $this->{$methodName}(...$arguments);
         } else {
             return null;
         }
+    }
+
+    public function getCacheId($name = null)
+    {
+        return parent::getCacheId($name);
+    }
+
+    public function _clearCache($template, $cache_id = null, $compile_id = null)
+    {
+        return parent::_clearCache($template, $cache_id, $compile_id);
     }
 
     /**
@@ -133,8 +143,8 @@ class Is_imageslider extends Module implements WidgetInterface
     private function getHookObject($methodName)
     {
         $serviceName = sprintf(
-            'oksydan.is_imageslider.hook.%s',
-            \Tools::toUnderscoreCase(str_replace('hook', '', $methodName))
+            'Oksydan\IsImageslider\Hook\%s',
+            ucwords(str_replace('hook', '', $methodName))
         );
 
         $hook = $this->getService($serviceName);

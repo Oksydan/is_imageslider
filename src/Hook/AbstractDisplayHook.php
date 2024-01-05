@@ -11,7 +11,7 @@ abstract class AbstractDisplayHook extends AbstractHook
     protected $sliderConfiguration;
 
     public function __construct(
-        \Module $module,
+        \Is_imageslider $module,
         \Context $context,
         SliderConfiguration $sliderConfiguration
     ) {

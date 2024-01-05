@@ -27,7 +27,7 @@ abstract class AbstractCacheableDisplayHook extends AbstractDisplayHook
     protected $templateCache;
 
     public function __construct(
-        \Module $module,
+        \Is_imageslider $module,
         \Context $context,
         SliderConfiguration $sliderConfiguration,
         ImageSliderRepository $slideRepository,
