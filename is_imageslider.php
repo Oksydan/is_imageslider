@@ -13,6 +13,7 @@ if (file_exists(__DIR__ . '/vendor/autoload.php')) {
 }
 
 use Oksydan\IsImageslider\Hook\HookInterface;
+use Oksydan\IsImageslider\Hook\WidgetCapability;
 use Oksydan\IsImageslider\Installer\ImageSliderInstaller;
 use PrestaShop\PrestaShop\Adapter\SymfonyContainer;
 use PrestaShop\PrestaShop\Core\Module\WidgetInterface;
@@ -154,14 +155,14 @@ class Is_imageslider extends Module implements WidgetInterface
 
     public function renderWidget($hookName, array $configuration)
     {
-        $widgetCapability = $this->get('oksydan.is_imageslider.hook.widget_capability');
+        $widgetCapability = $this->get(WidgetCapability::class);
 
         return $widgetCapability->renderWidget($configuration);
     }
 
     public function getWidgetVariables($hookName, array $configuration)
     {
-        $widgetCapability = $this->get('oksydan.is_imageslider.hook.widget_capability');
+        $widgetCapability = $this->get(WidgetCapability::class);
 
         return $widgetCapability->getWidgetVariables($configuration);
     }
