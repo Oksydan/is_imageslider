@@ -1,14 +1,9 @@
 services:
 
-  oksydan.is_imageslider.grid.definition.factory.image_sliders:
-    class: 'Oksydan\IsImageslider\Grid\Definition\Factory\ImageSliderGridDefinitionFactory'
-    parent: 'prestashop.core.grid.definition.factory.abstract_grid_definition'
-    public: true
-
   oksydan.is_imageslider.grid.image_slider_grid_factory:
     class: 'PrestaShop\PrestaShop\Core\Grid\GridFactory'
     arguments:
-      - '@oksydan.is_imageslider.grid.definition.factory.image_sliders'
+      - '@Oksydan\IsImageslider\Grid\Definition\Factory\ImageSliderGridDefinitionFactory'
       - '@oksydan.is_imageslider.grid.data.factory.image_slider_decorator'
       - '@prestashop.core.grid.filter.form_factory'
       - '@prestashop.core.hook.dispatcher'
@@ -21,7 +16,6 @@ services:
       - '@prestashop.core.hook.dispatcher'
       - '@prestashop.core.grid.query.doctrine_query_parser'
       - 'is_imageslider'
-
 
   oksydan.is_imageslider.grid.data.factory.image_slider_decorator:
     class: 'Oksydan\IsImageslider\Grid\Data\Factory\ImageSliderGridDataFactory'
