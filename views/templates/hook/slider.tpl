@@ -44,7 +44,12 @@
           {/if}
 
           <li class="swiper-slide homeslider__slide">
-            <a href="{$slide.url}">
+            <a
+              href="{$slide.url}"
+              {if $slide.title}
+                title="{$slide.title}"
+              {/if}
+            >
               {if $slide@first}
                 <img
                   class="img-fluid homeslider__img"
@@ -84,10 +89,16 @@
       {/images_block}
     </ul>
     {if $homeslider.slides|count > 1}
-      <div class="swiper-button-prev swiper-button-custom homeslider__arrow homeslider__arrow--prev">
+      <div
+        class="swiper-button-prev swiper-button-custom homeslider__arrow homeslider__arrow--prev"
+        aria-label="Previous"
+      >
         <i class="material-icons">&#xE314;</i>
       </div>
-      <div class="swiper-button-next swiper-button-custom homeslider__arrow homeslider__arrow--next">
+      <div
+        class="swiper-button-next swiper-button-custom homeslider__arrow homeslider__arrow--next"
+        aria-label="Next"
+      >
         <i class="material-icons">&#xE315;</i>
       </div>
     {/if}
