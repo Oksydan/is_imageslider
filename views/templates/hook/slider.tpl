@@ -35,13 +35,23 @@
     <ul class="swiper-wrapper homeslider__list">
       {images_block}
         {foreach from=$homeslider.slides item=slide}
+          {$imageAlt = null}
+
+          {if $slide.legend}
+            {$imageAlt = $slide.legend}
+          {elseif $slide.title}
+            {$imageAlt = $slide.title}
+          {/if}
+
           <li class="swiper-slide homeslider__slide">
             <a href="{$slide.url}">
               {if $slide@first}
                 <img
-                  class="img-fluid"
+                  class="img-fluid homeslider__img"
                   src="{$slide.image_url}"
-                  alt="{$slide.title}"
+                  {if $imageAlt}
+                    alt="{$imageAlt}"
+                  {/if}
                   {if !empty($slide.sizes)}
                     width="{$slide.sizes.0}"
                     height="{$slide.sizes.1}"
@@ -51,7 +61,9 @@
                 <img
                   class="img-fluid homeslider__img"
                   src="{$slide.image_url}"
-                  alt="{$slide.title}"
+                  {if $imageAlt}
+                    alt="{$imageAlt}"
+                  {/if}
                   {if !empty($slide.sizes)}
                     width="{$slide.sizes.0}"
                     height="{$slide.sizes.1}"
