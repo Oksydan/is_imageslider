@@ -25,11 +25,32 @@ class FileEraser
             $result = unlink($fullFilePath);
         }
 
-        return $result;
+        $result = $result && $this->removeWebpFile($fileName);
+
+        return $result && $this->removeAvifFile($fileName);
     }
 
-    public function getTargetDirectory()
+    private function removeWebpFile(string $fileName): bool
     {
-        return $this->imagesDir;
+        $webpFileName = pathinfo($fileName, PATHINFO_FILENAME) . '.webp';
+        $fullFilePath = $this->imagesDir . $webpFileName;
+
+        if (file_exists($fullFilePath)) {
+            return unlink($fullFilePath);
+        }
+
+        return true;
+    }
+
+    private function removeAvifFile(string $fileName): bool
+    {
+        $avifFileName = pathinfo($fileName, PATHINFO_FILENAME) . '.avif';
+        $fullFilePath = $this->imagesDir . $avifFileName;
+
+        if (file_exists($fullFilePath)) {
+            return unlink($fullFilePath);
+        }
+
+        return true;
     }
 }
