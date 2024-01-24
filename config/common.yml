@@ -69,6 +69,11 @@ services:
     parent: 'oksydan.is_imageslider.hook.abstract_cacheable_display_hook'
     public: true
 
+  oksydan.is_imageslider.hook.display_nav_full_width:
+      class: Oksydan\IsImageslider\Hook\DisplayNavFullWidth
+      parent: 'oksydan.is_imageslider.hook.abstract_cacheable_display_hook'
+      public: true
+
   oksydan.is_imageslider.hook.display_header:
     class: Oksydan\IsImageslider\Hook\DisplayHeader
     parent: 'oksydan.is_imageslider.hook.abstract_cacheable_display_hook'

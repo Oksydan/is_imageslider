@@ -55,6 +55,7 @@ class Is_imageslider extends Module implements WidgetInterface
             parent::install()
             && $this->registerHook('displayHeader')
             && $this->registerHook('displayHome')
+            && $this->registerHook('displayNavFullWidth')
             && $this->getInstaller()->createTables();
     }
 
