@@ -1,0 +1,5 @@
+imports:
+  - { resource: './database/image_slider.yml' }
+  - { resource: './database/image_slider_lang.yml' }
+  - { resource: './database/image_slider_shop.yml' }
+  - { resource: './hooks/register.yml' }

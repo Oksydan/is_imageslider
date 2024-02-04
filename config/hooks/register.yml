@@ -1,0 +1,4 @@
+hooks:
+  register:
+    - name: displayHome
+    - name: displayHeader

@@ -1,0 +1,24 @@
+database_tables:
+  image_slider_shop:
+    columns:
+      - name: id_slide
+        type: integer
+        length: 11
+        notnull: true
+      - name: id_shop
+        type: integer
+        length: 11
+        notnull: true
+    primary:
+      - id_slide
+      - id_shop
+
+    constraint_keys:
+      - name: is_imageslider_constraint_shop
+        foreign_table: shop
+        update: NO ACTION
+        delete: CASCADE
+        local_columns:
+          - id_shop
+        foreign_columns:
+          - id_shop

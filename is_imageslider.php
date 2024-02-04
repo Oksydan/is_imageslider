@@ -12,16 +12,19 @@ if (file_exists(__DIR__ . '/vendor/autoload.php')) {
     throw new \Exception('You must run "composer install --no-dev" command in module directory');
 }
 
+use Oksydan\Falconize\Falconize;
+use Oksydan\Falconize\PrestaShop\Module\PrestaShopModuleInterface;
 use Oksydan\IsImageslider\Hook\HookInterface;
 use Oksydan\IsImageslider\Hook\WidgetCapability;
-use Oksydan\IsImageslider\Installer\ImageSliderInstaller;
+use Oksydan\IsImageslider\Falconize\FalconizeConfiguration;
 use PrestaShop\PrestaShop\Adapter\SymfonyContainer;
 use PrestaShop\PrestaShop\Core\Module\WidgetInterface;
 use Symfony\Component\DependencyInjection\Exception\ServiceNotFoundException;
 
-class Is_imageslider extends Module implements WidgetInterface
+class Is_imageslider extends Module implements WidgetInterface, PrestaShopModuleInterface
 {
     public $multistoreCompatibility = self::MULTISTORE_COMPATIBILITY_YES;
+    protected ?Falconize $falconize;
 
     public function __construct()
     {
@@ -33,7 +36,7 @@ class Is_imageslider extends Module implements WidgetInterface
          * https://www.waynet.pl/
          */
         $this->author = 'Igor Stępień';
-        $this->version = '2.3.2';
+        $this->version = '3.0.0';
         $this->need_instance = 0;
 
         $this->bootstrap = true;
@@ -42,6 +45,21 @@ class Is_imageslider extends Module implements WidgetInterface
         $this->displayName = 'Home slider module';
         $this->description = 'Home slider module';
         $this->ps_versions_compliancy = ['min' => '8.0.0', 'max' => _PS_VERSION_];
+    }
+
+    public function getFalconize()
+    {
+        if (!isset($this->falconize)) {
+            $falconizeConfiguration = new FalconizeConfiguration(
+                $this,
+                SymfonyContainer::getInstance()->get('doctrine.dbal.default_connection'),
+                _DB_PREFIX_,
+                _PS_VERSION_
+            );
+            $this->falconize = new Falconize($falconizeConfiguration);
+        }
+
+        return $this->falconize;
     }
 
     public function isUsingNewTranslationSystem(): bool
@@ -56,9 +74,7 @@ class Is_imageslider extends Module implements WidgetInterface
     {
         return
             parent::install()
-            && $this->registerHook('displayHeader')
-            && $this->registerHook('displayHome')
-            && $this->getInstaller()->createTables();
+            && $this->getFalconize()->install();
     }
 
     /**
@@ -66,7 +82,7 @@ class Is_imageslider extends Module implements WidgetInterface
      */
     public function uninstall(): bool
     {
-        return $this->getInstaller()->dropTables() && parent::uninstall();
+        return $this->getFalconize()->uninstall() && parent::uninstall();
     }
 
     public function getContent(): void
@@ -88,30 +104,6 @@ class Is_imageslider extends Module implements WidgetInterface
         } catch (ServiceNotFoundException $exception) {
             return null;
         }
-    }
-
-    /**
-     * @return ImageSliderInstaller
-     */
-    private function getInstaller(): ImageSliderInstaller
-    {
-        try {
-            $installer = $this->getService('oksydan.is_imageslider.image_slider_installer');
-        } catch (Error $error) {
-            $installer = null;
-        }
-
-        if (null === $installer) {
-            $installer = new Oksydan\IsImageslider\Installer\ImageSliderInstaller(
-                $this->getService('doctrine.dbal.default_connection'),
-                new Oksydan\IsImageslider\Installer\DatabaseYamlParser(
-                    new Oksydan\IsImageslider\Installer\Provider\DatabaseYamlProvider($this)
-                ),
-                $this->context
-            );
-        }
-
-        return $installer;
     }
 
     /** @param string $methodName */

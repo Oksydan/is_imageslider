@@ -19,6 +19,7 @@ services:
       - '../../src/index.php'
       - '../../src/*/index.php'
       - '../../src/**/index.php'
+      - '../../src/Falconize/*'
 
   Oksydan\IsImageslider\Hook\:
     resource: '../../src/Hook/*'

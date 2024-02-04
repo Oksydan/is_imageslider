@@ -1,0 +1,47 @@
+database_tables:
+  image_slider_lang:
+    columns:
+      - name: id_slide
+        type: integer
+        length: 11
+        notnull: true
+      - name: id_lang
+        type: integer
+        length: 11
+        notnull: true
+      - name: title
+        type: string
+        length: 255
+        notnull: true
+      - name: legend
+        type: string
+        length: 255
+        notnull: true
+      - name: image
+        type: string
+        length: 255
+        notnull: true
+      - name: image_mobile
+        type: string
+        length: 255
+        notnull: true
+      - name: url
+        type: string
+        length: 255
+        notnull: true
+      - name: description
+        type: text
+        notnull: true
+    primary:
+      - id_slide
+      - id_lang
+
+    constraint_keys:
+      - name: is_imageslider_constraint_lang
+        foreign_table: lang
+        update: NO ACTION
+        delete: CASCADE
+        local_columns:
+          - id_lang
+        foreign_columns:
+          - id_lang

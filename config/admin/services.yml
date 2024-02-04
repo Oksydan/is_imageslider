@@ -29,7 +29,7 @@ services:
   Oksydan\IsImageslider\:
     resource: '../../src/*'
     exclude:
-      - '../../src/{Controller}'
+      - '../../src/{Controller,Falconize}'
       - '../../src/index.php'
       - '../../src/*/index.php'
       - '../../src/**/index.php'
