@@ -9,14 +9,14 @@ if (!defined('_PS_VERSION_')) {
 if (file_exists(__DIR__ . '/vendor/autoload.php')) {
     require_once __DIR__ . '/vendor/autoload.php';
 } else {
-    throw new \Exception('You must run "composer install --no-dev" command in module directory');
+    throw new Exception('You must run "composer install --no-dev" command in module directory');
 }
 
 use Oksydan\Falconize\Falconize;
 use Oksydan\Falconize\PrestaShop\Module\PrestaShopModuleInterface;
+use Oksydan\IsImageslider\Falconize\FalconizeConfiguration;
 use Oksydan\IsImageslider\Hook\HookInterface;
 use Oksydan\IsImageslider\Hook\WidgetCapability;
-use Oksydan\IsImageslider\Falconize\FalconizeConfiguration;
 use PrestaShop\PrestaShop\Adapter\SymfonyContainer;
 use PrestaShop\PrestaShop\Core\Module\WidgetInterface;
 use Symfony\Component\DependencyInjection\Exception\ServiceNotFoundException;
@@ -87,7 +87,7 @@ class Is_imageslider extends Module implements WidgetInterface, PrestaShopModule
 
     public function getContent(): void
     {
-        \Tools::redirectAdmin(SymfonyContainer::getInstance()->get('router')->generate('is_imageslider_controller'));
+        Tools::redirectAdmin(SymfonyContainer::getInstance()->get('router')->generate('is_imageslider_controller'));
     }
 
     /**
