@@ -87,7 +87,7 @@ class Is_imageslider extends Module implements WidgetInterface, PrestaShopModule
 
     public function getContent(): void
     {
-        Tools::redirectAdmin(SymfonyContainer::getInstance()->get('router')->generate('is_imageslider_controller'));
+        Tools::redirectAdmin(SymfonyContainer::getInstance()->get('router')->generate('admin_imageslider_controller_index'));
     }
 
     /**

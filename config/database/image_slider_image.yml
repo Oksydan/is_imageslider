@@ -1,0 +1,32 @@
+database_tables:
+  image_slider_image:
+    columns:
+      - name: id_image
+        type: integer
+        length: 11
+        notnull: true
+        autoincrement: true
+      - name: name
+        type: string
+        length: 255
+    primary:
+      - id_image
+
+    constraint_keys:
+      - name: is_imageslider_constraint_image_slider_image_lang
+        foreign_table: image_slider_lang
+        update: NO ACTION
+        delete: CASCADE
+        local_columns:
+          - id_image
+        foreign_columns:
+          - image
+
+      - name: is_imageslider_constraint_image_slider_image_mobile_lang
+        foreign_table: image_slider_lang
+        update: NO ACTION
+        delete: CASCADE
+        local_columns:
+          - id_image
+        foreign_columns:
+          - image_mobile

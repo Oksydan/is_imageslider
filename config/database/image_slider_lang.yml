@@ -16,25 +16,33 @@ database_tables:
       - name: legend
         type: string
         length: 255
-        notnull: true
+        notnull: false
       - name: image
-        type: string
-        length: 255
-        notnull: true
+        type: integer
+        length: 11
+        notnull: false
       - name: image_mobile
-        type: string
-        length: 255
-        notnull: true
+        type: integer
+        length: 11
+        notnull: false
       - name: url
         type: string
         length: 255
         notnull: true
       - name: description
         type: text
-        notnull: true
+        notnull: false
     primary:
       - id_slide
       - id_lang
+
+    indexes:
+      - name: image_slider_lang_image
+        columns:
+          - image
+      - name: image_slider_lang_image_mobile
+        columns:
+          - image_mobile
 
     constraint_keys:
       - name: is_imageslider_constraint_lang

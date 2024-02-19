@@ -21,6 +21,9 @@ database_tables:
         type: datetime
         notnull: false
         default: null
+      - name: image_to_all_langs
+        type: boolean
+        default: false
+        notnull: true
     primary:
       - id_slide
-

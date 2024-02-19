@@ -65,97 +65,55 @@ class ImageSliderLang
     private string $description;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="image", type="text")
+     * @ORM\OneToOne(targetEntity="Oksydan\IsImageslider\Entity\ImageSliderImage", cascade={"persist", "remove"}, mappedBy="imageSlideLang")
+     * @ORM\JoinColumn(name="image", referencedColumnName="id_image", nullable=true)
      */
-    private string $image;
+    private ImageSliderImage $image;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="image_mobile", type="text")
+     * @ORM\OneToOne(targetEntity="Oksydan\IsImageslider\Entity\ImageSliderImage", cascade={"persist", "remove"}, mappedBy="imageSlideLang")
+     * @ORM\JoinColumn(name="image_mobile", referencedColumnName="id_image", nullable=true)
      */
-    private string $imageMobile;
+    private ImageSliderImage $imageMobile;
 
-    /**
-     * @return ImageSlider
-     */
     public function getImageSlider(): ImageSlider
     {
         return $this->imageSlide;
     }
 
-    /**
-     * @param ImageSlider $imageSlide
-     *
-     * @return ImageSliderLang $this
-     */
-    public function setImageSlider(ImageSlider $imageSlide): ImageSliderLang
+    public function setImageSlider(ImageSlider $imageSlide): void
     {
         $this->imageSlide = $imageSlide;
-
-        return $this;
     }
 
-    /**
-     * @return string
-     */
     public function getTitle(): string
     {
         return $this->title;
     }
 
-    /**
-     * @param string $title
-     *
-     * @return ImageSliderLang $this
-     */
-    public function setTitle(string $title): ImageSliderLang
+    public function setTitle(?string $title): void
     {
         $this->title = $title;
-
-        return $this;
     }
 
-    /**
-     * @return string
-     */
     public function getLegend(): string
     {
         return $this->legend;
     }
 
-    /**
-     * @param string $legend
-     *
-     * @return ImageSliderLang $this
-     */
-    public function setLegend(string $legend): ImageSliderLang
+    public function setLegend(?string $legend): void
     {
         $this->legend = $legend;
-
-        return $this;
     }
 
-    /**
-     * @return string
-     */
     public function getUrl(): string
     {
         return $this->url;
     }
 
-    /**
-     * @param string $url
-     *
-     * @return ImageSliderLang $this
-     */
-    public function setUrl(string $url): ImageSliderLang
+    public function setUrl(string $url): void
     {
         $this->url = $url;
-
-        return $this;
     }
 
     /**
@@ -166,75 +124,38 @@ class ImageSliderLang
         return $this->description;
     }
 
-    /**
-     * @param string $description
-     *
-     * @return ImageSliderLang $this
-     */
-    public function setDescription(string $description): ImageSliderLang
+    public function setDescription(?string $description): void
     {
         $this->description = $description;
-
-        return $this;
     }
 
-    /**
-     * @return string|null
-     */
-    public function getImage(): ?string
+    public function getImage(): ImageSliderImage
     {
         return $this->image;
     }
 
-    /**
-     * @param string $image
-     *
-     * @return ImageSliderLang $this
-     */
-    public function setImage(string $image): ImageSliderLang
+    public function setImage(ImageSliderImage $image): void
     {
         $this->image = $image;
-
-        return $this;
     }
 
-    /**
-     * @return string|null
-     */
-    public function getImageMobile(): ?string
+    public function getImageMobile(): ImageSliderImage
     {
         return $this->imageMobile;
     }
 
-    /**
-     * @param string $imageMobile
-     *
-     * @return ImageSliderLang $this
-     */
-    public function setImageMobile(string $imageMobile): ImageSliderLang
+    public function setImageMobile(ImageSliderImage $imageMobile): void
     {
         $this->imageMobile = $imageMobile;
-
-        return $this;
     }
 
-    /**
-     * @return Lang
-     */
     public function getLang(): Lang
     {
         return $this->lang;
     }
 
-    /**
-     * @param Lang $lang
-     *
-     * @return ImageSliderLang $this
-     */
-    public function setLang(Lang $lang): ImageSliderLang
+    public function setLang(Lang $lang): void
     {
         $this->lang = $lang;
-
-        return $this;
     }
 }

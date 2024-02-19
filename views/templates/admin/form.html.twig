@@ -18,7 +18,7 @@
 #}
 
 {% extends '@PrestaShop/Admin/layout.html.twig' %}
-{% form_theme imageSliderForm '@Modules/is_imageslider/views/templates/admin/form/prestashop_ui_kit.html.twig' %}
+{% form_theme imageSliderForm '@Modules/is_imageslider/views/templates/admin/form/form_theme.html.twig' %}
 
 {% block content %}
   {{ form_start(imageSliderForm) }}
@@ -30,7 +30,11 @@
         </h3>
         <div class="card-block">
           <div class="card-body">
-            <div class="form-wrapper">
+            <div class="form-wrapper image_slider">
+              {{ form_row(imageSliderForm.images_for_all_langs) }}
+
+              {{ form_widget(imageSliderForm.slider_langs) }}
+
               {{ form_widget(imageSliderForm) }}
               {{ form_rest(imageSliderForm) }}
             </div>
@@ -39,7 +43,7 @@
         <div class="card-footer">
           <div class="row">
             <div class="col-auto">
-              <a href="{{ path('is_imageslider_controller') }}" class="btn btn-outline-secondary">{{ 'Cancel'|trans({}, 'Admin.Actions') }}</a>
+              <a href="{{ path('admin_imageslider_controller_index') }}" class="btn btn-outline-secondary">{{ 'Cancel'|trans({}, 'Admin.Actions') }}</a>
             </div>
 
             <div class="col-auto ml-auto">
@@ -55,7 +59,7 @@
 
 {% block javascripts %}
   {{ parent() }}
-  <script src="{{ asset('../modules/is_imageslider/views/js/createForm.js') }}"></script>
+  <script src="{{ asset('../modules/is_imageslider/views/js/form.js') }}"></script>
 {% endblock %}
 
 

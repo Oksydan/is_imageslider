@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Oksydan\IsImageslider\Form;
+namespace Oksydan\IsImageslider\Form\Type;
 
 use Oksydan\IsImageslider\Configuration\SliderConfiguration;
 use Oksydan\IsImageslider\Translations\TranslationDomains;
@@ -13,7 +13,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Validator\Constraints\Range;
 
-class ImageSliderConfigurationType extends TranslatorAwareType
+final class ImageSliderConfigurationType extends TranslatorAwareType
 {
     /**
      * {@inheritdoc}

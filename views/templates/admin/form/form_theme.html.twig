@@ -1,0 +1,68 @@
+{% use '@PrestaShop/Admin/TwigTemplateForm/prestashop_ui_kit.html.twig' %}
+
+{% block image_preview_widget -%}
+{# This is the hidden input #}
+{% if value %}
+{{- block('form_widget_simple') -}}
+<img
+    data-related-field="{{ form.vars.id|replace({'_preview': ''}) }}"
+    src="{{ value }}"
+    alt="{{ ('Image preview for ' ~ form.vars.name)|trim }}"
+    style="max-width: 50%;"
+    class="{{ form.vars.image_class }}" />
+{% endif %}
+{%- endblock image_preview_widget %}
+
+{% block image_widget -%}
+  {% if form.vars.value %}
+    {{ dump(form.vars.value) }}
+  {% endif %}
+
+  {{ form_widget(form) }}
+{%- endblock image_widget %}
+
+{% block langfields_widget -%}
+  {{ form_errors(form) }}
+  {% set locales = form.vars.locales %}
+  {% set default_locale = form.vars.default_locale %}
+  {% set hide_locales = locales|length <= 1 %}
+
+  <div class="js-locale-input-group">
+
+    {% if not hide_locales %}
+      <div class="dropdown">
+        <button class="btn btn-outline-secondary dropdown-toggle js-locale-btn"
+                type="button"
+                data-toggle="dropdown"
+                aria-haspopup="true"
+                aria-expanded="false"
+        >
+          {{ default_locale.isoCode|upper }}
+        </button>
+
+        <div class="dropdown-menu dropdown-menu-right locale-dropdown-menu">
+          {% for locale in locales %}
+            <span class="dropdown-item js-locale-item" data-locale="{{ locale.isoCode }}">{{ locale.name }}</span>
+          {% endfor %}
+        </div>
+      </div>
+    {% endif %}
+
+    {% for formFields in form %}
+      {% set classes = formFields.vars.attr.class|default('') ~ ' js-locale-input'%}
+      {% set classes = classes ~ ' js-locale-' ~ formFields.vars.form_locale.isoCode %}
+
+      {% if default_locale.id != formFields.vars.form_locale.id %}
+        {% set classes = classes ~ ' d-none' %}
+      {% endif %}
+
+      <div data-lang-id="{{ formFields.vars.form_locale.id }}"
+           class="{{ classes }}"
+      >
+        <div class="col px-0">
+          {{ form_widget(formFields) }}
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+{%- endblock langfields_widget %}
