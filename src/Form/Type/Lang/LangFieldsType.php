@@ -43,7 +43,6 @@ final class LangFieldsType extends AbstractType
 
         $view->vars['locales'] = $locales;
         $view->vars['default_locale'] = $this->getDefaultLocale($locales);
-
     }
 
     public function finishView(FormView $view, FormInterface $form, array $options)

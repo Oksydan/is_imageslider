@@ -11,22 +11,3 @@ database_tables:
         length: 255
     primary:
       - id_image
-
-    constraint_keys:
-      - name: is_imageslider_constraint_image_slider_image_lang
-        foreign_table: image_slider_lang
-        update: NO ACTION
-        delete: CASCADE
-        local_columns:
-          - id_image
-        foreign_columns:
-          - image
-
-      - name: is_imageslider_constraint_image_slider_image_mobile_lang
-        foreign_table: image_slider_lang
-        update: NO ACTION
-        delete: CASCADE
-        local_columns:
-          - id_image
-        foreign_columns:
-          - image_mobile

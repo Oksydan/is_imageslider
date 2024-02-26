@@ -36,14 +36,6 @@ database_tables:
       - id_slide
       - id_lang
 
-    indexes:
-      - name: image_slider_lang_image
-        columns:
-          - image
-      - name: image_slider_lang_image_mobile
-        columns:
-          - image_mobile
-
     constraint_keys:
       - name: is_imageslider_constraint_lang
         foreign_table: lang
@@ -53,3 +45,21 @@ database_tables:
           - id_lang
         foreign_columns:
           - id_lang
+
+      - name: is_imageslider_constraint_image_slider_image_lang
+        foreign_table: image_slider_image
+        update: NO ACTION
+        delete: CASCADE
+        local_columns:
+          - image
+        foreign_columns:
+          - id_image
+
+      - name: is_imageslider_constraint_image_slider_image_mobile_lang
+        foreign_table: image_slider_image
+        update: NO ACTION
+        delete: CASCADE
+        local_columns:
+          - image_mobile
+        foreign_columns:
+          - id_image

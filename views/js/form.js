@@ -1,10 +1,11 @@
 
 const handleFileInputChange = () => {
-  const $fileInput = $('#image_slider [type="file"]');
+  const $fileInput = $('.js-slider-image-block [type="file"]');
 
   $fileInput.on('change', (e) => {
     const $input = $(e.currentTarget);
-    const $relatedImage = $(`[data-related-field="${$input.attr('id')}"]`);
+    const $block = $input.closest('.js-slider-image-block');
+    const $relatedImage = $block.find('.js-slider-image-block-img');
     const files = $input[0].files;
 
     if (FileReader && files && files.length) {

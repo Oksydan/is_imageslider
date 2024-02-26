@@ -54,13 +54,13 @@ class ImageSliderLangType extends AbstractType
                 'label' => $this->translator->trans('Description', [], TranslationDomains::TRANSLATION_DOMAIN_ADMIN),
                 'required' => false,
             ])
-            ->add('image_file', ImageType::class, [
+            ->add('image', ImageType::class, [
                 'label' => $this->translator->trans('Image', [], TranslationDomains::TRANSLATION_DOMAIN_ADMIN),
-                'mapped' => false,
+                'required' => false,
             ])
-            ->add('image_mobile_file', ImageType::class, [
+            ->add('image_mobile', ImageType::class, [
                 'label' => $this->translator->trans('Image mobile', [], TranslationDomains::TRANSLATION_DOMAIN_ADMIN),
-                'mapped' => false,
+                'required' => false,
             ]);
     }
 

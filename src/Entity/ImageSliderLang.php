@@ -65,13 +65,13 @@ class ImageSliderLang
     private string $description;
 
     /**
-     * @ORM\OneToOne(targetEntity="Oksydan\IsImageslider\Entity\ImageSliderImage", cascade={"persist", "remove"}, mappedBy="imageSlideLang")
+     * @ORM\OneToOne(targetEntity="Oksydan\IsImageslider\Entity\ImageSliderImage", cascade={"persist", "remove"}, mappedBy="imageSlideLang", fetch="EAGER")
      * @ORM\JoinColumn(name="image", referencedColumnName="id_image", nullable=true)
      */
     private ImageSliderImage $image;
 
     /**
-     * @ORM\OneToOne(targetEntity="Oksydan\IsImageslider\Entity\ImageSliderImage", cascade={"persist", "remove"}, mappedBy="imageSlideLang")
+     * @ORM\OneToOne(targetEntity="Oksydan\IsImageslider\Entity\ImageSliderImage", cascade={"persist", "remove"}, mappedBy="imageSlideLang", fetch="EAGER")
      * @ORM\JoinColumn(name="image_mobile", referencedColumnName="id_image", nullable=true)
      */
     private ImageSliderImage $imageMobile;

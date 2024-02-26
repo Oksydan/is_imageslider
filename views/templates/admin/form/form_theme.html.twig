@@ -1,24 +1,17 @@
 {% use '@PrestaShop/Admin/TwigTemplateForm/prestashop_ui_kit.html.twig' %}
 
-{% block image_preview_widget -%}
-{# This is the hidden input #}
-{% if value %}
-{{- block('form_widget_simple') -}}
-<img
-    data-related-field="{{ form.vars.id|replace({'_preview': ''}) }}"
-    src="{{ value }}"
-    alt="{{ ('Image preview for ' ~ form.vars.name)|trim }}"
-    style="max-width: 50%;"
-    class="{{ form.vars.image_class }}" />
-{% endif %}
-{%- endblock image_preview_widget %}
-
 {% block image_widget -%}
-  {% if form.vars.value %}
-    {{ dump(form.vars.value) }}
-  {% endif %}
+  <div class="js-slider-image-block">
+    <div class="mb-3">
+      {% if form.vars.value.name is defined %}
+        <img src="{{ asset('../modules/is_imageslider/img/' ~ form.vars.value.name) }}" class="img-fluid js-slider-image-block-img">
+      {% else %}
+        <img src="{{ asset('../modules/is_imageslider/views/img/placeholder.jpeg') }}" class="img-fluid js-slider-image-block-img">
+      {% endif %}
+    </div>
 
-  {{ form_widget(form) }}
+    {{ form_widget(form) }}
+  </div>
 {%- endblock image_widget %}
 
 {% block langfields_widget -%}
@@ -30,20 +23,29 @@
   <div class="js-locale-input-group">
 
     {% if not hide_locales %}
-      <div class="dropdown">
-        <button class="btn btn-outline-secondary dropdown-toggle js-locale-btn"
-                type="button"
-                data-toggle="dropdown"
-                aria-haspopup="true"
-                aria-expanded="false"
-        >
-          {{ default_locale.isoCode|upper }}
-        </button>
+      <div class="form-group row text-widget">
 
-        <div class="dropdown-menu dropdown-menu-right locale-dropdown-menu">
-          {% for locale in locales %}
-            <span class="dropdown-item js-locale-item" data-locale="{{ locale.isoCode }}">{{ locale.name }}</span>
-          {% endfor %}
+        <label class="form-control-label">
+          {{ 'Select language:'|trans({}, 'Modules.Isimageslider.Admin') }}
+        </label>
+
+        <div class="col-sm">
+          <div class="dropdown">
+            <button class="btn btn-outline-secondary dropdown-toggle js-locale-btn"
+                    type="button"
+                    data-toggle="dropdown"
+                    aria-haspopup="true"
+                    aria-expanded="false"
+            >
+              {{ default_locale.isoCode|upper }}
+            </button>
+
+            <div class="dropdown-menu dropdown-menu-right locale-dropdown-menu">
+              {% for locale in locales %}
+                <span class="dropdown-item js-locale-item" data-locale="{{ locale.isoCode }}">{{ locale.name }}</span>
+              {% endfor %}
+            </div>
+          </div>
         </div>
       </div>
     {% endif %}
@@ -60,7 +62,15 @@
            class="{{ classes }}"
       >
         <div class="col px-0">
-          {{ form_widget(formFields) }}
+          {% for innerForm in formFields %}
+
+            {% if not hide_locales %}
+              {% set label = innerForm.vars.label ~ ' (' ~ formFields.vars.form_locale.isoCode|upper ~ ')' %}
+            {% else %}
+              {% set label = innerForm.vars.label %}
+            {% endif %}
+            {{ form_row(innerForm, { label: label }) }}
+          {% endfor %}
         </div>
       </div>
     {% endfor %}

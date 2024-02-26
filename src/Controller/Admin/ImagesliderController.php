@@ -120,7 +120,6 @@ class ImagesliderController extends FrameworkBundleAdminController
 
                 return $this->redirectToRoute('admin_imageslider_controller_index');
             } catch (\Exception $e) {
-                throw $e;
                 $this->addFlash('error', $this->getErrorMessagesForExceptions($e, $this->getErrorMessages()));
             }
         }
