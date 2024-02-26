@@ -36,7 +36,7 @@ final class ImageSliderType extends TranslatorAwareType
         TranslatorInterface $translator,
         array $locales,
         MultistoreFeature $multistoreFeature,
-        ImagesliderFormSubscriber $imagesliderFormSubscriber,
+        ImagesliderFormSubscriber $imagesliderFormSubscriber
     ) {
         parent::__construct($translator, $locales);
 
