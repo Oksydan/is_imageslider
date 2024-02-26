@@ -110,7 +110,6 @@ final class LangFieldsType extends AbstractType
         return 'langfields';
     }
 
-
     /**
      * Get default locale.
      *
@@ -139,5 +138,4 @@ final class LangFieldsType extends AbstractType
 
         return reset($locales);
     }
-
 }

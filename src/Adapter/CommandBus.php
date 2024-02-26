@@ -20,4 +20,3 @@ final class CommandBus implements CommandBusInterface
         $this->commandBus->handle($command);
     }
 }
-

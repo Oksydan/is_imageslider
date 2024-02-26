@@ -19,7 +19,6 @@ class ImageSliderRepository extends ServiceEntityRepository
         parent::__construct($registry, ImageSlider::class);
     }
 
-
     public function save(ImageSlider $imageSlider): void
     {
         $this->getEntityManager()->persist($imageSlider);

@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Oksydan\IsImageslider\Domain\ImageSlider\CommandHandler;
 
+use Oksydan\IsImageslider\Domain\ImageSlider\Command\CreateImageSliderCommand;
 use Oksydan\IsImageslider\Helper\UploadHelper;
 use Oksydan\IsImageslider\Repository\ImageSliderRepository;
-use Oksydan\IsImageslider\Domain\ImageSlider\Command\CreateImageSliderCommand;
 
 final class CreateImageSliderHandler implements CreateImageSliderHandlerInterface
 {

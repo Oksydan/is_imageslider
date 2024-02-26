@@ -133,6 +133,7 @@ class ImagesliderController extends FrameworkBundleAdminController
 
     /**
      * @Route(path="/edit/{slideId}", name="edit", methods={"GET", "POST"})
+     *
      * @ParamConverter("imageSlider", class="Oksydan\IsImageslider\Entity\ImageSlider", options={"id" = "slideId"})
      */
     public function edit(Request $request, ImageSlider $imageSlider, CommandBusInterface $commandBus): Response
@@ -169,6 +170,7 @@ class ImagesliderController extends FrameworkBundleAdminController
 
     /**
      * @Route(path="/delete/{$slideId}", name="delete", methods={"GET", "POST"})
+     *
      * @Entity("imageSlider", expr="repository.find(slideId)")
      */
     public function delete(Request $request, ImageSlider $imageSlider): Response
@@ -233,6 +235,7 @@ class ImagesliderController extends FrameworkBundleAdminController
 
     /**
      * @Route(path="/toggleStatus/{$slideId}", name="toggle_status", methods={"GET", "POST"})
+     *
      * @Entity("imageSlider", expr="repository.find(slideId)")
      */
     public function toggleStatus(Request $request, ImageSlider $imageSlider): Response

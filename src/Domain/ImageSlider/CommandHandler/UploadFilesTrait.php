@@ -6,7 +6,6 @@ namespace Oksydan\IsImageslider\Domain\ImageSlider\CommandHandler;
 
 use Doctrine\Common\Collections\Collection;
 use Oksydan\IsImageslider\Entity\ImageSliderImage;
-use Oksydan\IsImageslider\Entity\ImageSliderLang;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 trait UploadFilesTrait

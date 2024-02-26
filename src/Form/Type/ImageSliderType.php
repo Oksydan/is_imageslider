@@ -96,7 +96,7 @@ final class ImageSliderType extends TranslatorAwareType
             ]);
         }
 
-//        $builder->addEventSubscriber($this->imagesliderFormSubscriber);
+        //        $builder->addEventSubscriber($this->imagesliderFormSubscriber);
     }
 
     public function configureOptions(OptionsResolver $resolver): void

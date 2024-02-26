@@ -39,15 +39,15 @@ class ImagesliderFormSubscriber implements EventSubscriberInterface
             $imageConstrains[] = new NotBlank();
         }
 
-//        if ($imagesForAllLangs) {
-//            $form->add('images', ImagesType::class, [
-//                'imagesConstraints' => $imageConstrains,
-//            ]);
-//        } else {
-//            $form->add('images', ImagesMultilangType::class, [
-//                'imagesConstraints' => $imageConstrains,
-//            ]);
-//        }
+        //        if ($imagesForAllLangs) {
+        //            $form->add('images', ImagesType::class, [
+        //                'imagesConstraints' => $imageConstrains,
+        //            ]);
+        //        } else {
+        //            $form->add('images', ImagesMultilangType::class, [
+        //                'imagesConstraints' => $imageConstrains,
+        //            ]);
+        //        }
     }
 
     public function preSetData(FormEvent $event)
