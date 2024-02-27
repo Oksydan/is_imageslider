@@ -21,35 +21,6 @@
   {% set hide_locales = locales|length <= 1 %}
 
   <div class="js-locale-input-group">
-
-    {% if not hide_locales %}
-      <div class="form-group row text-widget">
-
-        <label class="form-control-label">
-          {{ 'Select language:'|trans({}, 'Modules.Isimageslider.Admin') }}
-        </label>
-
-        <div class="col-sm">
-          <div class="dropdown">
-            <button class="btn btn-outline-secondary dropdown-toggle js-locale-btn"
-                    type="button"
-                    data-toggle="dropdown"
-                    aria-haspopup="true"
-                    aria-expanded="false"
-            >
-              {{ default_locale.isoCode|upper }}
-            </button>
-
-            <div class="dropdown-menu dropdown-menu-right locale-dropdown-menu">
-              {% for locale in locales %}
-                <span class="dropdown-item js-locale-item" data-locale="{{ locale.isoCode }}">{{ locale.name }}</span>
-              {% endfor %}
-            </div>
-          </div>
-        </div>
-      </div>
-    {% endif %}
-
     {% for formFields in form %}
       {% set classes = formFields.vars.attr.class|default('') ~ ' js-locale-input'%}
       {% set classes = classes ~ ' js-locale-' ~ formFields.vars.form_locale.isoCode %}
@@ -64,12 +35,41 @@
         <div class="col px-0">
           {% for innerForm in formFields %}
 
-            {% if not hide_locales %}
-              {% set label = innerForm.vars.label ~ ' (' ~ formFields.vars.form_locale.isoCode|upper ~ ')' %}
+            {% set formType = innerForm.vars.block_prefixes.1 ?? null %}
+
+            {% if formType != 'hidden' %}
+            <div class="form-group row text-widget">
+              {{ form_label(innerForm, label) }}
+
+              <div class="col-sm input-container">
+                {{ form_widget(innerForm) }}
+              </div>
+
+              {% if not hide_locales %}
+                <div class="col-auto">
+                  <div class="dropdown">
+                    <button class="btn btn-outline-secondary dropdown-toggle js-locale-btn"
+                            type="button"
+                            data-toggle="dropdown"
+                            aria-haspopup="true"
+                            aria-expanded="false"
+                    >
+                      {{ default_locale.isoCode|upper }}
+                    </button>
+
+                    <div class="dropdown-menu dropdown-menu-right locale-dropdown-menu">
+                      {% for locale in locales %}
+                        <span class="dropdown-item js-locale-item" data-locale="{{ locale.isoCode }}">{{ locale.name }}</span>
+                      {% endfor %}
+                    </div>
+                  </div>
+                </div>
+              {% endif %}
+            </div>
+
             {% else %}
-              {% set label = innerForm.vars.label %}
+              {{ form_widget(innerForm) }}
             {% endif %}
-            {{ form_row(innerForm, { label: label }) }}
           {% endfor %}
         </div>
       </div>
