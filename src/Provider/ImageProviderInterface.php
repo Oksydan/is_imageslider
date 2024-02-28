@@ -7,11 +7,9 @@ namespace Oksydan\IsImageslider\Provider;
 interface ImageProviderInterface
 {
     /**
-     * Get slider image path.
-     *
-     * @param string $fileName
+     * @param int|null $fileName
      *
      * @return string Path to slider image
      */
-    public function getPath(string $fileName);
+    public function getPath(?int $imageId): string;
 }

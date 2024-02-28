@@ -19,4 +19,4 @@ services:
     class: 'Oksydan\IsImageslider\Grid\Data\Factory\ImageSliderGridDataFactory'
     arguments:
       - '@oksydan.is_imageslider.grid.data.factory.image_slider_data_factory'
-      - '@oksydan.is_imageslider.provider.image_provider'
+      - '@Oksydan\IsImageslider\Provider\ImageProvider'

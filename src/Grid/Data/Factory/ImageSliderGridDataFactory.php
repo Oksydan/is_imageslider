@@ -59,9 +59,9 @@ final class ImageSliderGridDataFactory implements GridDataFactoryInterface
      */
     private function applyModification(array $sliders)
     {
-        //        foreach ($sliders as $i => $slider) {
-        //            $sliders[$i]['image'] = $this->imagesliderImageThumbProvider->getPath($slider['image']);
-        //        }
+        foreach ($sliders as $i => $slider) {
+            $sliders[$i]['image'] = $this->imagesliderImageThumbProvider->getPath($slider['image']);
+        }
 
         return $sliders;
     }

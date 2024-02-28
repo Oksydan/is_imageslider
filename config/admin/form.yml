@@ -26,9 +26,3 @@ services:
       - '@prestashop.adapter.legacy.configuration'
       - '@prestashop.adapter.shop.context'
       - '@prestashop.adapter.multistore_feature'
-
-  oksydan.is_imageslider.provider.image_provider:
-    class: 'Oksydan\IsImageslider\Provider\ImageProvider'
-    public: true
-    arguments:
-      - '%is_imageslider_images_uri%'
