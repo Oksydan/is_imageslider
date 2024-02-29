@@ -25,6 +25,12 @@ class ImageSliderRepository extends ServiceEntityRepository
         $this->getEntityManager()->flush();
     }
 
+    public function delete(ImageSlider $imageSlider): void
+    {
+        $this->getEntityManager()->remove($imageSlider);
+        $this->getEntityManager()->flush();
+    }
+
     public function getAllIds(): array
     {
         /** @var QueryBuilder $qb */

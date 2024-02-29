@@ -20,3 +20,30 @@ services:
     tags:
       - name: tactician.handler
         command: Oksydan\IsImageslider\Domain\ImageSlider\Command\EditImageSliderCommand
+
+
+  Oksydan\IsImageslider\Domain\ImageSlider\CommandHandler\DeleteImageSliderHandlerInterface:
+    alias: Oksydan\IsImageslider\Domain\ImageSlider\CommandHandler\DeleteImageSliderHandler
+
+  Oksydan\IsImageslider\Domain\ImageSlider\CommandHandler\DeleteImageSliderHandler:
+    tags:
+      - name: tactician.handler
+        command: Oksydan\IsImageslider\Domain\ImageSlider\Command\DeleteImageSliderCommand
+
+
+  Oksydan\IsImageslider\Domain\ImageSlider\CommandHandler\ToggleStatusImageSliderHandlerInterface:
+    alias: Oksydan\IsImageslider\Domain\ImageSlider\CommandHandler\ToggleStatusImageSliderHandler
+
+  Oksydan\IsImageslider\Domain\ImageSlider\CommandHandler\ToggleStatusImageSliderHandler:
+    tags:
+      - name: tactician.handler
+        command: Oksydan\IsImageslider\Domain\ImageSlider\Command\ToggleStatusImageSliderCommand
+
+
+  Oksydan\IsImageslider\Domain\ImageSlider\CommandHandler\DeleteImageSliderImageFileHandlerInterface:
+    alias: Oksydan\IsImageslider\Domain\ImageSlider\CommandHandler\DeleteImageSliderImageFileHandler
+
+  Oksydan\IsImageslider\Domain\ImageSlider\CommandHandler\DeleteImageSliderImageFileHandler:
+    tags:
+      - name: tactician.handler
+        command: Oksydan\IsImageslider\Domain\ImageSlider\Command\DeleteImageSliderImageFileCommand

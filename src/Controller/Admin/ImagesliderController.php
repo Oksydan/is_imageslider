@@ -7,13 +7,13 @@ namespace Oksydan\IsImageslider\Controller\Admin;
 use Oksydan\IsImageslider\Adapter\CommandBusInterface;
 use Oksydan\IsImageslider\Cache\TemplateCache;
 use Oksydan\IsImageslider\Domain\ImageSlider\Command\CreateImageSliderCommand;
+use Oksydan\IsImageslider\Domain\ImageSlider\Command\DeleteImageSliderCommand;
 use Oksydan\IsImageslider\Domain\ImageSlider\Command\EditImageSliderCommand;
+use Oksydan\IsImageslider\Domain\ImageSlider\Command\ToggleStatusImageSliderCommand;
 use Oksydan\IsImageslider\Entity\ImageSlider;
 use Oksydan\IsImageslider\Exceptions\DateRangeNotValidException;
 use Oksydan\IsImageslider\Filter\ImageSliderFileters;
 use Oksydan\IsImageslider\Form\Type\ImageSliderType;
-use Oksydan\IsImageslider\Handler\Slide\DeleteSlideHandler;
-use Oksydan\IsImageslider\Handler\Slide\ToggleSlideActivityHandler;
 use Oksydan\IsImageslider\Handler\Slide\UpdateSliderPositionHandler;
 use Oksydan\IsImageslider\Repository\ImageSliderRepository;
 use Oksydan\IsImageslider\Translations\TranslationDomains;
@@ -37,8 +37,6 @@ class ImagesliderController extends FrameworkBundleAdminController
 {
     private TemplateCache $templateCache;
 
-    private DeleteSlideHandler $deleteSlideHandler;
-
     private GridFactoryInterface $imagsliderGridFactory;
 
     private GridPresenter $gridPresenter;
@@ -47,28 +45,22 @@ class ImagesliderController extends FrameworkBundleAdminController
 
     private ImageSliderRepository $imageSliderRepository;
 
-    private ToggleSlideActivityHandler $toggleSlideActivityHandler;
-
     private UpdateSliderPositionHandler $updateSliderPositionHandler;
 
     public function __construct(
         TemplateCache $templateCache,
-        DeleteSlideHandler $deleteSlideHandler,
         GridFactoryInterface $imagsliderGridFactory,
         GridPresenter $gridPresenter,
         TranslatorInterface $translator,
         ImageSliderRepository $imageSliderRepository,
-        ToggleSlideActivityHandler $toggleSlideActivityHandler,
         UpdateSliderPositionHandler $updateSliderPositionHandler
     ) {
         parent::__construct();
         $this->templateCache = $templateCache;
-        $this->deleteSlideHandler = $deleteSlideHandler;
         $this->imagsliderGridFactory = $imagsliderGridFactory;
         $this->gridPresenter = $gridPresenter;
         $this->translator = $translator;
         $this->imageSliderRepository = $imageSliderRepository;
-        $this->toggleSlideActivityHandler = $toggleSlideActivityHandler;
         $this->updateSliderPositionHandler = $updateSliderPositionHandler;
     }
 
@@ -169,29 +161,32 @@ class ImagesliderController extends FrameworkBundleAdminController
     }
 
     /**
-     * @Route(path="/delete/{$slideId}", name="delete", methods={"GET", "POST"})
+     * @Route(path="/delete/{slideId}", name="delete", methods={"POST", "GET"})
      *
      * @Entity("imageSlider", expr="repository.find(slideId)")
      */
-    public function delete(Request $request, ImageSlider $imageSlider): Response
+    public function delete(Request $request, ImageSlider $imageSlider, CommandBusInterface $commandBus): Response
     {
-        if (!empty($imageSlide)) {
-            $this->deleteSlideHandler->handle($imageSlide);
+        try {
+            $commandBus->handle(new DeleteImageSliderCommand($imageSlider));
 
             $this->addFlash(
                 'success',
                 $this->trans('Successful deletion.', 'Admin.Notifications.Success')
             );
 
-            return $this->redirectToRoute('is_imageslider_controller');
+            $this->clearTemplateCache();
+
+            return $this->redirectToRoute('admin_imageslider_controller_index');
+        } catch (\Exception $e) {
+            throw $e;
+            $this->addFlash(
+                'error',
+                $this->trans('Cannot delete slider', TranslationDomains::TRANSLATION_DOMAIN_ADMIN)
+            );
         }
 
-        $this->addFlash(
-            'error',
-            $this->trans('Cannot find slider %d', TranslationDomains::TRANSLATION_DOMAIN_ADMIN, ['%d' => $slideId])
-        );
-
-        return $this->redirectToRoute('is_imageslider_controller');
+        return $this->redirectToRoute('admin_imageslider_controller_index');
     }
 
     /**
@@ -234,27 +229,25 @@ class ImagesliderController extends FrameworkBundleAdminController
     }
 
     /**
-     * @Route(path="/toggleStatus/{$slideId}", name="toggle_status", methods={"GET", "POST"})
+     * @Route(path="/toggleStatus/{slideId}", name="toggle_status", methods={"POST"})
      *
      * @Entity("imageSlider", expr="repository.find(slideId)")
      */
-    public function toggleStatus(Request $request, ImageSlider $imageSlider): Response
+    public function toggleStatus(ImageSlider $imageSlider, CommandBusInterface $commandBus): Response
     {
         try {
-            $this->toggleSlideActivityHandler->handle($imageSlider);
+            $commandBus->handle(new ToggleStatusImageSliderCommand($imageSlider));
 
             $response = [
                 'status' => true,
                 'message' => $this->trans('The status has been successfully updated.', 'Admin.Notifications.Success'),
             ];
+
+            $this->clearTemplateCache();
         } catch (\Exception $e) {
             $response = [
                 'status' => false,
-                'message' => sprintf(
-                    'There was an error while updating the status of slide %d: %s',
-                    $imageSlider->getId(),
-                    $e->getMessage()
-                ),
+                'message' => $this->trans('There was an error while updating the status of slide.', TranslationDomains::TRANSLATION_DOMAIN_ADMIN),
             ];
         }
 
