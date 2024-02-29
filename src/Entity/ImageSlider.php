@@ -63,7 +63,7 @@ class ImageSlider
     private bool $image_to_all_langs;
 
     /**
-     * @ORM\OneToMany(targetEntity="Oksydan\IsImageslider\Entity\ImageSliderLang", cascade={"persist", "remove"}, mappedBy="imageSlide")
+     * @ORM\OneToMany(targetEntity="Oksydan\IsImageslider\Entity\ImageSliderLang", mappedBy="imageSlider", cascade={"persist", "remove"})
      */
     private Collection $sliderLang;
 

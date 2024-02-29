@@ -16,9 +16,3 @@ services:
   oksydan.is_imageslider.context:
     class: Context
     factory: [ '\Context', getContext ]
-
-  Oksydan\IsImageslider\Domain\ImageSlider\EventListener\ImageSliderImageEventListener:
-    class: Oksydan\IsImageslider\Domain\ImageSlider\EventListener\ImageSliderImageEventListener
-    autowire: true
-    tags:
-      - { name: 'doctrine.orm.entity_listener', event: 'postRemove', entity: 'Oksydan\IsImageslider\Domain\ImageSlider\Entity\ImageSliderImage' }

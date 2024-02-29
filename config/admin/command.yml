@@ -38,12 +38,3 @@ services:
     tags:
       - name: tactician.handler
         command: Oksydan\IsImageslider\Domain\ImageSlider\Command\ToggleStatusImageSliderCommand
-
-
-  Oksydan\IsImageslider\Domain\ImageSlider\CommandHandler\DeleteImageSliderImageFileHandlerInterface:
-    alias: Oksydan\IsImageslider\Domain\ImageSlider\CommandHandler\DeleteImageSliderImageFileHandler
-
-  Oksydan\IsImageslider\Domain\ImageSlider\CommandHandler\DeleteImageSliderImageFileHandler:
-    tags:
-      - name: tactician.handler
-        command: Oksydan\IsImageslider\Domain\ImageSlider\Command\DeleteImageSliderImageFileCommand

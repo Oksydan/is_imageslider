@@ -9,7 +9,6 @@ use PrestaShopBundle\Entity\Lang;
 
 /**
  * @ORM\Table()
- *
  * @ORM\Entity
  */
 class ImageSliderLang
@@ -18,20 +17,16 @@ class ImageSliderLang
      * @var ImageSlider
      *
      * @ORM\Id
-     *
-     * @ORM\ManyToOne(targetEntity="Oksydan\IsImageslider\Entity\ImageSlider", inversedBy="imageSlideLang")
-     *
+     * @ORM\ManyToOne(targetEntity="Oksydan\IsImageslider\Entity\ImageSlider", inversedBy="sliderLang")
      * @ORM\JoinColumn(name="id_slide", referencedColumnName="id_slide", nullable=false)
      */
-    private ImageSlider $imageSlide;
+    private ImageSlider $imageSlider;
 
     /**
      * @var Lang
      *
      * @ORM\Id
-     *
      * @ORM\ManyToOne(targetEntity="PrestaShopBundle\Entity\Lang")
-     *
      * @ORM\JoinColumn(name="id_lang", referencedColumnName="id_lang", nullable=false, onDelete="CASCADE")
      */
     private Lang $lang;
@@ -65,27 +60,25 @@ class ImageSliderLang
     private string $description;
 
     /**
-     * @ORM\OneToOne(targetEntity="Oksydan\IsImageslider\Entity\ImageSliderImage", cascade={"persist", "remove"}, mappedBy="imageSlideLang", fetch="EAGER")
-     *
+     * @ORM\ManyToOne(targetEntity="Oksydan\IsImageslider\Entity\ImageSliderImage", inversedBy="imageSliderLangs", cascade={"persist", "remove"}, fetch="EAGER")
      * @ORM\JoinColumn(name="image", referencedColumnName="id_image", nullable=true)
      */
-    private ImageSliderImage $image;
+    private ?ImageSliderImage $image = null;
 
     /**
-     * @ORM\OneToOne(targetEntity="Oksydan\IsImageslider\Entity\ImageSliderImage", cascade={"persist", "remove"}, mappedBy="imageSlideLang", fetch="EAGER")
-     *
+     * @ORM\ManyToOne(targetEntity="Oksydan\IsImageslider\Entity\ImageSliderImage", inversedBy="imageMobileSliderLangs", cascade={"persist", "remove"}, fetch="EAGER")
      * @ORM\JoinColumn(name="image_mobile", referencedColumnName="id_image", nullable=true)
      */
-    private ImageSliderImage $imageMobile;
+    private ?ImageSliderImage $imageMobile = null;
 
     public function getImageSlider(): ImageSlider
     {
-        return $this->imageSlide;
+        return $this->imageSlider;
     }
 
-    public function setImageSlider(ImageSlider $imageSlide): void
+    public function setImageSlider(ImageSlider $imageSlider): void
     {
-        $this->imageSlide = $imageSlide;
+        $this->imageSlider = $imageSlider;
     }
 
     public function getTitle(): string
@@ -131,26 +124,6 @@ class ImageSliderLang
         $this->description = $description;
     }
 
-    public function getImage(): ImageSliderImage
-    {
-        return $this->image;
-    }
-
-    public function setImage(ImageSliderImage $image): void
-    {
-        $this->image = $image;
-    }
-
-    public function getImageMobile(): ImageSliderImage
-    {
-        return $this->imageMobile;
-    }
-
-    public function setImageMobile(ImageSliderImage $imageMobile): void
-    {
-        $this->imageMobile = $imageMobile;
-    }
-
     public function getLang(): Lang
     {
         return $this->lang;
@@ -159,5 +132,25 @@ class ImageSliderLang
     public function setLang(Lang $lang): void
     {
         $this->lang = $lang;
+    }
+
+    public function getImage(): ?ImageSliderImage
+    {
+        return $this->image;
+    }
+
+    public function setImage(?ImageSliderImage $image): void
+    {
+        $this->image = $image;
+    }
+
+    public function getImageMobile(): ?ImageSliderImage
+    {
+        return $this->imageMobile;
+    }
+
+    public function setImageMobile(?ImageSliderImage $imageMobile): void
+    {
+        $this->imageMobile = $imageMobile;
     }
 }
