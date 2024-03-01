@@ -2,7 +2,7 @@ imports:
   - { resource: ../common.yml }
   - { resource: ./grid.yml }
   - { resource: ./form.yml }
-
+  - { resource: ./command.yml }
 
 services:
   _defaults:
@@ -29,17 +29,25 @@ services:
   Oksydan\IsImageslider\:
     resource: '../../src/*'
     exclude:
-      - '../../src/{Controller,Falconize}'
+      - '../../src/{Controller,Falconize,Domain}'
+      - '../../src/Form/DataTransformer'
+      - '../../src/Form/EventListener'
+      - '../../src/Form/Type/Shop'
       - '../../src/index.php'
       - '../../src/*/index.php'
       - '../../src/**/index.php'
 
-  Oksydan\IsImageslider\Controller\ImagesliderController:
-    class: Oksydan\IsImageslider\Controller\ImagesliderController
+  Oksydan\IsImageslider\Controller\Admin\ImagesliderController:
+    class: Oksydan\IsImageslider\Controller\Admin\ImagesliderController
     arguments:
       $imagsliderGridFactory: '@oksydan.is_imageslider.grid.image_slider_grid_factory'
-      $imagesliderConfigurationFormHandler: '@oksydan.is_imageslider.image_slider_configuration.form_handler'
-      $imagesliderFormBuilder: '@oksydan.is_imageslider.form.identifiable_object.builder.image_slider_form_builder'
-      $imagesliderFormHandler: '@oksydan.is_imageslider.form.identifiable_object.handler.image_slider_form_handler'
       $gridPresenter: '@prestashop.core.grid.presenter.grid_presenter'
+
+  Oksydan\IsImageslider\Adapter\CommandBusInterface: '@Oksydan\IsImageslider\Adapter\CommandBus'
+  Oksydan\IsImageslider\Adapter\CommandBus:
+    class: Oksydan\IsImageslider\Adapter\CommandBus
+    autowire: false
+    public: false
+    arguments:
+      - '@prestashop.core.command_bus'
 

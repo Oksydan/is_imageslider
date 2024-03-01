@@ -66,7 +66,7 @@ class ImageSliderGridDefinitionFactory extends AbstractGridDefinitionFactory
                     ->setOptions([
                         'id_field' => 'id_slide',
                         'position_field' => 'position',
-                        'update_route' => 'is_imageslider_controller_update_positions',
+                        'update_route' => 'admin_imageslider_controller_update_position',
                         'update_method' => 'POST',
                     ])
             )
@@ -104,7 +104,7 @@ class ImageSliderGridDefinitionFactory extends AbstractGridDefinitionFactory
                     ->setOptions([
                         'field' => 'active',
                         'primary_field' => 'id_slide',
-                        'route' => 'is_imageslider_controller_toggle_status',
+                        'route' => 'admin_imageslider_controller_toggle_status',
                         'route_param_name' => 'slideId',
                     ])
             )
@@ -116,7 +116,7 @@ class ImageSliderGridDefinitionFactory extends AbstractGridDefinitionFactory
                                 (new LinkRowAction('edit'))
                                     ->setIcon('edit')
                                     ->setOptions([
-                                        'route' => 'is_imageslider_controller_edit',
+                                        'route' => 'admin_imageslider_controller_edit',
                                         'route_param_name' => 'slideId',
                                         'route_param_field' => 'id_slide',
                                     ])
@@ -126,7 +126,7 @@ class ImageSliderGridDefinitionFactory extends AbstractGridDefinitionFactory
                                     ->setName($this->trans->trans('Delete', [], 'Admin.Actions'))
                                     ->setIcon('delete')
                                     ->setOptions([
-                                        'route' => 'is_imageslider_controller_delete',
+                                        'route' => 'admin_imageslider_controller_delete',
                                         'route_param_name' => 'slideId',
                                         'route_param_field' => 'id_slide',
                                         'confirm_message' => $this->trans->trans(

@@ -1,15 +1,65 @@
-$(document).ready(function () {
+
+const handleFileInputChange = () => {
+  const $fileInput = $('.js-slider-image-block [type="file"]');
+
+  $fileInput.on('change', (e) => {
+    const $input = $(e.currentTarget);
+    const $block = $input.closest('.js-slider-image-block');
+    const $relatedImage = $block.find('.js-slider-image-block-img');
+    const files = $input[0].files;
+
+    if (FileReader && files && files.length) {
+      const reader = new FileReader();
+
+      reader.onload = function () {
+        $relatedImage.attr('data-placeholder', $relatedImage.attr('src'));
+        $relatedImage.attr('src', reader.result)
+      }
+
+      reader.readAsDataURL(files[0]);
+    }
+  })
+}
+
+const handleImageTypeSwitch = () => {
+  const $imageSwitch = $('.js-toggle-images-types');
+
+  $imageSwitch.on('change', (e) => {
+    const $radio = $(e.currentTarget);
+    const $form = $radio.closest('form');
+    const data = {};
+    const $token = $('#image_slider__token');
+    const $edit = $('#image_slider_edit');
+
+    data[$radio.attr('name')] = $radio.val();
+    data[$token.attr('name')] = $token.val();
+    data[$edit.attr('name')] = 1; // We don't want to trigger NotEmpty constraint on the image fields
+
+    $.ajax({
+      method: $form.attr('method'),
+      data,
+      success: (response) => {
+        const $newImagesFields = $(response).find('.js-image-fields');
+
+        $form.find('.js-image-fields').replaceWith($newImagesFields);
+      }
+    })
+  })
+}
+
+$(() => {
+    handleFileInputChange();
+    handleImageTypeSwitch();
+
     window.prestashop.component.initComponents(
         [
-            'MultistoreConfigField',
-            'Grid',
+            'TranslatableField',
+            'TinyMCEEditor',
+            'TranslatableInput',
         ],
     );
 
-    const imageSliderkGrid = new window.prestashop.component.Grid('is_imageslider');
-
-    imageSliderkGrid.addExtension(new prestashop.component.GridExtensions.AsyncToggleColumnExtension());
-    imageSliderkGrid.addExtension(new window.prestashop.component.GridExtensions.SortingExtension());
-    imageSliderkGrid.addExtension(new window.prestashop.component.GridExtensions.PositionExtension());
-    imageSliderkGrid.addExtension(new window.prestashop.component.GridExtensions.SubmitRowActionExtension());
+    const choiceTree = new window.prestashop.component.ChoiceTree('#image_slider_shop_association');
+    choiceTree.enableAutoCheckChildren();
 });
+

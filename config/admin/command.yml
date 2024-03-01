@@ -1,0 +1,40 @@
+
+services:
+  _defaults:
+    autowire: true
+    public: false
+
+  Oksydan\IsImageslider\Domain\ImageSlider\CommandHandler\CreateImageSliderHandlerInterface:
+    alias: Oksydan\IsImageslider\Domain\ImageSlider\CommandHandler\CreateImageSliderHandler
+
+  Oksydan\IsImageslider\Domain\ImageSlider\CommandHandler\CreateImageSliderHandler:
+    tags:
+      - name: tactician.handler
+        command: Oksydan\IsImageslider\Domain\ImageSlider\Command\CreateImageSliderCommand
+
+
+  Oksydan\IsImageslider\Domain\ImageSlider\CommandHandler\EditImageSliderHandlerInterface:
+    alias: Oksydan\IsImageslider\Domain\ImageSlider\CommandHandler\EditImageSliderHandler
+
+  Oksydan\IsImageslider\Domain\ImageSlider\CommandHandler\EditImageSliderHandler:
+    tags:
+      - name: tactician.handler
+        command: Oksydan\IsImageslider\Domain\ImageSlider\Command\EditImageSliderCommand
+
+
+  Oksydan\IsImageslider\Domain\ImageSlider\CommandHandler\DeleteImageSliderHandlerInterface:
+    alias: Oksydan\IsImageslider\Domain\ImageSlider\CommandHandler\DeleteImageSliderHandler
+
+  Oksydan\IsImageslider\Domain\ImageSlider\CommandHandler\DeleteImageSliderHandler:
+    tags:
+      - name: tactician.handler
+        command: Oksydan\IsImageslider\Domain\ImageSlider\Command\DeleteImageSliderCommand
+
+
+  Oksydan\IsImageslider\Domain\ImageSlider\CommandHandler\ToggleStatusImageSliderHandlerInterface:
+    alias: Oksydan\IsImageslider\Domain\ImageSlider\CommandHandler\ToggleStatusImageSliderHandler
+
+  Oksydan\IsImageslider\Domain\ImageSlider\CommandHandler\ToggleStatusImageSliderHandler:
+    tags:
+      - name: tactician.handler
+        command: Oksydan\IsImageslider\Domain\ImageSlider\Command\ToggleStatusImageSliderCommand

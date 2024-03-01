@@ -56,9 +56,16 @@ class ImageSlider
     private \DateTime $display_to;
 
     /**
-     * @ORM\OneToMany(targetEntity="Oksydan\IsImageslider\Entity\ImageSliderLang", cascade={"persist", "remove"}, mappedBy="imageSlide")
+     * @var bool
+     *
+     * @ORM\Column(name="image_to_all_langs", type="boolean")
      */
-    private Collection $sliderLangs;
+    private bool $image_to_all_langs;
+
+    /**
+     * @ORM\OneToMany(targetEntity="Oksydan\IsImageslider\Entity\ImageSliderLang", mappedBy="imageSlider", cascade={"persist", "remove"})
+     */
+    private Collection $sliderLang;
 
     /**
      * @ORM\ManyToMany(targetEntity="PrestaShopBundle\Entity\Shop", cascade={"persist"})
@@ -73,15 +80,17 @@ class ImageSlider
     public function __construct()
     {
         $this->shops = new ArrayCollection();
-        $this->sliderLangs = new ArrayCollection();
+        $this->sliderLang = new ArrayCollection();
     }
 
-    /**
-     * @return int
-     */
     public function getId(): int
     {
         return $this->id;
+    }
+
+    public function setId(int $id): void
+    {
+        $this->id = $id;
     }
 
     /**
@@ -92,154 +101,82 @@ class ImageSlider
         return $this->active;
     }
 
-    /**
-     * @param bool $active
-     *
-     * @return ImageSlider $this
-     */
-    public function setActive(bool $active): ImageSlider
+    public function setActive(bool $active): void
     {
         $this->active = $active;
-
-        return $this;
     }
 
-    /**
-     * @return int
-     */
     public function getPosition(): int
     {
         return $this->position;
     }
 
-    /**
-     * @param int $position
-     *
-     * @return ImageSlider $this
-     */
-    public function setPosition(int $position): ImageSlider
+    public function setPosition(int $position): void
     {
         $this->position = $position;
-
-        return $this;
     }
 
-    /**
-     * @return \DateTime
-     */
     public function getDisplayFrom(): \DateTime
     {
         return $this->display_from;
     }
 
-    /**
-     * @param \DateTime $display_from
-     *
-     * @return ImageSlider $this
-     */
-    public function setDisplayFrom(\DateTime $display_from): ImageSlider
+    public function setDisplayFrom(\DateTime $display_from): void
     {
         $this->display_from = $display_from;
-
-        return $this;
     }
 
-    /**
-     * @return \DateTime
-     */
     public function getDisplayTo(): \DateTime
     {
         return $this->display_to;
     }
 
-    /**
-     * @param \DateTime $display_to
-     *
-     * @return ImageSlider $this
-     */
-    public function setDisplayTo(\DateTime $display_to): ImageSlider
+    public function setDisplayTo(\DateTime $display_to): void
     {
         $this->display_to = $display_to;
-
-        return $this;
     }
 
-    /**
-     * @param Shop $shop
-     *
-     * @return ImageSlider $this
-     */
-    public function addShop(Shop $shop): ImageSlider
+    public function getImagesForAllLangs(): bool
+    {
+        return $this->image_to_all_langs;
+    }
+
+    public function setImagesForAllLangs(bool $image_to_all_langs): void
+    {
+        $this->image_to_all_langs = $image_to_all_langs;
+    }
+
+    public function addShopAssociation(Shop $shop): void
     {
         $this->shops[] = $shop;
-
-        return $this;
     }
 
-    /**
-     * @param Shop $shop
-     *
-     * @return ImageSlider $this
-     */
-    public function removeShop(Shop $shop): ImageSlider
+    public function removeShopAssociation(Shop $shop): void
     {
         $this->shops->removeElement($shop);
-
-        return $this;
     }
 
     /**
      * @return Collection
      */
-    public function getShops(): Collection
+    public function getShopAssociation(): Collection
     {
         return $this->shops;
     }
 
-    /**
-     * @return ImageSlider $this
-     */
-    public function clearShops(): ImageSlider
+    public function getSliderLangs(): Collection
     {
-        $this->shops->clear();
-
-        return $this;
+        return $this->sliderLang;
     }
 
-    /**
-     * @return ArrayCollection
-     */
-    public function getSliderLangs()
-    {
-        return $this->sliderLangs;
-    }
-
-    /**
-     * @param int $langId
-     *
-     * @return ImageSliderLang|null
-     */
-    public function getImageSliderLangByLangId(int $langId)
-    {
-        foreach ($this->sliderLangs as $sliderLang) {
-            if ($langId === $sliderLang->getLang()->getId()) {
-                return $sliderLang;
-            }
-        }
-
-        return null;
-    }
-
-    /**
-     * @param ImageSliderLang $sliderLang
-     *
-     * @return ImageSlider $this
-     */
-    public function addImageSliderLang(ImageSliderLang $sliderLang): ImageSlider
+    public function addSliderLang(ImageSliderLang $sliderLang): void
     {
         $sliderLang->setImageSlider($this);
-        $this->sliderLangs->add($sliderLang);
+        $this->sliderLang->add($sliderLang);
+    }
 
-        return $this;
+    public function removeSliderLang(ImageSliderLang $sliderLang): void
+    {
+        $this->sliderLang->removeElement($sliderLang);
     }
 }

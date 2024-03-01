@@ -1,0 +1,13 @@
+database_tables:
+  image_slider_image:
+    columns:
+      - name: id_image
+        type: integer
+        length: 11
+        notnull: true
+        autoincrement: true
+      - name: name
+        type: string
+        length: 255
+    primary:
+      - id_image
