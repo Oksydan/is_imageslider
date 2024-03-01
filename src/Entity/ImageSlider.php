@@ -81,8 +81,6 @@ class ImageSlider
     {
         $this->shops = new ArrayCollection();
         $this->sliderLang = new ArrayCollection();
-        $this->active = false;
-        $this->image_to_all_langs = false;
     }
 
     public function getId(): int

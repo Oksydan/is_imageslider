@@ -5,6 +5,12 @@ services:
     arguments:
       - '@prestashop.core.admin.shop.repository'
 
+  Oksydan\IsImageslider\Form\EventListener\ImagesliderFormSubscriber:
+    class: 'Oksydan\IsImageslider\Form\EventListener\ImagesliderFormSubscriber'
+    autowire: false
+    arguments:
+      - '@prestashop.core.admin.shop.repository'
+
   Oksydan\IsImageslider\Form\DataTransformer\Lang\LangModeDataTransformer:
     class: 'Oksydan\IsImageslider\Form\DataTransformer\Lang\LangModeDataTransformer'
     autowire: false

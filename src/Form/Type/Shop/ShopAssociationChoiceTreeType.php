@@ -9,6 +9,7 @@ use PrestaShop\PrestaShop\Core\Form\FormChoiceProviderInterface;
 use PrestaShopBundle\Form\Admin\Type\ShopChoiceTreeType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -35,19 +36,8 @@ class ShopAssociationChoiceTreeType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->addModelTransformer($this->shopChoiceModelDataTransformer);
-        $builder->addEventListener(
-            FormEvents::PRE_SET_DATA,
-            [$this, 'onPreSetData']
-        );
 
         parent::buildForm($builder, $options);
-    }
-
-    public function onPreSetData($event)
-    {
-        $data = $this->shopChoiceModelDataTransformer->transform($event->getData());
-
-        $event->setData($data);
     }
 
     /**

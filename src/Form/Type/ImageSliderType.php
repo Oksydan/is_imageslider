@@ -10,12 +10,15 @@ use Oksydan\IsImageslider\Form\EventListener\ImagesliderFormSubscriber;
 use Oksydan\IsImageslider\Form\Type\Lang\LangFieldsType;
 use Oksydan\IsImageslider\Form\Type\Shop\ShopAssociationChoiceTreeType;
 use Oksydan\IsImageslider\Form\Type\Slider\ImageSliderLangType;
+use Oksydan\IsImageslider\Form\Type\Slider\ImageType;
 use Oksydan\IsImageslider\Translations\TranslationDomains;
 use PrestaShop\PrestaShop\Adapter\Feature\MultistoreFeature;
 use PrestaShopBundle\Form\Admin\Type\SwitchType;
 use PrestaShopBundle\Form\Admin\Type\TranslatorAwareType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Contracts\Translation\TranslatorInterface;
@@ -55,6 +58,14 @@ final class ImageSliderType extends TranslatorAwareType
                 'attr' => [
                     'class' => 'js-toggle-images-types',
                 ],
+            ])
+            ->add('image', ImageType::class, [
+                'label' => $this->trans('Image', TranslationDomains::TRANSLATION_DOMAIN_ADMIN),
+                'required' => false,
+            ])
+            ->add('image_mobile', ImageType::class, [
+                'label' => $this->trans('Image mobile', TranslationDomains::TRANSLATION_DOMAIN_ADMIN),
+                'required' => false,
             ])
             ->add('slider_langs', LangFieldsType::class, [
                 'entry_type' => ImageSliderLangType::class,
@@ -96,7 +107,7 @@ final class ImageSliderType extends TranslatorAwareType
             ]);
         }
 
-        //        $builder->addEventSubscriber($this->imagesliderFormSubscriber);
+        $builder->addEventSubscriber($this->imagesliderFormSubscriber);
     }
 
     public function configureOptions(OptionsResolver $resolver): void

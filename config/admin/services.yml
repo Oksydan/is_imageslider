@@ -31,6 +31,7 @@ services:
     exclude:
       - '../../src/{Controller,Falconize,Domain}'
       - '../../src/Form/DataTransformer'
+      - '../../src/Form/EventListener'
       - '../../src/Form/Type/Shop'
       - '../../src/index.php'
       - '../../src/*/index.php'
